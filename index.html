@@ -3,135 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lostlines | Student Lost & Found</title>
+    <title>Lostlines | Student Portal</title>
     <style>
         :root {
             --primary: #2563eb;
-            --dark: #1e293b;
-            --light: #f8fafc;
+            --primary-hover: #1d4ed8;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
         }
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: var(--light);
-            color: var(--dark);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        header {
-            background-color: var(--primary);
-            color: white;
-            padding: 2rem 1rem;
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            padding: 1.5rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .brand {
             text-align: center;
-        }
-        main {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        section {
-            background: white;
-            padding: 2rem;
             margin-bottom: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
         }
-        .grid-forms {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+
+        .brand h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
         }
-        @media (max-width: 600px) {
-            .grid-forms { grid-template-columns: 1fr; }
+
+        .brand p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
+
+        /* Toggle Utility class to hide/show forms */
+        .hidden {
+            display: none !important;
+        }
+
         form {
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 1.25rem;
         }
-        input, select {
-            padding: 0.6rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #cbd5e1;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: var(--text-main);
             font-size: 1rem;
+            transition: all 0.2s ease;
         }
-        input[type="submit"] {
-            background-color: var(--primary);
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+        }
+
+        input::placeholder {
+            color: #475569;
+        }
+
+        .submit-btn {
+            background: var(--primary);
             color: white;
             border: none;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s;
+            transition: background 0.2s ease;
+            margin-top: 0.5rem;
         }
-        input[type="submit"]:hover {
-            background-color: #1d4ed8;
+
+        .submit-btn:hover {
+            background: var(--primary-hover);
         }
-        footer {
+
+        .switch-mode {
             text-align: center;
-            padding: 2rem;
-            color: #64748b;
-            font-size: 0.9rem;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .switch-mode a {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 0.25rem;
+        }
+
+        .switch-mode a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Lostlines</h1>
-        <p>The central hub for students to track, report, and recover lost valuables.</p>
-    </header>
-
-    <main>
-        <section id="report-item">
-            <h2>Report a Valuable</h2>
-            <form action="/report" method="POST">
-                <label for="item-status">Status</label>
-                <select id="item-status" name="status" required>
-                    <option value="lost">I lost something</option>
-                    <option value="found">I found something</option>
-                </select>
-
-                <label for="item-name">Item Name / Description</label>
-                <input type="text" id="item-name" name="itemName" placeholder="e.g., Space Gray MacBook Air, Blue Water Bottle" required>
-
-                <label for="location">Last Seen Location</label>
-                <input type="text" id="location" name="location" placeholder="e.g., Library 2nd Floor, Room 402" required>
-
-                <input type="submit" value="Submit Report">
-            </form>
-        </section>
-
-        <div class="grid-forms">
-            <section id="login-page">
-                <h2>Login</h2>
-                <form action="/login" method="POST">
-                    <label for="login-username">Student Email/Username</label>
-                    <input type="text" id="login-username" name="username" required>
-                    
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" name="password" required>
-                    
-                    <input type="submit" value="Login">
-                </form>
-            </section>
-
-            <section id="register-page">
-                <h2>Register</h2>
-                <form action="/register" method="POST">
-                    <label for="reg-username">Student Email/Username</label>
-                    <input type="text" id="reg-username" name="username" required>
-                    
-                    <label for="reg-password">Create Password</label>
-                    <input type="password" id="reg-password" name="password" required>
-                    
-                    <input type="submit" value="Register Account">
-                </form>
-            </section>
+    <div class="container">
+        <div class="brand">
+            <h1>Lostlines</h1>
+            <p id="brand-tagline">Welcome back, login to track your items</p>
         </div>
-    </main>
 
-    <footer>
-        <p>&copy; 2026 Lostlines Campus Safety. All rights reserved.</p>
-    </footer>
+        <form id="login-form" action="/login" method="POST">
+            <div class="form-group">
+                <label for="login-email">Student Email</label>
+                <input type="email" id="login-email" name="email" placeholder="student@university.edu" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" class="submit-btn">Sign In</button>
+            
+            <div class="switch-mode">
+                Don't have an account? <a href="#" id="to-register">Register</a>
+            </div>
+        </form>
 
+        <form id="register-form" class="hidden" action="/register" method="POST">
+            <div class="form-group">
+                <label for="reg-name">Full Name</label>
+                <input type="text" id="reg-name" name="fullname" placeholder="John Doe" required>
+            </div>
+
+            <div class="form-group">
+                <label for="reg-email">Student Email</label>
+                <input type="email" id="reg-email" name="email" placeholder="student@university.edu" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="reg-password">Create Password</label>
+                <input type="password" id="reg-password" name="password" placeholder="Minimum 8 characters" required>
+            </div>
+            
+            <button type="submit" class="submit-btn">Create Account</button>
+            
+            <div class="switch-mode">
+                Already have an account? <a href="#" id="to-login">Login</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const brandTagline = document.getElementById('brand-tagline');
+        const toRegister = document.getElementById('to-register');
+        const toLogin = document.getElementById('to-login');
+
+        toRegister.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.classList.add('hidden');
+            registerForm.classList.remove('hidden');
+            brandTagline.textContent = "Join Lostlines to find your valuables";
+        });
+
+        toLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+            brandTagline.textContent = "Welcome back, login to track your items";
+        });
+    </script>
 </body>
 </html>
