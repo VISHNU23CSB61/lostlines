@@ -3,34 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lostlines</title>
+    <title>Lostlines | Student Lost & Found</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .grid-forms {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        @media (max-width: 600px) {
+            .grid-forms { grid-template-columns: 1fr; }
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        input, select {
+            padding: 0.6rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        input[type="submit"] {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        input[type="submit"]:hover {
+            background-color: #1d4ed8;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <img src="" alt="">
-    </div>
-    <div>
+
+    <header>
         <h1>Lostlines</h1>
-        <p>Lostlines is a website that helps you find lost things.</p>
-    </div>
-    <div id="Loginpage">
-        <form action="">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
-            <input type="submit" value="Login">
-        </form>
-    </div>
-    <div id="register">
-        <form action="">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password">
-            <input type="submit" value="Register">
-        </form>
-    </div>
-    
+        <p>The central hub for students to track, report, and recover lost valuables.</p>
+    </header>
+
+    <main>
+        <section id="report-item">
+            <h2>Report a Valuable</h2>
+            <form action="/report" method="POST">
+                <label for="item-status">Status</label>
+                <select id="item-status" name="status" required>
+                    <option value="lost">I lost something</option>
+                    <option value="found">I found something</option>
+                </select>
+
+                <label for="item-name">Item Name / Description</label>
+                <input type="text" id="item-name" name="itemName" placeholder="e.g., Space Gray MacBook Air, Blue Water Bottle" required>
+
+                <label for="location">Last Seen Location</label>
+                <input type="text" id="location" name="location" placeholder="e.g., Library 2nd Floor, Room 402" required>
+
+                <input type="submit" value="Submit Report">
+            </form>
+        </section>
+
+        <div class="grid-forms">
+            <section id="login-page">
+                <h2>Login</h2>
+                <form action="/login" method="POST">
+                    <label for="login-username">Student Email/Username</label>
+                    <input type="text" id="login-username" name="username" required>
+                    
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" required>
+                    
+                    <input type="submit" value="Login">
+                </form>
+            </section>
+
+            <section id="register-page">
+                <h2>Register</h2>
+                <form action="/register" method="POST">
+                    <label for="reg-username">Student Email/Username</label>
+                    <input type="text" id="reg-username" name="username" required>
+                    
+                    <label for="reg-password">Create Password</label>
+                    <input type="password" id="reg-password" name="password" required>
+                    
+                    <input type="submit" value="Register Account">
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Lostlines Campus Safety. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>
