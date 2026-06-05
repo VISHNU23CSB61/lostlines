@@ -169,3 +169,31 @@ footer small {
         margin: 10px 0;
     }
 }
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background-color: #2563eb;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #1d4ed8;
+}
+
+#itemList {
+    margin-top: 20px;
+    list-style: none;
+}
+
+#itemList li {
+    padding: 10px;
+    background: #f3f4f6;
+    margin-top: 10px;
+    border-radius: 6px;
+}
