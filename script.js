@@ -30,3 +30,29 @@ registerForm.addEventListener("submit", function(event) {
         console.log("Email:", email);
     }
 });
+
+let addBtn = document.getElementById("addBtn");
+
+addBtn.addEventListener("click", function(){
+
+    let itemName =
+    document.getElementById("itemName").value;
+
+    if(itemName === ""){
+        alert("Enter Item Name");
+        return;
+    }
+
+    let li =
+    document.createElement("li");
+
+    li.textContent = itemName;
+
+    document
+    .getElementById("itemList")
+    .appendChild(li);
+
+    document
+    .getElementById("itemName")
+    .value = "";
+});
