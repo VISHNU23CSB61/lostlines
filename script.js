@@ -57,7 +57,7 @@ addBtn.addEventListener("click", function(){
     .value = "";
 });
 
-// ES6 Practice
+// Day 5 ES6 Practice
 
 const appName = "LostLink";
 
@@ -69,7 +69,7 @@ const item = {
     status: "Lost"
 };
 
-const {name, location, status} = item;
+const { name, location, status } = item;
 
 console.log(name);
 console.log(location);
@@ -80,3 +80,15 @@ const items = ["ID Card", "Laptop", "Book"];
 items.map(item => {
     console.log(item);
 });
+
+const newItems = [
+    ...items,
+    "Charger"
+];
+
+console.log(newItems);
+
+const filteredItems =
+items.filter(item => item !== "Book");
+
+console.log(filteredItems);
