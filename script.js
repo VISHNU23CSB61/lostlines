@@ -56,3 +56,27 @@ addBtn.addEventListener("click", function(){
     .getElementById("itemName")
     .value = "";
 });
+
+// ES6 Practice
+
+const appName = "LostLink";
+
+console.log(`Welcome to ${appName}`);
+
+const item = {
+    name: "ID Card",
+    location: "Library",
+    status: "Lost"
+};
+
+const {name, location, status} = item;
+
+console.log(name);
+console.log(location);
+console.log(status);
+
+const items = ["ID Card", "Laptop", "Book"];
+
+items.map(item => {
+    console.log(item);
+});
