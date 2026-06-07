@@ -1,3 +1,4 @@
+let lostItems = [];
 let loginForm = document.querySelector('form[action="/login"]');
 let registerForm = document.querySelector('form[action="/register"]');
 
