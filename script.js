@@ -39,23 +39,28 @@ addBtn.addEventListener("click", function(){
     let itemName =
     document.getElementById("itemName").value;
 
-    if(itemName === ""){
-        alert("Enter Item Name");
+    let location =
+    document.getElementById("location").value;
+
+    let status =
+    document.getElementById("status").value;
+
+    if(itemName === "" || location === ""){
+        alert("Fill all fields");
         return;
     }
 
-    let li =
-    document.createElement("li");
+    const item = {
+        id: Date.now(),
+        name: itemName,
+        location: location,
+        status: status
+    };
 
-    li.textContent = itemName;
+    lostItems.push(item);
 
-    document
-    .getElementById("itemList")
-    .appendChild(li);
+    displayItems();
 
-    document
-    .getElementById("itemName")
-    .value = "";
 });
 
 // Day 5 ES6 Practice
