@@ -98,3 +98,26 @@ const filteredItems =
 items.filter(item => item !== "Book");
 
 console.log(filteredItems);
+
+function displayItems(){
+
+    let itemList =
+    document.getElementById("itemList");
+
+    itemList.innerHTML = "";
+
+    lostItems.forEach(item => {
+
+        let li =
+        document.createElement("li");
+
+        li.innerHTML =
+        `${item.name} -
+         ${item.location} -
+         ${item.status}`;
+
+        itemList.appendChild(li);
+
+    });
+
+}
