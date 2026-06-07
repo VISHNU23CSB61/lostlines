@@ -39,11 +39,11 @@ addBtn.addEventListener("click", function(){
     let itemName =
     document.getElementById("itemName").value;
 
-    let location =
-    document.getElementById("location").value;
+let itemLocation =
+document.getElementById("location").value;
 
-    let status =
-    document.getElementById("status").value;
+let itemStatus =
+document.getElementById("status").value;
 
     if(itemName === "" || location === ""){
         alert("Fill all fields");
