@@ -1,37 +1,65 @@
+// Store all lost items
 let lostItems = [];
+
+// Login Form
 let loginForm = document.querySelector('form[action="/login"]');
-let registerForm = document.querySelector('form[action="/register"]');
 
 loginForm.addEventListener("submit", function(event) {
+
     event.preventDefault();
 
-    let email = document.getElementById("login-email").value;
-    let password = document.getElementById("login-password").value;
+    let email =
+    document.getElementById("login-email").value;
 
-    if (email === "" || password === "") {
+    let password =
+    document.getElementById("login-password").value;
+
+    if(email === "" || password === ""){
+
         alert("Please fill all login fields");
+
     } else {
+
         alert("Login form submitted successfully");
+
         console.log("Login Email:", email);
+
     }
+
 });
+
+// Register Form
+let registerForm = document.querySelector('form[action="/register"]');
 
 registerForm.addEventListener("submit", function(event) {
+
     event.preventDefault();
 
-    let name = document.getElementById("reg-name").value;
-    let email = document.getElementById("reg-email").value;
-    let password = document.getElementById("reg-password").value;
+    let name =
+    document.getElementById("reg-name").value;
 
-    if (name === "" || email === "" || password === "") {
+    let email =
+    document.getElementById("reg-email").value;
+
+    let password =
+    document.getElementById("reg-password").value;
+
+    if(name === "" || email === "" || password === ""){
+
         alert("Please fill all registration fields");
+
     } else {
+
         alert("Registration successful");
+
         console.log("Name:", name);
         console.log("Email:", email);
+
     }
+
 });
 
+// Add Lost Item
 let addBtn = document.getElementById("addBtn");
 
 addBtn.addEventListener("click", function(){
@@ -39,66 +67,38 @@ addBtn.addEventListener("click", function(){
     let itemName =
     document.getElementById("itemName").value;
 
-let itemLocation =
-document.getElementById("location").value;
+    let itemLocation =
+    document.getElementById("location").value;
 
-let itemStatus =
-document.getElementById("status").value;
+    let itemStatus =
+    document.getElementById("status").value;
 
-    if(itemName === "" || location === ""){
+    if(itemName === "" || itemLocation === ""){
+
         alert("Fill all fields");
         return;
+
     }
 
-    const item = {
+    let lostItem = {
+
         id: Date.now(),
         name: itemName,
-        location: location,
-        status: status
+        location: itemLocation,
+        status: itemStatus
+
     };
 
-    lostItems.push(item);
+    lostItems.push(lostItem);
 
     displayItems();
 
+    document.getElementById("itemName").value = "";
+    document.getElementById("location").value = "";
+
 });
 
-// Day 5 ES6 Practice
-
-const appName = "LostLink";
-
-console.log(`Welcome to ${appName}`);
-
-const item = {
-    name: "ID Card",
-    location: "Library",
-    status: "Lost"
-};
-
-const { name, location, status } = item;
-
-console.log(name);
-console.log(location);
-console.log(status);
-
-const items = ["ID Card", "Laptop", "Book"];
-
-items.map(item => {
-    console.log(item);
-});
-
-const newItems = [
-    ...items,
-    "Charger"
-];
-
-console.log(newItems);
-
-const filteredItems =
-items.filter(item => item !== "Book");
-
-console.log(filteredItems);
-
+// Display Items
 function displayItems(){
 
     let itemList =
@@ -112,9 +112,28 @@ function displayItems(){
         document.createElement("li");
 
         li.innerHTML =
-        `${item.name} -
-         ${item.location} -
-         ${item.status}`;
+        `${item.name} - ${item.location} - ${item.status}`;
+
+        // Delete Button
+        let deleteBtn =
+        document.createElement("button");
+
+        deleteBtn.textContent = "Delete";
+
+        deleteBtn.style.marginLeft = "10px";
+
+        deleteBtn.addEventListener("click", function(){
+
+            lostItems =
+            lostItems.filter(
+                i => i.id !== item.id
+            );
+
+            displayItems();
+
+        });
+
+        li.appendChild(deleteBtn);
 
         itemList.appendChild(li);
 
