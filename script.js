@@ -63,7 +63,8 @@ registerForm.addEventListener("submit", function(event) {
 // Add Lost Item
 let addBtn = document.getElementById("addBtn");
 
-addBtn.addEventListener("click", function(){
+if(addBtn){
+    addBtn.addEventListener("click", function(){
 
     let itemName =
     document.getElementById("itemName").value;
