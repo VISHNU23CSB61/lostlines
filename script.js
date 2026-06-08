@@ -98,7 +98,8 @@ if(addBtn){
     document.getElementById("itemName").value = "";
     document.getElementById("location").value = "";
 
-});
+    });
+}
 
 // Display Items
 function displayItems(){
