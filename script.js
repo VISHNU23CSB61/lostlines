@@ -20,7 +20,8 @@ loginForm.addEventListener("submit", function(event) {
 
     } else {
 
-        alert("Login form submitted successfully");
+        alert("Login successful");
+        window.location.href = "home.html";
 
         console.log("Login Email:", email);
 
