@@ -4,61 +4,47 @@ let lostItems = [];
 // Login Form
 let loginForm = document.querySelector('form[action="/login"]');
 
-loginForm.addEventListener("submit", function(event) {
+if(loginForm){
+    loginForm.addEventListener("submit", function(event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    let email =
-    document.getElementById("login-email").value;
+        let email = document.getElementById("login-email").value;
+        let password = document.getElementById("login-password").value;
 
-    let password =
-    document.getElementById("login-password").value;
+        if(email === "" || password === ""){
+            alert("Please fill all login fields");
+        } else {
+            alert("Login successful");
+            window.location.href = "home.html";
+            console.log("Login Email:", email);
+        }
 
-    if(email === "" || password === ""){
-
-        alert("Please fill all login fields");
-
-    } else {
-
-        alert("Login successful");
-        window.location.href = "home.html";
-
-        console.log("Login Email:", email);
-
-    }
-
-});
+    });
+}
 
 // Register Form
 let registerForm = document.querySelector('form[action="/register"]');
 
-registerForm.addEventListener("submit", function(event) {
+if(registerForm){
+    registerForm.addEventListener("submit", function(event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    let name =
-    document.getElementById("reg-name").value;
+        let name = document.getElementById("reg-name").value;
+        let email = document.getElementById("reg-email").value;
+        let password = document.getElementById("reg-password").value;
 
-    let email =
-    document.getElementById("reg-email").value;
+        if(name === "" || email === "" || password === ""){
+            alert("Please fill all registration fields");
+        } else {
+            alert("Registration successful");
+            console.log("Name:", name);
+            console.log("Email:", email);
+        }
 
-    let password =
-    document.getElementById("reg-password").value;
-
-    if(name === "" || email === "" || password === ""){
-
-        alert("Please fill all registration fields");
-
-    } else {
-
-        alert("Registration successful");
-
-        console.log("Name:", name);
-        console.log("Email:", email);
-
-    }
-
-});
+    });
+}
 
 // Add Lost Item
 let addBtn = document.getElementById("addBtn");
@@ -66,37 +52,28 @@ let addBtn = document.getElementById("addBtn");
 if(addBtn){
     addBtn.addEventListener("click", function(){
 
-    let itemName =
-    document.getElementById("itemName").value;
+        let itemName = document.getElementById("itemName").value;
+        let itemLocation = document.getElementById("location").value;
+        let itemStatus = document.getElementById("status").value;
 
-    let itemLocation =
-    document.getElementById("location").value;
+        if(itemName === "" || itemLocation === ""){
+            alert("Fill all fields");
+            return;
+        }
 
-    let itemStatus =
-    document.getElementById("status").value;
+        let lostItem = {
+            id: Date.now(),
+            name: itemName,
+            location: itemLocation,
+            status: itemStatus
+        };
 
-    if(itemName === "" || itemLocation === ""){
+        lostItems.push(lostItem);
 
-        alert("Fill all fields");
-        return;
+        displayItems();
 
-    }
-
-    let lostItem = {
-
-        id: Date.now(),
-        name: itemName,
-        location: itemLocation,
-        status: itemStatus
-
-    };
-
-    lostItems.push(lostItem);
-
-    displayItems();
-
-    document.getElementById("itemName").value = "";
-    document.getElementById("location").value = "";
+        document.getElementById("itemName").value = "";
+        document.getElementById("location").value = "";
 
     });
 }
@@ -104,31 +81,28 @@ if(addBtn){
 // Display Items
 function displayItems(){
 
-    let itemList =
-    document.getElementById("itemList");
+    let itemList = document.getElementById("itemList");
+
+    if(!itemList){
+        return;
+    }
 
     itemList.innerHTML = "";
 
     lostItems.forEach(item => {
 
-        let li =
-        document.createElement("li");
+        let li = document.createElement("li");
 
-        li.innerHTML =
-        `${item.name} - ${item.location} - ${item.status}`;
+        li.innerHTML = `${item.name} - ${item.location} - ${item.status}`;
 
-        // Delete Button
-        let deleteBtn =
-        document.createElement("button");
+        let deleteBtn = document.createElement("button");
 
         deleteBtn.textContent = "Delete";
-
         deleteBtn.style.marginLeft = "10px";
 
         deleteBtn.addEventListener("click", function(){
 
-            lostItems =
-            lostItems.filter(
+            lostItems = lostItems.filter(
                 i => i.id !== item.id
             );
 
@@ -137,7 +111,6 @@ function displayItems(){
         });
 
         li.appendChild(deleteBtn);
-
         itemList.appendChild(li);
 
     });
