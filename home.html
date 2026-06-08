@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lostlines | Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Lostlines Dashboard</h1>
+    <p>Report and manage lost items.</p>
+</header>
+
+<main>
+    <section>
+        <h2>Report Lost Item</h2>
+
+        <input type="text" id="itemName" placeholder="Item Name">
+
+        <input type="text" id="location" placeholder="Location">
+
+        <select id="status">
+            <option value="Lost">Lost</option>
+            <option value="Found">Found</option>
+        </select>
+
+        <button type="button" id="addBtn">
+            Add Item
+        </button>
+
+        <ul id="itemList"></ul>
+    </section>
+</main>
+
+<footer>
+    <p><small>&copy; Lostlines Campus Portal</small></p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
