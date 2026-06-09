@@ -83,13 +83,11 @@ function displayItems(){
     }
 
     lostItems.forEach(item => {
-
         let li = document.createElement("li");
         li.innerHTML = `${item.name} - ${item.location} - ${item.status}`;
 
         let deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
-        deleteBtn.style.marginLeft = "10px";
 
         deleteBtn.addEventListener("click", function(){
             lostItems = lostItems.filter(i => i.id !== item.id);
