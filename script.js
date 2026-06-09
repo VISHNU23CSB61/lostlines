@@ -123,11 +123,5 @@ function displayItems(){
     });
 
 }
-<header>
-    <h1>Lostlines Dashboard</h1>
-    <p>Report and manage lost or found items.</p>
+let logoutBtn = document.getElementById("logoutBtn
 
-    <button id="logoutBtn">
-        Logout
-    </button>
-</header>
