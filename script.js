@@ -82,6 +82,8 @@ if(addBtn){
 function displayItems(){
 
     let itemList = document.getElementById("itemList");
+    document.getElementById("itemCount").textContent =
+    lostItems.length;
 
     if(!itemList){
         return;
