@@ -1,12 +1,9 @@
-// Store all lost items
 let lostItems = [];
 
-// Login Form
-let loginForm = document.querySelector('form[action="/login"]');
+let loginForm = document.getElementById("loginForm");
 
 if(loginForm){
     loginForm.addEventListener("submit", function(event) {
-
         event.preventDefault();
 
         let email = document.getElementById("login-email").value;
@@ -17,18 +14,14 @@ if(loginForm){
         } else {
             alert("Login successful");
             window.location.href = "home.html";
-            console.log("Login Email:", email);
         }
-
     });
 }
 
-// Register Form
-let registerForm = document.querySelector('form[action="/register"]');
+let registerForm = document.getElementById("registerForm");
 
 if(registerForm){
     registerForm.addEventListener("submit", function(event) {
-
         event.preventDefault();
 
         let name = document.getElementById("reg-name").value;
@@ -39,14 +32,10 @@ if(registerForm){
             alert("Please fill all registration fields");
         } else {
             alert("Registration successful");
-            console.log("Name:", name);
-            console.log("Email:", email);
         }
-
     });
 }
 
-// Add Lost Item
 let addBtn = document.getElementById("addBtn");
 
 if(addBtn){
@@ -69,59 +58,55 @@ if(addBtn){
         };
 
         lostItems.push(lostItem);
-
         displayItems();
 
         document.getElementById("itemName").value = "";
         document.getElementById("location").value = "";
-
     });
 }
 
-// Display Items
 function displayItems(){
 
     let itemList = document.getElementById("itemList");
-    document.getElementById("itemCount").textContent =
-    lostItems.length;
+    let itemCount = document.getElementById("itemCount");
+
+    if(!itemList || !itemCount){
+        return;
+    }
+
+    itemCount.textContent = lostItems.length;
     itemList.innerHTML = "";
 
     if(lostItems.length === 0){
-
-        itemList.innerHTML =
-        "<li>No items reported yet.</li>";
-
+        itemList.innerHTML = "<li>No items reported yet.</li>";
         return;
-
     }
-    
 
     lostItems.forEach(item => {
 
         let li = document.createElement("li");
-
         li.innerHTML = `${item.name} - ${item.location} - ${item.status}`;
 
         let deleteBtn = document.createElement("button");
-
         deleteBtn.textContent = "Delete";
         deleteBtn.style.marginLeft = "10px";
 
         deleteBtn.addEventListener("click", function(){
-
-            lostItems = lostItems.filter(
-                i => i.id !== item.id
-            );
-
+            lostItems = lostItems.filter(i => i.id !== item.id);
             displayItems();
-
         });
 
         li.appendChild(deleteBtn);
         itemList.appendChild(li);
-
     });
-
 }
-let logoutBtn = document.getElementById("logoutBtn
 
+let logoutBtn = document.getElementById("logoutBtn");
+
+if(logoutBtn){
+    logoutBtn.addEventListener("click", function(){
+        window.location.href = "index.html";
+    });
+}
+
+displayItems();
