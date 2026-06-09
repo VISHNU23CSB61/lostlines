@@ -84,12 +84,17 @@ function displayItems(){
     let itemList = document.getElementById("itemList");
     document.getElementById("itemCount").textContent =
     lostItems.length;
-
-    if(!itemList){
-        return;
-    }
-
     itemList.innerHTML = "";
+
+    if(lostItems.length === 0){
+
+        itemList.innerHTML =
+        "<li>No items reported yet.</li>";
+
+        return;
+
+    }
+    
 
     lostItems.forEach(item => {
 
