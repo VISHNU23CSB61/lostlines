@@ -1,7 +1,5 @@
 let lostItems =
-JSON.parse(
-    localStorage.getItem("lostItems")
-) || [];
+JSON.parse(localStorage.getItem("lostItems")) || [];
 
 let loginForm = document.getElementById("loginForm");
 
@@ -61,6 +59,12 @@ if(addBtn){
         };
 
         lostItems.push(lostItem);
+
+        localStorage.setItem(
+            "lostItems",
+            JSON.stringify(lostItems)
+        );
+
         displayItems();
 
         document.getElementById("itemName").value = "";
@@ -86,14 +90,27 @@ function displayItems(){
     }
 
     lostItems.forEach(item => {
+
         let li = document.createElement("li");
-        li.innerHTML = `${item.name} - ${item.location} - ${item.status}`;
+
+        li.innerHTML =
+        `${item.name} - ${item.location} - ${item.status}`;
 
         let deleteBtn = document.createElement("button");
+
         deleteBtn.textContent = "Delete";
+        deleteBtn.style.marginLeft = "10px";
 
         deleteBtn.addEventListener("click", function(){
-            lostItems = lostItems.filter(i => i.id !== item.id);
+
+            lostItems =
+            lostItems.filter(i => i.id !== item.id);
+
+            localStorage.setItem(
+                "lostItems",
+                JSON.stringify(lostItems)
+            );
+
             displayItems();
         });
 
