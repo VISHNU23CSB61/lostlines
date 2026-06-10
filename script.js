@@ -1,4 +1,7 @@
-let lostItems = [];
+let lostItems =
+JSON.parse(
+    localStorage.getItem("lostItems")
+) || [];
 
 let loginForm = document.getElementById("loginForm");
 
