@@ -19,21 +19,22 @@
 
 <main>
     <section>
-        <h2>Report Lost Item</h2>
-         <p>
-        Total Items:
-        <span id="itemCount">0</span>
-    </p>
+       <h2>Report Lost Item</h2>
 
-        <input type="text" id="itemName" placeholder="Item Name">
+<p>
+    Total Items:
+    <span id="itemCount">0</span>
+</p>
 
-        <input type="text" id="location" placeholder="Location">
+<input type="text" id="searchInput" placeholder="Search by item or location">
 
-        <select id="status">
-            <option value="Lost">Lost</option>
-            <option value="Found">Found</option>
-        </select>
+<select id="filterStatus">
+    <option value="All">All</option>
+    <option value="Lost">Lost</option>
+    <option value="Found">Found</option>
+</select>
 
+<input type="text" id="itemName" placeholder="Item Name">
         <button type="button" id="addBtn">
             Add Item
         </button>
