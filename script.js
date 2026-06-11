@@ -60,16 +60,53 @@ if(addBtn){
 
         lostItems.push(lostItem);
 
-        localStorage.setItem(
-            "lostItems",
-            JSON.stringify(lostItems)
-        );
-
+        saveItems();
         displayItems();
 
         document.getElementById("itemName").value = "";
         document.getElementById("location").value = "";
     });
+}
+
+function saveItems(){
+    localStorage.setItem(
+        "lostItems",
+        JSON.stringify(lostItems)
+    );
+}
+
+function getFilteredItems(){
+
+    let searchInput =
+    document.getElementById("searchInput");
+
+    let filterStatus =
+    document.getElementById("filterStatus");
+
+    let searchText = searchInput
+        ? searchInput.value.toLowerCase()
+        : "";
+
+    let selectedStatus = filterStatus
+        ? filterStatus.value
+        : "All";
+
+    let filteredItems =
+    lostItems.filter(item => {
+
+        let matchesSearch =
+        item.name.toLowerCase().includes(searchText) ||
+        item.location.toLowerCase().includes(searchText);
+
+        let matchesStatus =
+        selectedStatus === "All" ||
+        item.status === selectedStatus;
+
+        return matchesSearch && matchesStatus;
+
+    });
+
+    return filteredItems;
 }
 
 function displayItems(){
@@ -81,15 +118,17 @@ function displayItems(){
         return;
     }
 
+    let filteredItems = getFilteredItems();
+
     itemCount.textContent = lostItems.length;
     itemList.innerHTML = "";
 
-    if(lostItems.length === 0){
-        itemList.innerHTML = "<li>No items reported yet.</li>";
+    if(filteredItems.length === 0){
+        itemList.innerHTML = "<li>No matching items found.</li>";
         return;
     }
 
-    lostItems.forEach(item => {
+    filteredItems.forEach(item => {
 
         let li = document.createElement("li");
 
@@ -106,16 +145,28 @@ function displayItems(){
             lostItems =
             lostItems.filter(i => i.id !== item.id);
 
-            localStorage.setItem(
-                "lostItems",
-                JSON.stringify(lostItems)
-            );
-
+            saveItems();
             displayItems();
         });
 
         li.appendChild(deleteBtn);
         itemList.appendChild(li);
+    });
+}
+
+let searchInput = document.getElementById("searchInput");
+
+if(searchInput){
+    searchInput.addEventListener("input", function(){
+        displayItems();
+    });
+}
+
+let filterStatus = document.getElementById("filterStatus");
+
+if(filterStatus){
+    filterStatus.addEventListener("change", function(){
+        displayItems();
     });
 }
 
