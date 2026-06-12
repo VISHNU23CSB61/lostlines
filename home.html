@@ -12,32 +12,53 @@
     <h1>Lostlines Dashboard</h1>
     <p>Report and manage lost or found items.</p>
 
-    <button id="logoutBtn">
-        Logout
-    </button>
+    <button id="logoutBtn">Logout</button>
 </header>
 
 <main>
     <section>
-       <h2>Report Lost Item</h2>
+        <h2>Report Lost Item</h2>
 
-<p>
-    Total Items:
-    <span id="itemCount">0</span>
-</p>
+        <div class="stats">
+            <div class="card">
+                <h3>Total</h3>
+                <p id="totalCount">0</p>
+            </div>
 
-<input type="text" id="searchInput" placeholder="Search by item or location">
+            <div class="card">
+                <h3>Lost</h3>
+                <p id="lostCount">0</p>
+            </div>
 
-<select id="filterStatus">
-    <option value="All">All</option>
-    <option value="Lost">Lost</option>
-    <option value="Found">Found</option>
-</select>
+            <div class="card">
+                <h3>Found</h3>
+                <p id="foundCount">0</p>
+            </div>
+        </div>
 
-<input type="text" id="itemName" placeholder="Item Name">
-        <button type="button" id="addBtn">
-            Add Item
-        </button>
+        <p>
+            Total Items:
+            <span id="itemCount">0</span>
+        </p>
+
+        <input type="text" id="searchInput" placeholder="Search by item or location">
+
+        <select id="filterStatus">
+            <option value="All">All</option>
+            <option value="Lost">Lost</option>
+            <option value="Found">Found</option>
+        </select>
+
+        <input type="text" id="itemName" placeholder="Item Name">
+
+        <input type="text" id="location" placeholder="Location">
+
+        <select id="status">
+            <option value="Lost">Lost</option>
+            <option value="Found">Found</option>
+        </select>
+
+        <button type="button" id="addBtn">Add Item</button>
 
         <ul id="itemList"></ul>
     </section>
