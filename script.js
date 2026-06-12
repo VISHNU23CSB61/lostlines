@@ -1,3 +1,4 @@
+let editId = null;
 let lostItems =
 JSON.parse(localStorage.getItem("lostItems")) || [];
 
