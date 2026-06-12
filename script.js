@@ -59,7 +59,36 @@ if(addBtn){
             status: itemStatus
         };
 
-        lostItems.push(lostItem);
+        if(editId){
+
+    let itemIndex =
+    lostItems.findIndex(
+        item => item.id === editId
+    );
+
+    lostItems[itemIndex] = {
+        id: editId,
+        name: itemName,
+        location: itemLocation,
+        status: itemStatus
+    };
+
+    editId = null;
+
+    addBtn.textContent =
+    "Add Item";
+
+}
+else{
+
+    lostItems.push({
+        id: Date.now(),
+        name: itemName,
+        location: itemLocation,
+        status: itemStatus
+    });
+
+}
 
         saveItems();
         displayItems();
