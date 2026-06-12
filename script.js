@@ -1,6 +1,7 @@
-let editId = null;
 let lostItems =
 JSON.parse(localStorage.getItem("lostItems")) || [];
+
+let editId = null;
 
 let loginForm = document.getElementById("loginForm");
 
@@ -52,49 +53,37 @@ if(addBtn){
             return;
         }
 
-        let lostItem = {
-            id: Date.now(),
-            name: itemName,
-            location: itemLocation,
-            status: itemStatus
-        };
-
         if(editId){
+            let itemIndex =
+            lostItems.findIndex(item => item.id === editId);
 
-    let itemIndex =
-    lostItems.findIndex(
-        item => item.id === editId
-    );
+            lostItems[itemIndex] = {
+                id: editId,
+                name: itemName,
+                location: itemLocation,
+                status: itemStatus
+            };
 
-    lostItems[itemIndex] = {
-        id: editId,
-        name: itemName,
-        location: itemLocation,
-        status: itemStatus
-    };
+            editId = null;
+            addBtn.textContent = "Add Item";
+        }
+        else{
+            let lostItem = {
+                id: Date.now(),
+                name: itemName,
+                location: itemLocation,
+                status: itemStatus
+            };
 
-    editId = null;
-
-    addBtn.textContent =
-    "Add Item";
-
-}
-else{
-
-    lostItems.push({
-        id: Date.now(),
-        name: itemName,
-        location: itemLocation,
-        status: itemStatus
-    });
-
-}
+            lostItems.push(lostItem);
+        }
 
         saveItems();
         displayItems();
 
         document.getElementById("itemName").value = "";
         document.getElementById("location").value = "";
+        document.getElementById("status").value = "Lost";
     });
 }
 
@@ -107,11 +96,8 @@ function saveItems(){
 
 function getFilteredItems(){
 
-    let searchInput =
-    document.getElementById("searchInput");
-
-    let filterStatus =
-    document.getElementById("filterStatus");
+    let searchInput = document.getElementById("searchInput");
+    let filterStatus = document.getElementById("filterStatus");
 
     let searchText = searchInput
         ? searchInput.value.toLowerCase()
@@ -121,8 +107,7 @@ function getFilteredItems(){
         ? filterStatus.value
         : "All";
 
-    let filteredItems =
-    lostItems.filter(item => {
+    return lostItems.filter(item => {
 
         let matchesSearch =
         item.name.toLowerCase().includes(searchText) ||
@@ -133,10 +118,7 @@ function getFilteredItems(){
         item.status === selectedStatus;
 
         return matchesSearch && matchesStatus;
-
     });
-
-    return filteredItems;
 }
 
 function displayItems(){
@@ -153,6 +135,8 @@ function displayItems(){
     itemCount.textContent = lostItems.length;
     itemList.innerHTML = "";
 
+    updateStats();
+
     if(filteredItems.length === 0){
         itemList.innerHTML = "<li>No matching items found.</li>";
         return;
@@ -165,8 +149,21 @@ function displayItems(){
         li.innerHTML =
         `${item.name} - ${item.location} - ${item.status}`;
 
-        let deleteBtn = document.createElement("button");
+        let editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.style.marginLeft = "10px";
 
+        editBtn.addEventListener("click", function(){
+
+            document.getElementById("itemName").value = item.name;
+            document.getElementById("location").value = item.location;
+            document.getElementById("status").value = item.status;
+
+            editId = item.id;
+            addBtn.textContent = "Update Item";
+        });
+
+        let deleteBtn = document.createElement("button");
         deleteBtn.textContent = "Delete";
         deleteBtn.style.marginLeft = "10px";
 
@@ -179,9 +176,29 @@ function displayItems(){
             displayItems();
         });
 
+        li.appendChild(editBtn);
         li.appendChild(deleteBtn);
         itemList.appendChild(li);
     });
+}
+
+function updateStats(){
+
+    let totalCount = document.getElementById("totalCount");
+    let lostCount = document.getElementById("lostCount");
+    let foundCount = document.getElementById("foundCount");
+
+    if(!totalCount || !lostCount || !foundCount){
+        return;
+    }
+
+    totalCount.textContent = lostItems.length;
+
+    lostCount.textContent =
+    lostItems.filter(item => item.status === "Lost").length;
+
+    foundCount.textContent =
+    lostItems.filter(item => item.status === "Found").length;
 }
 
 let searchInput = document.getElementById("searchInput");
