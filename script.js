@@ -66,16 +66,13 @@ if(addBtn){
 
             editId = null;
             addBtn.textContent = "Add Item";
-        }
-        else{
-            let lostItem = {
+        } else {
+            lostItems.push({
                 id: Date.now(),
                 name: itemName,
                 location: itemLocation,
                 status: itemStatus
-            };
-
-            lostItems.push(lostItem);
+            });
         }
 
         saveItems();
@@ -88,27 +85,18 @@ if(addBtn){
 }
 
 function saveItems(){
-    localStorage.setItem(
-        "lostItems",
-        JSON.stringify(lostItems)
-    );
+    localStorage.setItem("lostItems", JSON.stringify(lostItems));
 }
 
 function getFilteredItems(){
-
     let searchInput = document.getElementById("searchInput");
     let filterStatus = document.getElementById("filterStatus");
+    let sortItems = document.getElementById("sortItems");
 
-    let searchText = searchInput
-        ? searchInput.value.toLowerCase()
-        : "";
+    let searchText = searchInput ? searchInput.value.toLowerCase() : "";
+    let selectedStatus = filterStatus ? filterStatus.value : "All";
 
-    let selectedStatus = filterStatus
-        ? filterStatus.value
-        : "All";
-
-    return lostItems.filter(item => {
-
+    let filteredItems = lostItems.filter(item => {
         let matchesSearch =
         item.name.toLowerCase().includes(searchText) ||
         item.location.toLowerCase().includes(searchText);
@@ -119,10 +107,19 @@ function getFilteredItems(){
 
         return matchesSearch && matchesStatus;
     });
+
+    if(sortItems){
+        if(sortItems.value === "newest"){
+            filteredItems.sort((a, b) => b.id - a.id);
+        } else {
+            filteredItems.sort((a, b) => a.id - b.id);
+        }
+    }
+
+    return filteredItems;
 }
 
 function displayItems(){
-
     let itemList = document.getElementById("itemList");
     let itemCount = document.getElementById("itemCount");
 
@@ -143,7 +140,6 @@ function displayItems(){
     }
 
     filteredItems.forEach(item => {
-
         let li = document.createElement("li");
 
         li.innerHTML =
@@ -154,7 +150,6 @@ function displayItems(){
         editBtn.style.marginLeft = "10px";
 
         editBtn.addEventListener("click", function(){
-
             document.getElementById("itemName").value = item.name;
             document.getElementById("location").value = item.location;
             document.getElementById("status").value = item.status;
@@ -168,10 +163,7 @@ function displayItems(){
         deleteBtn.style.marginLeft = "10px";
 
         deleteBtn.addEventListener("click", function(){
-
-            lostItems =
-            lostItems.filter(i => i.id !== item.id);
-
+            lostItems = lostItems.filter(i => i.id !== item.id);
             saveItems();
             displayItems();
         });
@@ -183,7 +175,6 @@ function displayItems(){
 }
 
 function updateStats(){
-
     let totalCount = document.getElementById("totalCount");
     let lostCount = document.getElementById("lostCount");
     let foundCount = document.getElementById("foundCount");
@@ -193,7 +184,6 @@ function updateStats(){
     }
 
     totalCount.textContent = lostItems.length;
-
     lostCount.textContent =
     lostItems.filter(item => item.status === "Lost").length;
 
@@ -201,20 +191,49 @@ function updateStats(){
     lostItems.filter(item => item.status === "Found").length;
 }
 
+function exportCSV(){
+    if(lostItems.length === 0){
+        alert("No items to export");
+        return;
+    }
+
+    let csv = "Item,Location,Status\n";
+
+    lostItems.forEach(item => {
+        csv += `${item.name},${item.location},${item.status}\n`;
+    });
+
+    let blob = new Blob([csv], { type: "text/csv" });
+    let url = URL.createObjectURL(blob);
+
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = "lostitems.csv";
+    a.click();
+}
+
 let searchInput = document.getElementById("searchInput");
 
 if(searchInput){
-    searchInput.addEventListener("input", function(){
-        displayItems();
-    });
+    searchInput.addEventListener("input", displayItems);
 }
 
 let filterStatus = document.getElementById("filterStatus");
 
 if(filterStatus){
-    filterStatus.addEventListener("change", function(){
-        displayItems();
-    });
+    filterStatus.addEventListener("change", displayItems);
+}
+
+let sortItems = document.getElementById("sortItems");
+
+if(sortItems){
+    sortItems.addEventListener("change", displayItems);
+}
+
+let exportBtn = document.getElementById("exportBtn");
+
+if(exportBtn){
+    exportBtn.addEventListener("click", exportCSV);
 }
 
 let logoutBtn = document.getElementById("logoutBtn");
