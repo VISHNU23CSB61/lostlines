@@ -9,10 +9,11 @@
 <body>
 
 <header>
-    <h1>Lostlines Dashboard</h1>
+    <h1>LostLines Campus Lost & Found Dashboard</h1>
     <p>Report and manage lost or found items.</p>
 
     <button id="logoutBtn">Logout</button>
+    <button id="exportBtn">Export CSV</button>
 </header>
 
 <main>
@@ -36,13 +37,11 @@
             </div>
         </div>
 
-        <p>
-            Total Items:
-            <span id="itemCount">0</span>
-        </p>
+        <p>Total Items: <span id="itemCount">0</span></p>
+
         <select id="sortItems">
-    <option value="newest">Newest First</option>
-    <option value="oldest">Oldest First</option>
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
         </select>
 
         <input type="text" id="searchInput" placeholder="Search by item or location">
