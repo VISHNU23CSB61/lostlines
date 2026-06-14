@@ -47,6 +47,11 @@ if(addBtn){
         let itemName = document.getElementById("itemName").value;
         let itemLocation = document.getElementById("location").value;
         let itemStatus = document.getElementById("status").value;
+        let itemCategory =
+          document.getElementById("category").value;
+
+        let itemPriority =
+          document.getElementById("priority").value;
 
         if(itemName === "" || itemLocation === ""){
             alert("Fill all fields");
