@@ -72,12 +72,14 @@ if(addBtn){
             editId = null;
             addBtn.textContent = "Add Item";
         } else {
-            lostItems.push({
-                id: Date.now(),
-                name: itemName,
-                location: itemLocation,
-                status: itemStatus
-            });
+           lostItems.push({
+           id: Date.now(),
+           name: itemName,
+           location: itemLocation,
+           status: itemStatus,
+           category: itemCategory,
+           priority: itemPriority
+});
         }
 
         saveItems();
