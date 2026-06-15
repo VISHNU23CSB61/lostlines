@@ -270,4 +270,43 @@ if(logoutBtn){
     });
 }
 
+
 displayItems();
+.dark-mode{
+    background-color:#111827;
+    color:#f9fafb;
+}
+
+.dark-mode section,
+.dark-mode .card{
+    background-color:#1f2937;
+    color:#f9fafb;
+}
+
+.badge{
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:0.8rem;
+    margin-left:6px;
+    font-weight:600;
+}
+
+.high{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.medium{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.low{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.category{
+    background:#dbeafe;
+    color:#1e40af;
+}
