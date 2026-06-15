@@ -47,11 +47,8 @@ if(addBtn){
         let itemName = document.getElementById("itemName").value;
         let itemLocation = document.getElementById("location").value;
         let itemStatus = document.getElementById("status").value;
-        let itemCategory =
-          document.getElementById("category").value;
-
-        let itemPriority =
-          document.getElementById("priority").value;
+        let itemCategory = document.getElementById("category").value;
+        let itemPriority = document.getElementById("priority").value;
 
         if(itemName === "" || itemLocation === ""){
             alert("Fill all fields");
@@ -66,45 +63,32 @@ if(addBtn){
                 id: editId,
                 name: itemName,
                 location: itemLocation,
-                status: itemStatus
+                status: itemStatus,
+                category: itemCategory,
+                priority: itemPriority
             };
 
             editId = null;
             addBtn.textContent = "Add Item";
         } else {
-           lostItems.push({
-           id: Date.now(),
-           name: itemName,
-           location: itemLocation,
-           status: itemStatus,
-           category: itemCategory,
-           priority: itemPriority
-});
+            lostItems.push({
+                id: Date.now(),
+                name: itemName,
+                location: itemLocation,
+                status: itemStatus,
+                category: itemCategory,
+                priority: itemPriority
+            });
         }
 
         saveItems();
-        let darkModeBtn =
-document.getElementById("darkModeBtn");
-
-if(darkModeBtn){
-
-    darkModeBtn.addEventListener(
-        "click",
-        function(){
-
-            document.body.classList.toggle(
-                "dark-mode"
-            );
-
-        }
-    );
-
-}
         displayItems();
 
         document.getElementById("itemName").value = "";
         document.getElementById("location").value = "";
         document.getElementById("status").value = "Lost";
+        document.getElementById("category").value = "Electronics";
+        document.getElementById("priority").value = "Low";
     });
 }
 
@@ -121,9 +105,12 @@ function getFilteredItems(){
     let selectedStatus = filterStatus ? filterStatus.value : "All";
 
     let filteredItems = lostItems.filter(item => {
+        let itemName = item.name ? item.name.toLowerCase() : "";
+        let itemLocation = item.location ? item.location.toLowerCase() : "";
+
         let matchesSearch =
-        item.name.toLowerCase().includes(searchText) ||
-        item.location.toLowerCase().includes(searchText);
+        itemName.includes(searchText) ||
+        itemLocation.includes(searchText);
 
         let matchesStatus =
         selectedStatus === "All" ||
@@ -166,10 +153,13 @@ function displayItems(){
     filteredItems.forEach(item => {
         let li = document.createElement("li");
 
-    li.innerHTML =
-`${item.name} - ${item.location} - ${item.status}
-<span class="badge category">${item.category}</span>
-<span class="badge ${item.priority.toLowerCase()}">${item.priority}</span>`;
+        let category = item.category || "Others";
+        let priority = item.priority || "Low";
+
+        li.innerHTML =
+        `${item.name} - ${item.location} - ${item.status}
+        <span class="badge category">${category}</span>
+        <span class="badge ${priority.toLowerCase()}">${priority}</span>`;
 
         let editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
@@ -179,6 +169,8 @@ function displayItems(){
             document.getElementById("itemName").value = item.name;
             document.getElementById("location").value = item.location;
             document.getElementById("status").value = item.status;
+            document.getElementById("category").value = category;
+            document.getElementById("priority").value = priority;
 
             editId = item.id;
             addBtn.textContent = "Update Item";
@@ -223,10 +215,13 @@ function exportCSV(){
         return;
     }
 
-    let csv = "Item,Location,Status\n";
+    let csv = "Item,Location,Status,Category,Priority\n";
 
     lostItems.forEach(item => {
-        csv += `${item.name},${item.location},${item.status}\n`;
+        let category = item.category || "Others";
+        let priority = item.priority || "Low";
+
+        csv += `${item.name},${item.location},${item.status},${category},${priority}\n`;
     });
 
     let blob = new Blob([csv], { type: "text/csv" });
@@ -270,43 +265,12 @@ if(logoutBtn){
     });
 }
 
+let darkModeBtn = document.getElementById("darkModeBtn");
+
+if(darkModeBtn){
+    darkModeBtn.addEventListener("click", function(){
+        document.body.classList.toggle("dark-mode");
+    });
+}
 
 displayItems();
-.dark-mode{
-    background-color:#111827;
-    color:#f9fafb;
-}
-
-.dark-mode section,
-.dark-mode .card{
-    background-color:#1f2937;
-    color:#f9fafb;
-}
-
-.badge{
-    padding:4px 8px;
-    border-radius:20px;
-    font-size:0.8rem;
-    margin-left:6px;
-    font-weight:600;
-}
-
-.high{
-    background:#fee2e2;
-    color:#991b1b;
-}
-
-.medium{
-    background:#fef3c7;
-    color:#92400e;
-}
-
-.low{
-    background:#dcfce7;
-    color:#166534;
-}
-
-.category{
-    background:#dbeafe;
-    color:#1e40af;
-}
