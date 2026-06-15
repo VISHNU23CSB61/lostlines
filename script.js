@@ -83,6 +83,23 @@ if(addBtn){
         }
 
         saveItems();
+        let darkModeBtn =
+document.getElementById("darkModeBtn");
+
+if(darkModeBtn){
+
+    darkModeBtn.addEventListener(
+        "click",
+        function(){
+
+            document.body.classList.toggle(
+                "dark-mode"
+            );
+
+        }
+    );
+
+}
         displayItems();
 
         document.getElementById("itemName").value = "";
