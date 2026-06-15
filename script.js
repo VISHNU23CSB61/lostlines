@@ -149,8 +149,10 @@ function displayItems(){
     filteredItems.forEach(item => {
         let li = document.createElement("li");
 
-       li.innerHTML =
-`${item.name} - ${item.location} - ${item.status} - ${item.category} - ${item.priority}`;
+    li.innerHTML =
+`${item.name} - ${item.location} - ${item.status}
+<span class="badge category">${item.category}</span>
+<span class="badge ${item.priority.toLowerCase()}">${item.priority}</span>`;
 
         let editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
