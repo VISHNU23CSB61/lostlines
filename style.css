@@ -390,3 +390,15 @@ input{
     }
 
 }
+#itemList li{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-left: 5px solid #2563eb;
+}
+
+#itemList li button{
+    width: auto;
+    padding: 8px 12px;
+    margin-right: 8px;
+}
