@@ -70,6 +70,9 @@ if(addBtn){
 
             editId = null;
             addBtn.textContent = "Add Item";
+            showMessage(
+            "Item Updated Successfully"
+            );
         } else {
             lostItems.push({
                 id: Date.now(),
@@ -84,6 +87,9 @@ if(addBtn){
 
         saveItems();
         displayItems();
+        showMessage(
+              "Item Added Successfully "
+        );
 
         document.getElementById("itemName").value = "";
         document.getElementById("location").value = "";
@@ -201,12 +207,33 @@ ${item.date}
             lostItems = lostItems.filter(i => i.id !== item.id);
             saveItems();
             displayItems();
+            showMessage(
+"Item Deleted Successfully "
+);
         });
 
         li.appendChild(editBtn);
         li.appendChild(deleteBtn);
         itemList.appendChild(li);
     });
+}
+function showMessage(msg){
+
+    let message =
+    document.getElementById("message");
+
+    if(!message){
+        return;
+    }
+
+    message.textContent = msg;
+
+    setTimeout(function(){
+
+        message.textContent = "";
+
+    },2000);
+
 }
 
 function updateStats(){
@@ -301,20 +328,6 @@ if(darkModeBtn){
 
     });
 }
-function showMessage(msg){
 
-    let message =
-    document.getElementById(
-    "message");
-
-    message.textContent = msg;
-
-    setTimeout(() => {
-
-        message.textContent = "";
-
-    },2000);
-
-}
 
 displayItems();
