@@ -301,5 +301,20 @@ if(darkModeBtn){
 
     });
 }
+function showMessage(msg){
+
+    let message =
+    document.getElementById(
+    "message");
+
+    message.textContent = msg;
+
+    setTimeout(() => {
+
+        message.textContent = "";
+
+    },2000);
+
+}
 
 displayItems();
