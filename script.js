@@ -157,10 +157,26 @@ function displayItems(){
         let category = item.category || "Others";
         let priority = item.priority || "Low";
 
-        li.innerHTML =
-        `${item.name} - ${item.location} - ${item.status}
-        <span class="badge category">${category}</span>
-        <span class="badge ${priority.toLowerCase()}">${priority}</span>`;
+     li.innerHTML =
+
+`
+<strong>${item.name}</strong><br>
+
+Location:
+${item.location}<br>
+
+Status:
+${item.status}<br>
+
+Category:
+${item.category}<br>
+
+Priority:
+${item.priority}<br>
+
+Reported:
+${item.date}
+`;
 
         let editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
