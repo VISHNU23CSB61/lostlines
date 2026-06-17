@@ -77,7 +77,8 @@ if(addBtn){
                 location: itemLocation,
                 status: itemStatus,
                 category: itemCategory,
-                priority: itemPriority
+                priority: itemPriority,
+                date: new Date().toLocaleString()
             });
         }
 
