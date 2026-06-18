@@ -179,6 +179,7 @@ function displayItems(){
     itemList.innerHTML = "";
 
     updateStats();
+    displayRecentItems();
 
     if(filteredItems.length === 0){
         itemList.innerHTML = "<li>No matching items found.</li>";
