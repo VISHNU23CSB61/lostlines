@@ -136,6 +136,34 @@ function getFilteredItems(){
 
     return filteredItems;
 }
+function displayRecentItems(){
+
+    let recentList = document.getElementById("recentList");
+
+    if(!recentList){
+        return;
+    }
+
+    recentList.innerHTML = "";
+
+    let recentItems =
+    [...lostItems]
+    .sort((a,b) => b.id - a.id)
+    .slice(0,3);
+
+    if(recentItems.length === 0){
+        recentList.innerHTML =
+        "<li>No recent items yet.</li>";
+        return;
+    }
+
+    recentItems.forEach(item => {
+        let li = document.createElement("li");
+        li.textContent =
+        `${item.name} - ${item.location} - ${item.status}`;
+        recentList.appendChild(li);
+    });
+}
 
 function displayItems(){
     let itemList = document.getElementById("itemList");
