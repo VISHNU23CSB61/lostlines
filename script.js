@@ -215,7 +215,21 @@ function displayItems() {
         deleteBtn.textContent = "Delete";
 
         deleteBtn.addEventListener("click", function () {
-            lostItems = lostItems.filter(i => i.id !== item.id);
+           let confirmDelete =
+          confirm(
+          "Are you sure?"
+          );
+
+         if(confirmDelete){
+          lostItems =
+          lostItems.filter(
+          i => i.id !== item.id
+          );
+
+          saveItems();
+          displayItems();
+
+         }
             saveItems();
             displayItems();
             showMessage("Item Deleted Successfully ❌");
