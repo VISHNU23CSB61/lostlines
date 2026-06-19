@@ -225,6 +225,35 @@ function displayItems() {
         li.appendChild(deleteBtn);
         itemList.appendChild(li);
     });
+    let viewBtn =
+document.createElement("button");
+
+viewBtn.textContent = "View";
+
+viewBtn.addEventListener("click", function(){
+
+    document.getElementById("modalName").textContent =
+    item.name;
+
+    document.getElementById("modalLocation").textContent =
+    item.location;
+
+    document.getElementById("modalStatus").textContent =
+    item.status;
+
+    document.getElementById("modalCategory").textContent =
+    item.category;
+
+    document.getElementById("modalPriority").textContent =
+    item.priority;
+
+    document.getElementById("modalDate").textContent =
+    item.date;
+
+    document.getElementById("itemModal").style.display =
+    "block";
+
+});
 }
 
 function showMessage(msg) {
