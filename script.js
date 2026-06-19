@@ -220,7 +220,7 @@ function displayItems() {
             displayItems();
             showMessage("Item Deleted Successfully ❌");
         });
-
+        li.appendChild(viewBtn);
         li.appendChild(editBtn);
         li.appendChild(deleteBtn);
         itemList.appendChild(li);
