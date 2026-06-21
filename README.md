@@ -28,6 +28,26 @@ LostLines is a web-based lost and found management system for college students. 
 - Git & GitHub
 - GitHub Pages
 
+## Project Version
+
+LostLines v1.0
+
+## Current Stack
+
+- HTML5
+- CSS3
+- JavaScript ES6
+- Local Storage
+- Git
+- GitHub Pages
+
+## Future Stack
+
+- React
+- Node.js
+- Express.js
+- MongoDB
+- JWT Authentication
 ## Project Structure
 
 ```text
