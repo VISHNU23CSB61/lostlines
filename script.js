@@ -1,6 +1,57 @@
-let lostItems = JSON.parse(localStorage.getItem("lostItems")) || [];
+/* ==========================
+   GLOBAL DATA
+========================== */
 
+let lostItems = JSON.parse(localStorage.getItem("lostItems")) || [];
 let editId = null;
+
+
+/* ==========================
+   AUTHENTICATION
+========================== */
+
+// loginForm code
+// registerForm code
+
+
+/* ==========================
+   ITEM CRUD OPERATIONS
+========================== */
+
+// addBtn code
+// displayItems code
+
+
+/* ==========================
+   LOCAL STORAGE
+========================== */
+
+// saveItems function
+
+
+/* ==========================
+   SEARCH, FILTER, SORT
+========================== */
+
+// getFilteredItems function
+
+
+/* ==========================
+   DASHBOARD FEATURES
+========================== */
+
+// updateStats
+// displayRecentItems
+// showMessage
+// exportCSV
+
+
+/* ==========================
+   THEME AND NAVIGATION
+========================== */
+
+// darkMode
+// logout
 
 let loginForm = document.getElementById("loginForm");
 
