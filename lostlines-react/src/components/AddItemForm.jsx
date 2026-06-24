@@ -1,10 +1,10 @@
 function AddItemForm({ onAddItem }) {
     function handleSubmit(event) {
         event.preventDefault();
-        const itemName = event.target.elements.itemName.value.trim();
+        const itemName = event.target.itemName.value.trim();
         const location=event.target.location.value;
-        const status =even.target.status.value;
-        if(itemName===""||loaction===""){
+        const status =event.target.status.value;
+        if(itemName===""||location===""){
             alert("Please fill in all fields");
             return;
         }
