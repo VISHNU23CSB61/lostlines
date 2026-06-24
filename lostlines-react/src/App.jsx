@@ -1,9 +1,19 @@
+import { useState } from "react";
 import "./App.css";
+
 import Header from "./components/Header";
 import ProfileCard from "./components/ProfileCard";
 import StatsCard from "./components/StatsCard";
+import AddItemForm from "./components/AddItemForm";
+import ItemList from "./components/ItemList";
 
 function App() {
+    const [items, setItems] = useState([]);
+
+    function addItem(newItem) {
+        setItems([...items, newItem]);
+    }
+
     return (
         <div>
             <Header />
@@ -15,10 +25,24 @@ function App() {
                     <h2>Dashboard Stats</h2>
 
                     <div className="stats">
-                        <StatsCard title="Total" count={0} />
-                        <StatsCard title="Lost" count={0} />
-                        <StatsCard title="Found" count={0} />
+                        <StatsCard title="Total" count={items.length} />
+                        <StatsCard
+                            title="Lost"
+                            count={items.filter(item => item.status === "Lost").length}
+                        />
+                        <StatsCard
+                            title="Found"
+                            count={items.filter(item => item.status === "Found").length}
+                        />
                     </div>
+
+                    <h2>Report Lost Item</h2>
+
+                    <AddItemForm onAddItem={addItem} />
+
+                    <h2>Reported Items</h2>
+
+                    <ItemList items={items} />
                 </section>
             </main>
         </div>
