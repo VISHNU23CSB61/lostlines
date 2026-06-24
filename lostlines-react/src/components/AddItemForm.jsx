@@ -20,7 +20,7 @@ function AddItemForm({ onAddItem }) {
     }
     return(
         <form onSubmit={handleSubmit}>
-            <input type="text" name="itemName" placeholder="Item Nmae" />
+            <input type="text" name="itemName" placeholder="Item Name" />
             <input type="text" name="location" placeholder="Location" />
             <select name="status">
                 <option value="Lost">Lost</option>
