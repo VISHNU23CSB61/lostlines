@@ -1,10 +1,11 @@
 function ItemList({ items }) {
-    if(items.length===0){
-        return <p> No items reported</p>
+    if (items.length === 0) {
+        return <p>No items reported yet.</p>;
     }
-    return(
+
+    return (
         <ul>
-            {items.map((item) => (
+            {items.map(item => (
                 <li key={item.id}>
                     <strong>{item.name}</strong>
                     <p>Location: {item.location}</p>
@@ -14,4 +15,5 @@ function ItemList({ items }) {
         </ul>
     );
 }
+
 export default ItemList;
