@@ -13,6 +13,10 @@ function App() {
     function addItem(newItem) {
         setItems([...items, newItem]);
     }
+    function deleteItem(itemId){
+        const updateItems=items.filter(item=>item.id!==itemId);
+        setItems(updateItems);
+    }
 
     return (
         <div>
@@ -42,7 +46,9 @@ function App() {
 
                     <h2>Reported Items</h2>
 
-                    <ItemList items={items} />
+                    <ItemList items={items}
+                    onDeleteItem={deleteItem}
+                    />
                 </section>
             </main>
         </div>

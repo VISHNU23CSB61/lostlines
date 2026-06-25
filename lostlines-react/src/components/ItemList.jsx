@@ -1,4 +1,4 @@
-function ItemList({ items }) {
+function ItemList({ items,onDeleteItem }) {
     if (items.length === 0) {
         return <p>No items reported yet.</p>;
     }
@@ -10,6 +10,7 @@ function ItemList({ items }) {
                     <strong>{item.name}</strong>
                     <p>Location: {item.location}</p>
                     <p>Status: {item.status}</p>
+                    <button onClick={()=>onDeleteItem(item.id)}>Delete</button>
                 </li>
             ))}
         </ul>
