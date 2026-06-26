@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import "./App.css";
 
 import Header from "./components/Header";
@@ -8,8 +8,26 @@ import AddItemForm from "./components/AddItemForm";
 import ItemList from "./components/ItemList";
 
 function App() {
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(() => {
 
+    const savedItems =
+    localStorage.getItem("lostItems");
+
+    return savedItems
+        ? JSON.parse(savedItems)
+        : [];
+
+    });
+    useEffect(()=>{
+        localStorage.setItem(
+            "lostItems",
+            JSON.stringify(items)
+        );
+    },[items]);
+    
+    const [editingItem,
+    setEditingItem]=useState(null);
+    
     function addItem(newItem) {
         setItems([...items, newItem]);
     }
