@@ -160,3 +160,18 @@ h2 {
         flex-direction: column;
     }
 }
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.controls input,
+.controls select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+}

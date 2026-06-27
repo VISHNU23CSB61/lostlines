@@ -1,4 +1,4 @@
-import { useState ,useEffect} from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 import Header from "./components/Header";
@@ -9,32 +9,58 @@ import ItemList from "./components/ItemList";
 
 function App() {
     const [items, setItems] = useState(() => {
-
-    const savedItems =
-    localStorage.getItem("lostItems");
-
-    return savedItems
-        ? JSON.parse(savedItems)
-        : [];
-
+        const savedItems = localStorage.getItem("reactLostItems");
+        return savedItems ? JSON.parse(savedItems) : [];
     });
-    useEffect(()=>{
+
+    const [searchText, setSearchText] = useState("");
+    const [filterStatus, setFilterStatus] = useState("All");
+    const [sortOrder, setSortOrder] = useState("newest");
+
+    useEffect(() => {
         localStorage.setItem(
-            "lostItems",
+            "reactLostItems",
             JSON.stringify(items)
         );
-    },[items]);
-    
-    const [editingItem,
-    setEditingItem]=useState(null);
-    
+    }, [items]);
+
     function addItem(newItem) {
         setItems([...items, newItem]);
     }
-    function deleteItem(itemId){
-        const updateItems=items.filter(item=>item.id!==itemId);
-        setItems(updateItems);
+
+    function deleteItem(id) {
+        const updatedItems =
+        items.filter(item => item.id !== id);
+
+        setItems(updatedItems);
     }
+
+    function getFilteredItems() {
+        let filteredItems = items.filter(item => {
+            const itemName = item.name.toLowerCase();
+            const itemLocation = item.location.toLowerCase();
+
+            const matchesSearch =
+            itemName.includes(searchText.toLowerCase()) ||
+            itemLocation.includes(searchText.toLowerCase());
+
+            const matchesStatus =
+            filterStatus === "All" ||
+            item.status === filterStatus;
+
+            return matchesSearch && matchesStatus;
+        });
+
+        if(sortOrder === "newest"){
+            filteredItems.sort((a, b) => b.id - a.id);
+        } else {
+            filteredItems.sort((a, b) => a.id - b.id);
+        }
+
+        return filteredItems;
+    }
+
+    const filteredItems = getFilteredItems();
 
     return (
         <div>
@@ -50,12 +76,54 @@ function App() {
                         <StatsCard title="Total" count={items.length} />
                         <StatsCard
                             title="Lost"
-                            count={items.filter(item => item.status === "Lost").length}
+                            count={
+                                items.filter(
+                                    item => item.status === "Lost"
+                                ).length
+                            }
                         />
                         <StatsCard
                             title="Found"
-                            count={items.filter(item => item.status === "Found").length}
+                            count={
+                                items.filter(
+                                    item => item.status === "Found"
+                                ).length
+                            }
                         />
+                    </div>
+
+                    <h2>Search & Filter</h2>
+
+                    <div className="controls">
+                        <input
+                            type="text"
+                            placeholder="Search by item or location"
+                            value={searchText}
+                            onChange={(event) =>
+                                setSearchText(event.target.value)
+                            }
+                        />
+
+                        <select
+                            value={filterStatus}
+                            onChange={(event) =>
+                                setFilterStatus(event.target.value)
+                            }
+                        >
+                            <option value="All">All</option>
+                            <option value="Lost">Lost</option>
+                            <option value="Found">Found</option>
+                        </select>
+
+                        <select
+                            value={sortOrder}
+                            onChange={(event) =>
+                                setSortOrder(event.target.value)
+                            }
+                        >
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                        </select>
                     </div>
 
                     <h2>Report Lost Item</h2>
@@ -64,8 +132,9 @@ function App() {
 
                     <h2>Reported Items</h2>
 
-                    <ItemList items={items}
-                    onDeleteItem={deleteItem}
+                    <ItemList
+                        items={filteredItems}
+                        onDeleteItem={deleteItem}
                     />
                 </section>
             </main>
