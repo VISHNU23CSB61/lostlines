@@ -1,16 +1,39 @@
-function ItemList({ items,onDeleteItem }) {
+function ItemList({ items, onEditItem, onDeleteItem }) {
     if (items.length === 0) {
         return <p>No items reported yet.</p>;
     }
 
     return (
         <ul>
-            {items.map(item => (
+            {items.map((item) => (
                 <li key={item.id}>
-                    <strong>{item.name}</strong>
-                    <p>Location: {item.location}</p>
-                    <p>Status: {item.status}</p>
-                    <button onClick={()=>onDeleteItem(item.id)}>Delete</button>
+                    <h3>{item.name}</h3>
+
+                    <p>
+                        <strong>Location:</strong> {item.location}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong> {item.status}
+                    </p>
+
+                    <div className="button-group">
+                        <button
+                            type="button"
+                            className="edit-btn"
+                            onClick={() => onEditItem(item)}
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            type="button"
+                            className="delete-btn"
+                            onClick={() => onDeleteItem(item.id)}
+                        >
+                            Delete
+                        </button>
+                    </div>
                 </li>
             ))}
         </ul>

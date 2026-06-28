@@ -1,63 +1,71 @@
-function AddItemForm({ onAddItem }) {
+import { useEffect, useState } from "react";
+
+function AddItemForm({ onSaveItem, editingItem }) {
+    const [itemName, setItemName] = useState("");
+    const [location, setLocation] = useState("");
+    const [status, setStatus] = useState("Lost");
+
+    useEffect(() => {
+        if (editingItem) {
+            setItemName(editingItem.name);
+            setLocation(editingItem.location);
+            setStatus(editingItem.status);
+        } else {
+            setItemName("");
+            setLocation("");
+            setStatus("Lost");
+        }
+    }, [editingItem]);
 
     function handleSubmit(event) {
-
         event.preventDefault();
 
-        const itemName =
-        event.target.itemName.value.trim();
-
-        const location =
-        event.target.location.value.trim();
-
-        const status =
-        event.target.status.value;
-
-        if(itemName === "" || location === "") {
-            alert("Please fill in all fields");
+        if (itemName.trim() === "" || location.trim() === "") {
+            alert("Please fill all fields");
             return;
         }
 
-        const newItem = {
-
-            id: Date.now(),
+        const itemData = {
             name: itemName,
             location: location,
             status: status
-
         };
 
-        onAddItem(newItem);
-        event.target.reset();
+        onSaveItem(itemData);
+
+        setItemName("");
+        setLocation("");
+        setStatus("Lost");
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
-                name="itemName"
                 placeholder="Item Name"
+                value={itemName}
+                onChange={(event) => setItemName(event.target.value)}
             />
+
             <input
                 type="text"
-                name="location"
                 placeholder="Location"
+                value={location}
+                onChange={(event) => setLocation(event.target.value)}
             />
-            <select name="status">
-                <option value="Lost">
-                    Lost
-                </option>
-                <option value="Found">
-                    Found
-                </option>
+
+            <select
+                value={status}
+                onChange={(event) => setStatus(event.target.value)}
+            >
+                <option value="Lost">Lost</option>
+                <option value="Found">Found</option>
             </select>
 
             <button type="submit">
-                Add Item
+                {editingItem ? "Update Item" : "Add Item"}
             </button>
-
         </form>
-
     );
 }
 

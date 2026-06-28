@@ -13,54 +13,61 @@ function App() {
         return savedItems ? JSON.parse(savedItems) : [];
     });
 
+    const [editingItem, setEditingItem] = useState(null);
     const [searchText, setSearchText] = useState("");
     const [filterStatus, setFilterStatus] = useState("All");
     const [sortOrder, setSortOrder] = useState("newest");
 
     useEffect(() => {
-        localStorage.setItem(
-            "reactLostItems",
-            JSON.stringify(items)
-        );
+        localStorage.setItem("reactLostItems", JSON.stringify(items));
     }, [items]);
 
-    function addItem(newItem) {
-        setItems([...items, newItem]);
+    function saveItem(itemData) {
+        if (editingItem) {
+            const updatedItems = items.map((item) =>
+                item.id === editingItem.id
+                    ? { ...itemData, id: editingItem.id }
+                    : item
+            );
+
+            setItems(updatedItems);
+            setEditingItem(null);
+        } else {
+            setItems([...items, { ...itemData, id: Date.now() }]);
+        }
     }
 
     function deleteItem(id) {
-        const updatedItems =
-        items.filter(item => item.id !== id);
-
+        const updatedItems = items.filter((item) => item.id !== id);
         setItems(updatedItems);
     }
 
-    function getFilteredItems() {
-        let filteredItems = items.filter(item => {
-            const itemName = item.name.toLowerCase();
-            const itemLocation = item.location.toLowerCase();
-
-            const matchesSearch =
-            itemName.includes(searchText.toLowerCase()) ||
-            itemLocation.includes(searchText.toLowerCase());
-
-            const matchesStatus =
-            filterStatus === "All" ||
-            item.status === filterStatus;
-
-            return matchesSearch && matchesStatus;
-        });
-
-        if(sortOrder === "newest"){
-            filteredItems.sort((a, b) => b.id - a.id);
-        } else {
-            filteredItems.sort((a, b) => a.id - b.id);
-        }
-
-        return filteredItems;
+    function editItem(item) {
+        setEditingItem(item);
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    const filteredItems = getFilteredItems();
+    const filteredItems = items
+        .filter((item) => {
+            const name = item.name.toLowerCase();
+            const location = item.location.toLowerCase();
+
+            const matchesSearch =
+                name.includes(searchText.toLowerCase()) ||
+                location.includes(searchText.toLowerCase());
+
+            const matchesStatus =
+                filterStatus === "All" || item.status === filterStatus;
+
+            return matchesSearch && matchesStatus;
+        })
+        .sort((a, b) => {
+            if (sortOrder === "newest") {
+                return b.id - a.id;
+            }
+
+            return a.id - b.id;
+        });
 
     return (
         <div>
@@ -76,19 +83,11 @@ function App() {
                         <StatsCard title="Total" count={items.length} />
                         <StatsCard
                             title="Lost"
-                            count={
-                                items.filter(
-                                    item => item.status === "Lost"
-                                ).length
-                            }
+                            count={items.filter((item) => item.status === "Lost").length}
                         />
                         <StatsCard
                             title="Found"
-                            count={
-                                items.filter(
-                                    item => item.status === "Found"
-                                ).length
-                            }
+                            count={items.filter((item) => item.status === "Found").length}
                         />
                     </div>
 
@@ -99,16 +98,12 @@ function App() {
                             type="text"
                             placeholder="Search by item or location"
                             value={searchText}
-                            onChange={(event) =>
-                                setSearchText(event.target.value)
-                            }
+                            onChange={(event) => setSearchText(event.target.value)}
                         />
 
                         <select
                             value={filterStatus}
-                            onChange={(event) =>
-                                setFilterStatus(event.target.value)
-                            }
+                            onChange={(event) => setFilterStatus(event.target.value)}
                         >
                             <option value="All">All</option>
                             <option value="Lost">Lost</option>
@@ -117,23 +112,25 @@ function App() {
 
                         <select
                             value={sortOrder}
-                            onChange={(event) =>
-                                setSortOrder(event.target.value)
-                            }
+                            onChange={(event) => setSortOrder(event.target.value)}
                         >
                             <option value="newest">Newest First</option>
                             <option value="oldest">Oldest First</option>
                         </select>
                     </div>
 
-                    <h2>Report Lost Item</h2>
+                    <h2>{editingItem ? "Update Item" : "Report Lost Item"}</h2>
 
-                    <AddItemForm onAddItem={addItem} />
+                    <AddItemForm
+                        onSaveItem={saveItem}
+                        editingItem={editingItem}
+                    />
 
                     <h2>Reported Items</h2>
 
                     <ItemList
                         items={filteredItems}
+                        onEditItem={editItem}
                         onDeleteItem={deleteItem}
                     />
                 </section>
