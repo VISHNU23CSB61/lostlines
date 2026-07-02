@@ -1,8 +1,28 @@
+require("dotenv").config();
+
 const express = require("express");
-const app=express();
-app.get("/",(req,res)=>{
-    res.send("Lostlines backend running.");
+const mongoose = require("mongoose");
+const cors = require("cors");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.log(err));
+
+app.get("/", (req,res)=>{
+
+    res.send("LostLines Backend Running");
+
 });
-app.listen(5000,()=>{
-    console.log("Server running on port 5000");
+
+app.listen(process.env.PORT,()=>{
+
+    console.log(
+        `Server running on ${process.env.PORT}`
+    );
+
 });
