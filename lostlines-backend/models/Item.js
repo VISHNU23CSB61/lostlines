@@ -2,20 +2,24 @@ const mongoose =require("mongoose");
 const itemSchema =new mongoose.Schema({
     name:{
         type:String,
-        required:true
+        required:true,
+        trim:true
     },
 
     location:{
         type:String,
-        required:true
+        required:true,
+        trim:true
     },
     status:{
         type:String,
-        enum:["Lost","found"].
-        required:true
+        enum:["Lost","found"],
+        default:"Lost"
     }
 },{
     timestamps:true
 });
-module.exports=
-mongoose.model("Item",itemSchema);
+
+
+const Item= mongoose.model("Item",itemSchema);
+module.exports=Item;
