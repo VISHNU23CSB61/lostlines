@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
 import AddItemForm from "../components/AddItemForm";
+import ItemCard from "../components/ItemCard";
 
 function Dashboard() {
     const [items, setItems] = useState([]);
+    const [editingItem, setEditingItem] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchItems();
@@ -11,49 +14,93 @@ function Dashboard() {
 
     async function fetchItems() {
         try {
+            setLoading(true);
             const res = await API.get("/items");
             setItems(res.data);
         } catch (err) {
             console.log(err);
+        } finally {
+            setLoading(false);
         }
     }
 
     async function saveItem(itemData) {
         try {
-            await API.post("/items", itemData);
+            if (editingItem) {
+                await API.put(`/items/${editingItem._id}`, itemData);
+                alert("✅ Item Updated Successfully");
+            } else {
+                await API.post("/items", itemData);
+                alert("✅ Item Added Successfully");
+            }
+
+            setEditingItem(null);
             fetchItems();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    function editItem(item) {
+        setEditingItem(item);
+    }
+
+    async function deleteItem(id) {
+
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this item?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            await API.delete(`/items/${id}`);
+
+            alert("🗑 Item Deleted Successfully");
+
+            fetchItems();
+
+            if (editingItem && editingItem._id === id) {
+                setEditingItem(null);
+            }
+
         } catch (err) {
             console.log(err);
         }
     }
 
     return (
-        <div style={{ padding: "20px" }}>
-            <h1>Dashboard</h1>
+        <div
+            style={{
+                maxWidth: "700px",
+                margin: "30px auto",
+                padding: "20px"
+            }}
+        >
+            <h1>LostLines Dashboard</h1>
 
             <AddItemForm
                 onSaveItem={saveItem}
-                editingItem={null}
+                editingItem={editingItem}
             />
 
             <hr />
 
-            {items.map((item) => (
-                <div
-                    key={item._id}
-                    style={{
-                        border: "1px solid gray",
-                        padding: "10px",
-                        margin: "10px"
-                    }}
-                >
-                    <h3>{item.name}</h3>
-
-                    <p>Location: {item.location}</p>
-
-                    <p>Status: {item.status}</p>
-                </div>
-            ))}
+            {loading ? (
+                <h3>Loading...</h3>
+            ) : items.length === 0 ? (
+                <h3>No Lost/Found Items Available.</h3>
+            ) : (
+                items.map((item) => (
+                    <ItemCard
+                        key={item._id}
+                        item={item}
+                        onEditItem={editItem}
+                        onDeleteItem={deleteItem}
+                    />
+                ))
+            )}
         </div>
     );
 }

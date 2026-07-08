@@ -17,8 +17,8 @@ function AddItemForm({ onSaveItem, editingItem }) {
         }
     }, [editingItem]);
 
-    function handleSubmit(event) {
-        event.preventDefault();
+    function handleSubmit(e) {
+        e.preventDefault();
 
         if (itemName.trim() === "" || location.trim() === "") {
             alert("Please fill all fields");
@@ -31,6 +31,11 @@ function AddItemForm({ onSaveItem, editingItem }) {
             status: status
         };
 
+        // If editing, include the MongoDB _id
+        if (editingItem) {
+            itemData._id = editingItem._id;
+        }
+
         onSaveItem(itemData);
 
         setItemName("");
@@ -39,30 +44,49 @@ function AddItemForm({ onSaveItem, editingItem }) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form
+            onSubmit={handleSubmit}
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "15px",
+                maxWidth: "400px",
+                marginBottom: "30px"
+            }}
+        >
             <input
                 type="text"
                 placeholder="Item Name"
                 value={itemName}
-                onChange={(event) => setItemName(event.target.value)}
+                onChange={(e) => setItemName(e.target.value)}
             />
 
             <input
                 type="text"
                 placeholder="Location"
                 value={location}
-                onChange={(event) => setLocation(event.target.value)}
+                onChange={(e) => setLocation(e.target.value)}
             />
 
             <select
                 value={status}
-                onChange={(event) => setStatus(event.target.value)}
+                onChange={(e) => setStatus(e.target.value)}
             >
                 <option value="Lost">Lost</option>
                 <option value="Found">Found</option>
             </select>
 
-            <button type="submit">
+            <button
+                type="submit"
+                style={{
+                    padding: "10px",
+                    backgroundColor: editingItem ? "green" : "#0d6efd",
+                    color: "white",
+                    border: "none",
+                    cursor: "pointer",
+                    borderRadius: "5px"
+                }}
+            >
                 {editingItem ? "Update Item" : "Add Item"}
             </button>
         </form>
