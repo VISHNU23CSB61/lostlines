@@ -1,69 +1,85 @@
 function ItemCard({ item, onEditItem, onDeleteItem }) {
+
     return (
+
         <div
             style={{
-                border: "1px solid #ccc",
+                border: "1px solid #ddd",
                 borderRadius: "10px",
-                padding: "15px",
-                marginBottom: "15px",
-                boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
+                padding: "20px",
+                marginBottom: "20px",
+                boxShadow: "0px 3px 8px rgba(0,0,0,0.1)"
             }}
         >
-            <h3> {item.name}</h3>
+
+            <h2>
+
+                 {item.name}
+
+            </h2>
 
             <p>
-                <strong> Location:</strong> {item.location}
+
+                 <strong>Location:</strong> {item.location}
+
             </p>
 
             <p>
-                <strong>Status:</strong>{" "}
+
+                Status :
+
                 <span
                     style={{
-                        color: item.status === "Lost" ? "red" : "green",
-                        fontWeight: "bold"
+                        color:
+                            item.status==="Lost"
+                                ? "red"
+                                : "green",
+
+                        fontWeight:"bold"
                     }}
                 >
+
                     {item.status}
+
                 </span>
+
             </p>
 
-            <div
-                style={{
-                    marginTop: "10px",
-                    display: "flex",
-                    gap: "10px"
-                }}
-            >
-                <button
-                    onClick={() => onEditItem(item)}
-                    style={{
-                        backgroundColor: "#0d6efd",
-                        color: "white",
-                        border: "none",
-                        padding: "8px 15px",
-                        borderRadius: "5px",
-                        cursor: "pointer"
-                    }}
-                >
-                     Edit
-                </button>
+            <small>
 
-                <button
-                    onClick={() => onDeleteItem(item._id)}
-                    style={{
-                        backgroundColor: "#dc3545",
-                        color: "white",
-                        border: "none",
-                        padding: "8px 15px",
-                        borderRadius: "5px",
-                        cursor: "pointer"
-                    }}
-                >
-                     Delete
-                </button>
-            </div>
+                Created :
+
+                {new Date(item.createdAt).toLocaleString()}
+
+            </small>
+
+            <br/>
+
+            <br/>
+
+            <button
+                onClick={()=>onEditItem(item)}
+            >
+
+                 Edit
+
+            </button>
+
+            <button
+                style={{
+                    marginLeft:"10px"
+                }}
+                onClick={()=>onDeleteItem(item._id)}
+            >
+
+                 Delete
+
+            </button>
+
         </div>
+
     );
+
 }
 
 export default ItemCard;

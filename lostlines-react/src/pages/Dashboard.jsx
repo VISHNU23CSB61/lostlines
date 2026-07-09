@@ -2,9 +2,15 @@ import { useEffect, useState } from "react";
 import API from "../api/api";
 import AddItemForm from "../components/AddItemForm";
 import ItemCard from "../components/ItemCard";
+import SearchFilter from "../components/SearchFilter";
 
 function Dashboard() {
     const [items, setItems] = useState([]);
+    const [search,setSearch]=useState("");
+
+    const [filter,setFilter]=useState("All");
+
+    const [sortOrder,setSortOrder]=useState("Newest");
     const [editingItem, setEditingItem] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -28,10 +34,10 @@ function Dashboard() {
         try {
             if (editingItem) {
                 await API.put(`/items/${editingItem._id}`, itemData);
-                alert("✅ Item Updated Successfully");
+                alert(" Item Updated Successfully");
             } else {
                 await API.post("/items", itemData);
-                alert("✅ Item Added Successfully");
+                alert(" Item Added Successfully");
             }
 
             setEditingItem(null);
@@ -84,6 +90,13 @@ function Dashboard() {
                 onSaveItem={saveItem}
                 editingItem={editingItem}
             />
+            <SearchFilter
+            search={search}
+            setSearch={setSearch}
+            filter={filter}
+            setFilter={setFilter}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}/>
 
             <hr />
 
@@ -92,14 +105,35 @@ function Dashboard() {
             ) : items.length === 0 ? (
                 <h3>No Lost/Found Items Available.</h3>
             ) : (
-                items.map((item) => (
-                    <ItemCard
-                        key={item._id}
-                        item={item}
-                        onEditItem={editItem}
-                        onDeleteItem={deleteItem}
-                    />
-                ))
+              items
+             .filter((item)=>{
+              const matchesSearch=item.name
+            .toLowerCase().includes(
+            search.toLowerCase()
+
+             );
+
+    const matchesFilter=
+        filter==="All"
+        ||
+        item.status===filter;
+    return matchesSearch && matchesFilter;
+
+        })
+        .sort((a,b)=>{
+            if(sortOrder==="Newest")
+                return new Date(b.createdAt)-new Date(a.createdAt);
+            return new Date(a.createdAt)-new Date(b.createdAt);
+        })
+
+        .map((item)=>(
+            <ItemCard
+                key={item._id}
+                item={item}
+                onEditItem={editItem}
+                onDeleteItem={deleteItem}
+            />
+        ))
             )}
         </div>
     );
