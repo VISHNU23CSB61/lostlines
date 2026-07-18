@@ -19,6 +19,12 @@ const itemSchema = new mongoose.Schema(
       enum: ["Lost", "Found"],
       default: "Lost",
     },
+
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,
