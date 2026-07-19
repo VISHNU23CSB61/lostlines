@@ -1,8 +1,20 @@
-function StatsCard({ title, count }) {
+import "./StatsCard.css";
+
+function StatsCard({ title, value, icon, color }) {
     return (
-        <div className="card">
-            <h3>{title}</h3>
-            <p>{count}</p>
+        <div className="stats-card">
+            <div
+                className="stats-icon"
+                style={{ background: color }}
+            >
+                {icon}
+            </div>
+            <div>
+                <p className="stats-title">
+                    {title}
+                </p>
+                <h2>{value}</h2>
+            </div>
         </div>
     );
 }

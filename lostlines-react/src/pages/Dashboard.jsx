@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
+
 import AddItemForm from "../components/AddItemForm";
-import ItemCard from "../components/ItemCard";
 import SearchFilter from "../components/SearchFilter";
+import StatsCard from "../components/StatsCard";
+import ItemCard from "../components/ItemCard";
 
 function Dashboard() {
     const [items, setItems] = useState([]);
-    const [search,setSearch]=useState("");
-
-    const [filter,setFilter]=useState("All");
-
-    const [sortOrder,setSortOrder]=useState("Newest");
+    const [search, setSearch] = useState("");
+    const [filter, setFilter] = useState("All");
+    const [sortOrder, setSortOrder] = useState("Newest");
     const [editingItem, setEditingItem] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -21,10 +21,14 @@ function Dashboard() {
     async function fetchItems() {
         try {
             setLoading(true);
+
             const res = await API.get("/items");
+
             setItems(res.data);
+
         } catch (err) {
             console.log(err);
+
         } finally {
             setLoading(false);
         }
@@ -32,15 +36,22 @@ function Dashboard() {
 
     async function saveItem(itemData) {
         try {
+
             if (editingItem) {
+
                 await API.put(`/items/${editingItem._id}`, itemData);
-                alert(" Item Updated Successfully");
+
+                alert("Item Updated Successfully");
+
             } else {
+
                 await API.post("/items", itemData);
-                alert(" Item Added Successfully");
+
+                alert("Item Added Successfully");
             }
 
             setEditingItem(null);
+
             fetchItems();
 
         } catch (err) {
@@ -61,9 +72,10 @@ function Dashboard() {
         if (!confirmDelete) return;
 
         try {
+
             await API.delete(`/items/${id}`);
 
-            alert("🗑 Item Deleted Successfully");
+            alert("Item Deleted Successfully");
 
             fetchItems();
 
@@ -76,66 +88,158 @@ function Dashboard() {
         }
     }
 
+    // ==========================
+    // Dashboard Statistics
+    // ==========================
+
+    const totalItems = items.length;
+
+    const lostItems = items.filter(
+        (item) => item.status === "Lost"
+    ).length;
+
+    const foundItems = items.filter(
+        (item) => item.status === "Found"
+    ).length;
+
+    const successRate =
+        totalItems === 0
+            ? 0
+            : Math.round((foundItems / totalItems) * 100);
+
+    // ==========================
+    // Search + Filter + Sort
+    // ==========================
+
+    const filteredItems = items
+        .filter((item) => {
+
+            const matchesSearch =
+                item.name
+                    .toLowerCase()
+                    .includes(search.toLowerCase());
+
+            const matchesFilter =
+                filter === "All" ||
+                item.status === filter;
+
+            return matchesSearch && matchesFilter;
+
+        })
+        .sort((a, b) => {
+
+            if (sortOrder === "Newest") {
+
+                return (
+                    new Date(b.createdAt) -
+                    new Date(a.createdAt)
+                );
+
+            }
+
+            return (
+                new Date(a.createdAt) -
+                new Date(b.createdAt)
+            );
+
+        });
+
     return (
-        <div
-            style={{
-                maxWidth: "700px",
-                margin: "30px auto",
-                padding: "20px"
-            }}
-        >
-            <h1>LostLines Dashboard</h1>
+
+        <div className="page-container">
+
+            <h1 className="section-title">
+                Welcome Back 👋
+            </h1>
+
+            <p
+                style={{
+                    marginBottom: "30px",
+                    color: "var(--text-muted)"
+                }}
+            >
+                Here's your Lost & Found Overview
+            </p>
+
+            <div className="stats-grid">
+
+                <StatsCard
+                    title="Total Items"
+                    value={totalItems}
+                    icon="📦"
+                    color="#3B82F6"
+                />
+
+                <StatsCard
+                    title="Lost"
+                    value={lostItems}
+                    icon="🔴"
+                    color="#EF4444"
+                />
+
+                <StatsCard
+                    title="Found"
+                    value={foundItems}
+                    icon="🟢"
+                    color="#10B981"
+                />
+
+                <StatsCard
+                    title="Success"
+                    value={`${successRate}%`}
+                    icon="⭐"
+                    color="#F59E0B"
+                />
+
+            </div>
+
+            <hr style={{ margin: "35px 0" }} />
 
             <AddItemForm
                 onSaveItem={saveItem}
                 editingItem={editingItem}
             />
-            <SearchFilter
-            search={search}
-            setSearch={setSearch}
-            filter={filter}
-            setFilter={setFilter}
-            sortOrder={sortOrder}
-            setSortOrder={setSortOrder}/>
 
-            <hr />
+            <SearchFilter
+                search={search}
+                setSearch={setSearch}
+                filter={filter}
+                setFilter={setFilter}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+            />
+
+            <hr style={{ margin: "30px 0" }} />
 
             {loading ? (
+
                 <h3>Loading...</h3>
-            ) : items.length === 0 ? (
+
+            ) : filteredItems.length === 0 ? (
+
                 <h3>No Lost/Found Items Available.</h3>
+
             ) : (
-              items
-             .filter((item)=>{
-              const matchesSearch=item.name
-            .toLowerCase().includes(
-            search.toLowerCase()
 
-             );
+                <div className="items-grid">
 
-    const matchesFilter=
-        filter==="All"
-        ||
-        item.status===filter;
-    return matchesSearch && matchesFilter;
+                    {filteredItems.map((item) => (
 
-        })
-        .sort((a,b)=>{
-            if(sortOrder==="Newest")
-                return new Date(b.createdAt)-new Date(a.createdAt);
-            return new Date(a.createdAt)-new Date(b.createdAt);
-        })
+                        <ItemCard
+                            key={item._id}
+                            item={item}
+                            onEditItem={editItem}
+                            onDeleteItem={deleteItem}
+                        />
 
-        .map((item)=>(
-            <ItemCard
-                key={item._id}
-                item={item}
-                onEditItem={editItem}
-                onDeleteItem={deleteItem}
-            />
-        ))
+                    ))}
+
+                </div>
+
             )}
+
         </div>
+
     );
 }
 

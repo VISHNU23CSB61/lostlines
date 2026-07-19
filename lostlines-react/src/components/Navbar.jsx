@@ -1,91 +1,60 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import "./Navbar.css";
 
 function Navbar() {
-
-    const { user, logout } = useContext(AuthContext);
-
+    const token = localStorage.getItem("token");
     return (
-        <nav
-            style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "15px 40px",
-                background: "#1e293b",
-                color: "white"
-            }}
-        >
-            <div>
-                <Link
-                    to="/"
-                    style={{ color: "white", marginRight: "20px" }}
-                >
-                    Home
-                </Link>
-                <Link
-                    to="/about"
-                    style={{ color: "white", marginRight: "20px" }}
-                >
-                    About
-                </Link>
-                {
-                    user && (
-                        <Link
-                            to="/dashboard"
-                            style={{ color: "white" }}
-                        >
-                            Dashboard
-                        </Link>
-                    )
-                }
+        <nav className="navbar">
+            <div className="logo">
+                <h2>LostLines</h2>
+                <span>Reconnect people with what matters.</span>
             </div>
-            <div>
+            <div className="nav-links">
+                <Link to="/">Home</Link>
+                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/about">About</Link>
+
+            </div>
+            <div className="nav-user">
                 {
-                    user ?
-                    (
-                        <>
-                            <span
-                                style={{
-                                    marginRight: "20px"
-                                }}
-                            >
-                                Welcome, {user.name}
-                            </span>
-                            <button
-                                onClick={logout}
-                            >
-                                Logout
-                            </button>
-                        </>
-                    )
+                    token ?
+                    <button
+                        className="primary-btn"
+                        onClick={() => {
+
+                            localStorage.removeItem("token");
+                            localStorage.removeItem("user");
+
+                            window.location.href="/login";
+
+                        }}
+                    >
+
+                        Logout
+
+                    </button>
+
                     :
-                    (
-                        <>
-                            <Link
-                                to="/login"
-                                style={{
-                                    color: "white",
-                                    marginRight: "20px"
-                                }}
-                            >
-                                Login
-                            </Link>
-                            <Link
-                                to="/register"
-                                style={{
-                                    color: "white"
-                                }}
-                            >
-                                Register
-                            </Link>
-                        </>
-                    )
+
+                    <Link
+                        to="/login"
+                        className="primary-btn"
+                    >
+
+                        Login
+
+                    </Link>
+
                 }
+
             </div>
+
         </nav>
+
     );
+
 }
 
 export default Navbar;

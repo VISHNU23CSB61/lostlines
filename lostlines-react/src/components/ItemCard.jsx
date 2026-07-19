@@ -1,80 +1,62 @@
-function ItemCard({ item, onEditItem, onDeleteItem }) {
+import "./ItemCard.css";
+
+function ItemCard({ item, onEdit, onDelete }) {
 
     return (
 
-        <div
-            style={{
-                border: "1px solid #ddd",
-                borderRadius: "10px",
-                padding: "20px",
-                marginBottom: "20px",
-                boxShadow: "0px 3px 8px rgba(0,0,0,0.1)"
-            }}
-        >
+        <div className="item-card">
 
-            <h2>
+            <div className="item-header">
 
-                 {item.name}
-
-            </h2>
-
-            <p>
-
-                 <strong>Location:</strong> {item.location}
-
-            </p>
-
-            <p>
-
-                Status :
+                <h2>{item.name}</h2>
 
                 <span
-                    style={{
-                        color:
-                            item.status==="Lost"
-                                ? "red"
-                                : "green",
-
-                        fontWeight:"bold"
-                    }}
+                    className={
+                        item.status === "Lost"
+                            ? "status lost"
+                            : "status found"
+                    }
                 >
-
                     {item.status}
-
                 </span>
+
+            </div>
+
+            <p className="item-location">
+
+                📍 {item.location}
 
             </p>
 
-            <small>
+            <p className="item-date">
 
-                Created :
+                Reported
 
-                {new Date(item.createdAt).toLocaleString()}
+                {
 
-            </small>
+                    new Date(item.createdAt).toLocaleDateString()
 
-            <br/>
+                }
 
-            <br/>
+            </p>
 
-            <button
-                onClick={()=>onEditItem(item)}
-            >
+            <div className="item-actions">
 
-                 Edit
+                <button
+                    className="primary-btn"
+                    onClick={() => onEdit(item)}
+                >
+                    Edit
+                </button>
 
-            </button>
+                <button
+                    className="delete-btn"
+                    onClick={() => onDelete(item._id)}
+                >
+                    Delete
+                </button>
 
-            <button
-                style={{
-                    marginLeft:"10px"
-                }}
-                onClick={()=>onDeleteItem(item._id)}
-            >
-
-                 Delete
-
-            </button>
+            </div>
 
         </div>
 

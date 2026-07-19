@@ -50,8 +50,21 @@
   }
 }
 
-body {
-  margin: 0;
+body{
+    font-family: Inter, sans-serif;
+    background: linear-gradient(
+        -45deg,
+        #0F172A,
+        #172554,
+        #0F766E,
+        #1E293B
+    );
+
+    background-size: 400% 400%;
+    animation: gradientAnimation 18s ease infinite;
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 #root {
@@ -108,4 +121,16 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+@keyframes gradientAnimation{
+    0%{
+        background-position:0% 50%;
+    }
+    50%{
+        background-position:100% 50%;
+    }
+    100%{
+        background-position:0% 50%;
+    }
 }
