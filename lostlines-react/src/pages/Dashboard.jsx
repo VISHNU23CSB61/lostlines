@@ -5,6 +5,9 @@ import AddItemForm from "../components/AddItemForm";
 import SearchFilter from "../components/SearchFilter";
 import StatsCard from "../components/StatsCard";
 import ItemCard from "../components/ItemCard";
+import { toast } from "react-toastify";
+import LoadingSpinner from "../components/LoadingSpinner";
+import EmptyState from "../components/EmptyState";
 
 function Dashboard() {
     const [items, setItems] = useState([]);
@@ -41,14 +44,12 @@ function Dashboard() {
 
                 await API.put(`/items/${editingItem._id}`, itemData);
 
-                alert("Item Updated Successfully");
-
+                toast.success("Item updated successfully!");
             } else {
 
                 await API.post("/items", itemData);
 
-                alert("Item Added Successfully");
-            }
+toast.success("Item added successfully!");            }
 
             setEditingItem(null);
 
@@ -75,8 +76,7 @@ function Dashboard() {
 
             await API.delete(`/items/${id}`);
 
-            alert("Item Deleted Successfully");
-
+            toast.success("Item deleted successfully!");
             fetchItems();
 
             if (editingItem && editingItem._id === id) {
@@ -85,6 +85,8 @@ function Dashboard() {
 
         } catch (err) {
             console.log(err);
+            toast.error("Something went wrong!");
+
         }
     }
 
@@ -212,13 +214,10 @@ function Dashboard() {
             <hr style={{ margin: "30px 0" }} />
 
             {loading ? (
+          <LoadingSpinner />
+           ) : filteredItems.length === 0 ? (
 
-                <h3>Loading...</h3>
-
-            ) : filteredItems.length === 0 ? (
-
-                <h3>No Lost/Found Items Available.</h3>
-
+            <EmptyState />
             ) : (
 
                 <div className="items-grid">
