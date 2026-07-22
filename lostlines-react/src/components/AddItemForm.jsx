@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { PlusCircle, Package, MapPin, Save } from "lucide-react";
+import "./AddItemForm.css";
 
 function AddItemForm({ onSaveItem, editingItem }) {
     const [itemName, setItemName] = useState("");
@@ -31,7 +33,6 @@ function AddItemForm({ onSaveItem, editingItem }) {
             status: status
         };
 
-        // If editing, include the MongoDB _id
         if (editingItem) {
             itemData._id = editingItem._id;
         }
@@ -44,53 +45,69 @@ function AddItemForm({ onSaveItem, editingItem }) {
     }
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "15px",
-                maxWidth: "400px",
-                marginBottom: "30px"
-            }}
-        >
-            <input
-                type="text"
-                placeholder="Item Name"
-                value={itemName}
-                onChange={(e) => setItemName(e.target.value)}
-            />
+        <div className="add-item-card">
 
-            <input
-                type="text"
-                placeholder="Location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-            />
+            <h2 className="form-title">
+                {editingItem ? "Update Item" : "Add New Item"}
+            </h2>
 
-            <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
+            <form
+                className="add-item-form"
+                onSubmit={handleSubmit}
             >
-                <option value="Lost">Lost</option>
-                <option value="Found">Found</option>
-            </select>
 
-            <button
-                type="submit"
-                style={{
-                    padding: "10px",
-                    backgroundColor: editingItem ? "green" : "#0d6efd",
-                    color: "white",
-                    border: "none",
-                    cursor: "pointer",
-                    borderRadius: "5px"
-                }}
-            >
-                {editingItem ? "Update Item" : "Add Item"}
-            </button>
-        </form>
+                <div className="input-group">
+
+                    <Package size={18} />
+
+                    <input
+                        type="text"
+                        placeholder="Item Name"
+                        value={itemName}
+                        onChange={(e) => setItemName(e.target.value)}
+                    />
+
+                </div>
+
+                <div className="input-group">
+
+                    <MapPin size={18} />
+
+                    <input
+                        type="text"
+                        placeholder="Location"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                    />
+
+                </div>
+
+                <select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                >
+                    <option value="Lost">Lost</option>
+                    <option value="Found">Found</option>
+                </select>
+
+                <button
+                    className="submit-btn"
+                    type="submit"
+                >
+                    {editingItem ? (
+                        <>
+                            <Save size={18} />
+                            Update Item
+                        </>
+                    ) : (
+                        <>
+                            <PlusCircle size={18} />
+                            Add Item
+                        </>
+                    )}
+                </button>
+            </form>
+        </div>
     );
 }
-
 export default AddItemForm;

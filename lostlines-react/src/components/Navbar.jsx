@@ -1,60 +1,94 @@
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Sun, Moon } from "lucide-react";
 import "./Navbar.css";
 
 function Navbar() {
+    const navigate = useNavigate();
+
+    const [theme, setTheme] = useState("dark");
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme") || "dark";
+
+        setTheme(savedTheme);
+
+        document.body.className = savedTheme;
+    }, []);
+
+    function toggleTheme() {
+        const newTheme = theme === "dark" ? "light" : "dark";
+
+        setTheme(newTheme);
+
+        document.body.className = newTheme;
+
+        localStorage.setItem("theme", newTheme);
+    }
+
     const token = localStorage.getItem("token");
+
+    function handleLogout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+
+        navigate("/login");
+    }
+
     return (
         <nav className="navbar">
+
             <div className="logo">
+
                 <h2>LostLines</h2>
+
                 <span>Reconnect people with what matters.</span>
+
             </div>
+
             <div className="nav-links">
+
                 <Link to="/">Home</Link>
-                <Link to="/dashboard">Dashboard</Link>
+
+                {token && <Link to="/dashboard">Dashboard</Link>}
+
                 <Link to="/about">About</Link>
 
             </div>
+
             <div className="nav-user">
-                {
-                    token ?
+
+                <button
+                    className="theme-btn"
+                    onClick={toggleTheme}
+                    title="Toggle Theme"
+                >
+                    {theme === "dark"
+                    ? <Sun size={20}/>
+                    : <Moon size={20}/>
+                }
+                </button>
+
+                {token ? (
                     <button
                         className="primary-btn"
-                        onClick={() => {
-
-                            localStorage.removeItem("token");
-                            localStorage.removeItem("user");
-
-                            window.location.href="/login";
-
-                        }}
+                        onClick={handleLogout}
                     >
-
                         Logout
-
                     </button>
-
-                    :
-
+                ) : (
                     <Link
                         to="/login"
                         className="primary-btn"
                     >
-
                         Login
-
                     </Link>
-
-                }
+                )}
 
             </div>
 
         </nav>
-
     );
-
 }
 
 export default Navbar;

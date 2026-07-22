@@ -1,0 +1,50 @@
+.search-filter-container{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.search-box,
+.select-box{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 15px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--bg-secondary);
+    transition:.3s;
+}
+
+.search-box:hover,
+.select-box:hover{
+    border-color:var(--accent);
+}
+
+.search-box svg,
+.select-box svg{
+    color:var(--text-muted);
+}
+
+.search-box input{
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:var(--text-primary);
+    font-size:15px;
+}
+
+.select-box select{
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:var(--text-primary);
+    font-size:15px;
+    cursor:pointer;
+}
+
+.search-box input::placeholder{
+    color:var(--text-muted);
+}

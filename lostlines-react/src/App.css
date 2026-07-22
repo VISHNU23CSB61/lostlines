@@ -208,3 +208,25 @@ h2 {
 .delete-btn:hover{
     background:#dc2626;
 }
+
+.dashboard-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+    margin:35px 0;
+}
+
+.dashboard-form,
+.dashboard-search{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+@media(max-width:900px){
+.dashboard-actions{
+grid-template-columns:1fr;
+}
+}
