@@ -1,0 +1,173 @@
+.about-page{
+    min-height:100vh;
+    background:var(--bg-primary);
+    color:var(--text-primary);
+}
+
+/* ===========================
+Hero
+=========================== */
+
+.about-hero{
+    max-width:900px;
+    margin:0 auto;
+    text-align:center;
+    padding:90px 30px 60px;
+}
+
+.about-hero h1{
+    font-size:3.2rem;
+    margin-bottom:20px;
+    font-weight:800;
+}
+
+.about-hero p{
+    font-size:1.15rem;
+    line-height:1.8;
+    color:var(--text-secondary);
+}
+
+/* ===========================
+Feature Cards
+=========================== */
+
+.about-grid{
+    max-width:1200px;
+    margin:20px auto 70px;
+    padding:0 30px;
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+.about-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:35px;
+    text-align:center;
+
+    transition:.35s;
+    box-shadow:var(--shadow-md);
+}
+
+.about-card:hover{
+    transform:translateY(-8px);
+    box-shadow:var(--shadow-lg);
+}
+
+.about-card svg{
+    margin-bottom:18px;
+}
+
+.about-card h2{
+    margin-bottom:15px;
+    color:var(--text-primary);
+}
+
+.about-card p{
+    color:var(--text-secondary);
+    line-height:1.8;
+}
+
+/* ===========================
+Technology
+=========================== */
+
+.tech-stack{
+    max-width:1200px;
+    margin:auto;
+    padding:20px 30px 80px;
+    text-align:center;
+}
+
+.tech-stack h2{
+    font-size:2.2rem;
+    margin-bottom:40px;
+}
+
+.tech-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:25px;
+}
+
+.tech-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:30px;
+
+    transition:.3s;
+}
+
+.tech-card:hover{
+    transform:translateY(-6px);
+    border-color:var(--accent);
+}
+
+.tech-card svg{
+    color:var(--accent);
+    margin-bottom:15px;
+}
+
+.tech-card span{
+    display:block;
+    font-size:1.1rem;
+    font-weight:600;
+    color:var(--text-primary);
+}
+
+/* ===========================
+Developer
+=========================== */
+
+.developer{
+    max-width:900px;
+    margin:0 auto 80px;
+    padding:50px;
+
+    text-align:center;
+
+    background:var(--bg-card);
+
+    border:1px solid var(--border);
+
+    border-radius:25px;
+
+    box-shadow:var(--shadow-md);
+}
+
+.developer h2{
+    font-size:2rem;
+    margin-bottom:20px;
+}
+
+.developer p{
+    color:var(--text-secondary);
+    line-height:1.8;
+    font-size:1.05rem;
+}
+
+/* ===========================
+Responsive
+=========================== */
+
+@media(max-width:768px){
+
+.about-hero h1{
+    font-size:2.3rem;
+}
+
+.about-grid,
+.tech-grid{
+    grid-template-columns:1fr;
+}
+
+.developer{
+    margin:40px 20px;
+    padding:35px 25px;
+}
+
+}
