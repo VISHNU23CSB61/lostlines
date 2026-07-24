@@ -74,7 +74,7 @@ function Navbar() {
                         className="primary-btn"
                         onClick={handleLogout}
                     >
-                        Logout
+                        Vishnu ▼
                     </button>
                 ) : (
                     <Link
