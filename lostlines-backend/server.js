@@ -43,38 +43,47 @@ app.get("/", (req, res) => {
 // =======================
 app.get("/items", authMiddleware, async (req, res) => {
     try {
+        console.log("User ID:", req.user.id);
+
         const items = await Item.find({
             owner: req.user.id
-        }).sort({
-            createdAt: -1
         });
-        res.json(items);
-    }
 
-    catch(err){
-        res.status(500).json({
-            message: err.message
-        });
+        console.log("Items:", items);
+
+        res.json(items);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: err.message });
     }
 });
 // =======================
 // CREATE ITEM
 // =======================
-app.post("/items", authMiddleware, async (req,res)=>{
-    try{
-        const item = new Item({
-            name:req.body.name,
-            location:req.body.location,
-            status:req.body.status,
-            owner:req.user.id
-        });
-        const savedItem = await item.save();
-        res.status(201).json(savedItem);
-    }
+app.post("/items", authMiddleware, async (req, res) => {
+    try {
 
-    catch(err){
+        console.log("Request Body:", req.body);
+        console.log("Owner:", req.user.id);
+
+        const item = new Item({
+            name: req.body.name,
+            location: req.body.location,
+            status: req.body.status,
+            owner: req.user.id
+        });
+
+        const savedItem = await item.save();
+
+        console.log("Saved Item:", savedItem);
+
+        res.status(201).json(savedItem);
+
+    } catch (err) {
+        console.log(err);
         res.status(400).json({
-            message:err.message
+            message: err.message
         });
     }
 });

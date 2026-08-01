@@ -181,3 +181,64 @@ gap:20px;
 }
 
 }
+.user-menu{
+    position:relative;
+}
+
+.user-dropdown{
+
+    position:absolute;
+
+    top:50px;
+
+    right:0;
+
+    width:180px;
+
+    background:#1E293B;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.25);
+
+    z-index:1000;
+
+}
+
+.dropdown-item{
+
+    display:block;
+
+    width:100%;
+
+    padding:12px 18px;
+
+    color:white;
+
+    text-decoration:none;
+
+    background:none;
+
+    border:none;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+}
+
+.dropdown-item:hover{
+
+    background:#334155;
+
+}
+
+.logout-btn{
+
+    color:#EF4444;
+
+}

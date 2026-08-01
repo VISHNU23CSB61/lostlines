@@ -4,18 +4,24 @@ const API = axios.create({
     baseURL: "http://localhost:5000",
 });
 
-API.interceptors.request.use((config) => {
-    const token = localStorage.getItem("token");
+// Debug interceptor
+API.interceptors.request.use(
+    (config) => {
 
-    console.log("Interceptor Token:", token); // <-- Add this line
+        const token = localStorage.getItem("token");
 
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
+        console.log("========= API INTERCEPTOR =========");
+        console.log("Token:", token);
 
-    console.log("Headers Sent:", config.headers); // <-- Add this too
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
 
-    return config;
-});
+        console.log("Headers being sent:", config.headers);
+
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
 
 export default API;

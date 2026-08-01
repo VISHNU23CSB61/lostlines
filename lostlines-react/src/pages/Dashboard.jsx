@@ -6,10 +6,11 @@ import SearchFilter from "../components/SearchFilter";
 import StatsCard from "../components/StatsCard";
 import ItemCard from "../components/ItemCard";
 
-import { toast } from "react-toastify";
-
 import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
+
+import { toast } from "react-toastify";
+
 import {
     Package,
     CircleAlert,
@@ -30,6 +31,10 @@ function Dashboard() {
         fetchItems();
     }, []);
 
+    useEffect(() => {
+        console.log("Items State Updated:", items);
+    }, [items]);
+
     async function fetchItems() {
 
         try {
@@ -38,11 +43,15 @@ function Dashboard() {
 
             const res = await API.get("/items");
 
+            console.log("Backend Response:", res.data);
+
             setItems(res.data);
 
         } catch (err) {
 
-            console.log(err);
+            console.error("Fetch Error:", err);
+
+            toast.error("Unable to load items");
 
         } finally {
 
@@ -60,13 +69,13 @@ function Dashboard() {
 
                 await API.put(`/items/${editingItem._id}`, itemData);
 
-                toast.success("Item updated successfully!");
+                toast.success("Item Updated");
 
             } else {
 
                 await API.post("/items", itemData);
 
-                toast.success("Item added successfully!");
+                toast.success("Item Added");
 
             }
 
@@ -76,7 +85,35 @@ function Dashboard() {
 
         } catch (err) {
 
-            console.log(err);
+            console.error(err);
+
+            toast.error("Failed to save item");
+
+        }
+
+    }
+
+    async function deleteItem(id) {
+
+        const confirmDelete = window.confirm(
+            "Delete this item?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+
+            await API.delete(`/items/${id}`);
+
+            toast.success("Item Deleted");
+
+            fetchItems();
+
+        } catch (err) {
+
+            console.error(err);
+
+            toast.error("Delete Failed");
 
         }
 
@@ -88,41 +125,9 @@ function Dashboard() {
 
     }
 
-    async function deleteItem(id) {
-
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete this item?"
-        );
-
-        if (!confirmDelete) return;
-
-        try {
-
-            await API.delete(`/items/${id}`);
-
-            toast.success("Item deleted successfully!");
-
-            fetchItems();
-
-            if (editingItem && editingItem._id === id) {
-
-                setEditingItem(null);
-
-            }
-
-        } catch (err) {
-
-            console.log(err);
-
-            toast.error("Something went wrong!");
-
-        }
-
-    }
-
-    // ===============================
-    // Dashboard Statistics
-    // ===============================
+    // ==========================
+    // Statistics
+    // ==========================
 
     const totalItems = items.length;
 
@@ -139,47 +144,46 @@ function Dashboard() {
             ? 0
             : Math.round((foundItems / totalItems) * 100);
 
-    // ===============================
-    // Search + Filter + Sort
-    // ===============================
+    // ==========================
+    // Filter + Search + Sort
+    // ==========================
 
     const filteredItems = items
-        .filter((item) => {
+        .filter(item => {
+
             const matchesSearch =
                 item.name
                     .toLowerCase()
                     .includes(search.toLowerCase());
+
             const matchesFilter =
                 filter === "All" ||
                 item.status === filter;
+
             return matchesSearch && matchesFilter;
+
         })
         .sort((a, b) => {
+
             if (sortOrder === "Newest") {
-                return (
-                    new Date(b.createdAt) -
-                    new Date(a.createdAt)
-                );
+
+                return new Date(b.createdAt) - new Date(a.createdAt);
 
             }
-            return (
-                new Date(a.createdAt) -
-                new Date(b.createdAt)
-            );
+
+            return new Date(a.createdAt) - new Date(b.createdAt);
+
         });
+
+    console.log("Filtered Items:", filteredItems);
+
     return (
+
         <div className="page-container">
+
             <h1 className="section-title">
-                Welcome Back
+                Dashboard
             </h1>
-            <p
-                style={{
-                    marginBottom: "30px",
-                    color: "var(--text-muted)"
-                }}
-            >
-                Here's your Lost & Found Overview
-            </p>
 
             <div className="stats-grid">
 
@@ -189,68 +193,79 @@ function Dashboard() {
                     icon={<Package size={28} />}
                     color="#3B82F6"
                 />
+
                 <StatsCard
                     title="Lost"
                     value={lostItems}
-                    icon={<CircleAlert size={28} />}      
+                    icon={<CircleAlert size={28} />}
                     color="#EF4444"
                 />
+
                 <StatsCard
                     title="Found"
                     value={foundItems}
                     icon={<CircleCheck size={28} />}
                     color="#10B981"
                 />
+
                 <StatsCard
                     title="Success"
                     value={`${successRate}%`}
                     icon={<TrendingUp size={28} />}
                     color="#F59E0B"
                 />
-            </div>
-            <hr style={{ margin: "35px 0" }} />
-            
-            <div className="dashboard-actions">
-                <div className="dashboard-form">
-                    <AddItemForm
-                        onSaveItem={saveItem}
-                        editingItem={editingItem}
-                    />
-                </div>
-                <div className="dashboard-search">
-                    <SearchFilter
-                        search={search}
-                        setSearch={setSearch}
-                        filter={filter}
-                        setFilter={setFilter}
-                        sortOrder={sortOrder}
-                        setSortOrder={setSortOrder}
-                    />
-                </div>
+
             </div>
 
-            <hr style={{ margin: "30px 0" }} />
+            <hr />
 
-            {/* ===========================
-                Item List
-            =========================== */}
+            <AddItemForm
+                onSaveItem={saveItem}
+                editingItem={editingItem}
+            />
+
+            <SearchFilter
+                search={search}
+                setSearch={setSearch}
+                filter={filter}
+                setFilter={setFilter}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+            />
+
+            <hr />
+
             {loading ? (
+
                 <LoadingSpinner />
+
             ) : filteredItems.length === 0 ? (
+
                 <EmptyState />
+
             ) : (
+
                 <div className="items-grid">
-                    {filteredItems.map((item) => (
+
+                    {filteredItems.map(item => (
+
                         <ItemCard
                             key={item._id}
                             item={item}
                             onEditItem={editItem}
                             onDeleteItem={deleteItem}
                         />
+
                     ))}
+
                 </div>
+
             )}
+
         </div>
+
     );
+
 }
+
 export default Dashboard;

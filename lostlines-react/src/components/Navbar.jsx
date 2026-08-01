@@ -1,12 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 import { Sun, Moon } from "lucide-react";
 import "./Navbar.css";
 
 function Navbar() {
     const navigate = useNavigate();
 
+
     const [theme, setTheme] = useState("dark");
+    const [showMenu, setShowMenu] = useState(false);
+    const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
         const savedTheme = localStorage.getItem("theme") || "dark";
@@ -69,21 +73,46 @@ function Navbar() {
                 }
                 </button>
 
-                {token ? (
-                    <button
-                        className="primary-btn"
-                        onClick={handleLogout}
-                    >
-                        Vishnu ▼
-                    </button>
-                ) : (
-                    <Link
-                        to="/login"
-                        className="primary-btn"
-                    >
-                        Login
-                    </Link>
-                )}
+               {token ? (
+    <div className="user-menu">
+
+        <button
+            className="primary-btn"
+            onClick={() => setShowMenu(!showMenu)}
+        >
+            {user?.name} ▼
+        </button>
+
+        {showMenu && (
+            <div className="user-dropdown">
+
+                <Link
+                    to="/profile"
+                    className="dropdown-item"
+                    onClick={() => setShowMenu(false)}
+                >
+                    My Profile
+                </Link>
+
+                <button
+                    className="dropdown-item logout-btn"
+                    onClick={handleLogout}
+                >
+                    Logout
+                </button>
+
+            </div>
+        )}
+
+    </div>
+) : (
+    <Link
+        to="/login"
+        className="primary-btn"
+    >
+        Login
+    </Link>
+)}
 
             </div>
 
