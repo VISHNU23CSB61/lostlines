@@ -1,66 +1,113 @@
 .profile-card{
 
-    display:flex;
-    align-items:center;
-    gap:30px;
+    background:rgba(30,41,59,.75);
 
-    background:var(--bg-card);
+    backdrop-filter:blur(18px);
 
-    border:1px solid var(--border);
+    border:1px solid rgba(255,255,255,.08);
 
     border-radius:22px;
 
     padding:35px;
 
-    margin-bottom:35px;
+    display:flex;
 
-    box-shadow:var(--shadow-md);
+    align-items:center;
+
+    gap:25px;
 
 }
 
 .profile-avatar{
 
-    width:120px;
-    height:120px;
+    width:90px;
+
+    height:90px;
 
     border-radius:50%;
 
-    background:linear-gradient(135deg,#2563EB,#06B6D4);
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    background:#3B82F6;
 
     color:white;
 
-    flex-shrink:0;
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:2rem;
+
+    font-weight:bold;
+
+}
+
+.profile-info{
+
+    flex:1;
 
 }
 
 .profile-info h2{
 
-    font-size:2rem;
+    margin-bottom:10px;
 
     color:var(--text-primary);
-
-    margin-bottom:15px;
 
 }
 
 .profile-info p{
 
-    display:flex;
-    align-items:center;
-    gap:10px;
-
-    margin-bottom:12px;
-
     color:var(--text-secondary);
+
+    margin:8px 0;
 
 }
 
-.profile-info svg{
+/* ===========================
+   Tablet
+=========================== */
 
-    color:var(--accent);
+@media(max-width:900px){
+
+.profile-card{
+
+    padding:25px;
+
+}
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media(max-width:600px){
+
+.profile-card{
+
+    flex-direction:column;
+
+    text-align:center;
+
+    gap:20px;
+
+}
+
+.profile-info{
+
+    width:100%;
+
+}
+
+.profile-avatar{
+
+    width:80px;
+
+    height:80px;
+
+    font-size:1.8rem;
+
+}
 
 }

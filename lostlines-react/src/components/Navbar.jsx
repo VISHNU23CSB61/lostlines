@@ -1,7 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
-import { Sun, Moon } from "lucide-react";
+import {
+    Sun,
+    Moon,
+    Menu,
+    X
+} from "lucide-react";
 import "./Navbar.css";
 
 function Navbar() {
@@ -10,6 +14,7 @@ function Navbar() {
 
     const [theme, setTheme] = useState("dark");
     const [showMenu, setShowMenu] = useState(false);
+    const [mobileMenu, setMobileMenu] = useState(false);
     const user = JSON.parse(localStorage.getItem("user"));
 
     useEffect(() => {
@@ -49,14 +54,35 @@ function Navbar() {
                 <span>Reconnect people with what matters.</span>
 
             </div>
+            <button
+             className="menu-toggle"
+             onClick={() => setMobileMenu(!mobileMenu)}
+            >
+            {mobileMenu ? <X size={26} /> : <Menu size={26} />}
+            </button>
 
-            <div className="nav-links">
+            <div className={`nav-links ${mobileMenu ? "active" : ""}`}>
 
-                <Link to="/">Home</Link>
+                <Link
+                    to="/"
+                    onClick={() => setMobileMenu(false)}
+                >
+                Home
+                </Link>
 
-                {token && <Link to="/dashboard">Dashboard</Link>}
+                {token && <Link
+                    to="/"
+                    onClick={() => setMobileMenu(false)}
+                >
+                Dashboard
+                </Link>}
 
-                <Link to="/about">About</Link>
+                <Link
+                    to="/"
+                    onClick={() => setMobileMenu(false)}
+                >
+                About
+                </Link>
 
             </div>
 
@@ -87,7 +113,12 @@ function Navbar() {
             <div className="user-dropdown">
 
                 <Link
-                    to="/profile"
+                to="/profile"
+                onClick={()=>{
+                setShowMenu(false);
+                setMobileMenu(false);
+                }}
+
                     className="dropdown-item"
                     onClick={() => setShowMenu(false)}
                 >
@@ -96,7 +127,10 @@ function Navbar() {
 
                 <button
                     className="dropdown-item logout-btn"
-                    onClick={handleLogout}
+                    onClick={()=>{
+                        setMobileMenu(false);
+                        handleLogout();
+                    }}
                 >
                     Logout
                 </button>

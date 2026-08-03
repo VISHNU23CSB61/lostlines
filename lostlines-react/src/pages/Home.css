@@ -560,3 +560,131 @@ grid-template-columns:1fr;
 }
 
 }
+
+/* ==================================
+   Home Page
+================================== */
+
+.hero{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:50px;
+
+    min-height:80vh;
+
+    padding:60px 20px;
+
+}
+
+.hero-content{
+
+    flex:1;
+
+}
+
+.hero-content h1{
+
+    font-size:3.5rem;
+
+    line-height:1.2;
+
+    color:var(--text-primary);
+
+}
+
+.hero-content p{
+
+    margin-top:20px;
+
+    font-size:1.1rem;
+
+    color:var(--text-secondary);
+
+}
+
+.hero-image{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+.hero-image img{
+
+    width:100%;
+
+    max-width:500px;
+
+    height:auto;
+
+}
+
+/* ==================================
+   Tablet
+================================== */
+
+@media(max-width:992px){
+
+.hero{
+
+    flex-direction:column;
+
+    text-align:center;
+
+    padding:40px 20px;
+
+}
+
+.hero-content h1{
+
+    font-size:2.8rem;
+
+}
+
+.hero-image{
+
+    margin-top:30px;
+
+}
+
+}
+
+/* ==================================
+   Mobile
+================================== */
+
+@media(max-width:600px){
+
+.hero{
+
+    padding:25px 15px;
+
+}
+
+.hero-content h1{
+
+    font-size:2rem;
+
+}
+
+.hero-content p{
+
+    font-size:1rem;
+
+}
+
+.hero-image img{
+
+    max-width:300px;
+
+}
+
+}
