@@ -1,8 +1,17 @@
 import "./StatsCard.css";
+import { motion } from "framer-motion";
 
 function StatsCard({ title, value, icon, color }) {
     return (
-        <div className="stats-card">
+        <motion.div
+            className="stats-card"
+            whileHover={{
+                y:-8,
+                scale:1.03
+            }}
+            transition={{
+                duration:0.25
+            }}>
             <div
                 className="stats-icon"
                 style={{ background: color }}
@@ -15,7 +24,7 @@ function StatsCard({ title, value, icon, color }) {
                 </p>
                 <h2>{value}</h2>
             </div>
-        </div>
+        </motion.div>
     );
 }
 

@@ -2,6 +2,7 @@ import "./Profile.css";
 import { useEffect, useState } from "react";
 import API from "../api/api";
 import ProfileCard from "../components/ProfileCard";
+import ProfileSkeleton from "../components/ProfileSkeleton";
 
 function Profile() {
 
@@ -49,7 +50,7 @@ function Profile() {
 
     if (!user) {
 
-        return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+        return <ProfileSkeleton />;
 
     }
 

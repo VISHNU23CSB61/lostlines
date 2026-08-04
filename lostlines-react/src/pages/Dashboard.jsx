@@ -8,8 +8,11 @@ import ItemCard from "../components/ItemCard";
 
 import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
+import ItemModal from "../components/ItemModal";
 
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
+import SkeletonCard from "../components/SkeletonCard";
 
 import {
     Package,
@@ -26,6 +29,13 @@ function Dashboard() {
     const [sortOrder, setSortOrder] = useState("Newest");
     const [editingItem, setEditingItem] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    function openItem(item){
+
+    setSelectedItem(item);
+
+}
 
     useEffect(() => {
         fetchItems();
@@ -179,7 +189,12 @@ function Dashboard() {
 
     return (
 
-        <div className="page-container">
+        <motion.div
+        className="page-container"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        >
 
             <h1 className="section-title">
                 Dashboard
@@ -237,9 +252,16 @@ function Dashboard() {
 
             {loading ? (
 
-                <LoadingSpinner />
+<div className="items-grid">
 
-            ) : filteredItems.length === 0 ? (
+    <SkeletonCard/>
+    <SkeletonCard/>
+    <SkeletonCard/>
+    <SkeletonCard/>
+
+</div>
+
+): filteredItems.length === 0 ? (
 
                 <EmptyState />
 
@@ -249,20 +271,26 @@ function Dashboard() {
 
                     {filteredItems.map(item => (
 
-                        <ItemCard
+                       <ItemCard
                             key={item._id}
                             item={item}
                             onEditItem={editItem}
                             onDeleteItem={deleteItem}
+                            onViewItem={openItem}
                         />
 
                     ))}
 
                 </div>
+                
 
             )}
+            <ItemModal
+            item={selectedItem}
+            onClose={() => setSelectedItem(null)}
+            />
 
-        </div>
+        </motion.div>
 
     );
 

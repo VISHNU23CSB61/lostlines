@@ -9,12 +9,29 @@ import {
     CircleCheck,
     Package
 } from "lucide-react";
+import { motion } from "framer-motion";
 
-function ItemCard({ item, onEditItem, onDeleteItem }) {
+function ItemCard({
+    item,
+    onEditItem,
+    onDeleteItem,
+    onViewItem
+
+}){
 
     return (
 
-        <div className="item-card">
+        <motion.div
+        className="item-card"
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        whileHover={{
+            y: -8,
+            scale: 1.02
+        }}
+
+        onClick={() => onViewItem(item)}>
 
             {/* Header */}
 
@@ -89,7 +106,10 @@ function ItemCard({ item, onEditItem, onDeleteItem }) {
 
                 <button
                     className="edit-btn"
-                    onClick={() => onEditItem(item)}
+                    onClick={(e)=>{
+                     e.stopPropagation();
+                     onEditItem(item);
+                    }}
                 >
 
                     <Pencil size={16} />
@@ -100,8 +120,12 @@ function ItemCard({ item, onEditItem, onDeleteItem }) {
 
                 <button
                     className="delete-btn"
-                    onClick={() => onDeleteItem(item._id)}
-                >
+                    onClick={(e)=>{
+
+                        e.stopPropagation();
+                        onDeleteItem(item._id);
+
+                    }}>
 
                     <Trash2 size={16} />
 
@@ -111,7 +135,7 @@ function ItemCard({ item, onEditItem, onDeleteItem }) {
 
             </div>
 
-        </div>
+       </motion.div>
 
     );
 
