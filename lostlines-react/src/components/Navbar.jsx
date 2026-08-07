@@ -1,5 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
 import {
     Sun,
     Moon,
@@ -15,8 +17,7 @@ function Navbar() {
     const [theme, setTheme] = useState("dark");
     const [showMenu, setShowMenu] = useState(false);
     const [mobileMenu, setMobileMenu] = useState(false);
-    const user = JSON.parse(localStorage.getItem("user"));
-
+    const { user } = useContext(AuthContext);
     useEffect(() => {
         const savedTheme = localStorage.getItem("theme") || "dark";
 

@@ -135,6 +135,26 @@ function Dashboard() {
 
     }
 
+    async function recoverItem(id){
+
+    try{
+
+        await API.put(`/items/recover/${id}`);
+
+        toast.success("Item Recovered");
+
+        fetchItems();
+
+    }
+
+    catch(err){
+
+        toast.error("Unable to recover item");
+
+    }
+
+}
+
     // ==========================
     // Statistics
     // ==========================
@@ -277,6 +297,7 @@ function Dashboard() {
                             onEditItem={editItem}
                             onDeleteItem={deleteItem}
                             onViewItem={openItem}
+                            onRecoverItem={recoverItem}
                         />
 
                     ))}

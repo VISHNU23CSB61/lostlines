@@ -1,13 +1,25 @@
 import "./Profile.css";
-import { useEffect, useState } from "react";
+
 import API from "../api/api";
 import ProfileCard from "../components/ProfileCard";
 import ProfileSkeleton from "../components/ProfileSkeleton";
+
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
+import { toast } from "react-toastify";
 
 function Profile() {
 
     const [user, setUser] = useState(null);
     const [items, setItems] = useState([]);
+
+    const [editing, setEditing] = useState(false);
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+
+    const { updateUser } = useContext(AuthContext);
 
     useEffect(() => {
 
@@ -23,6 +35,10 @@ function Profile() {
             const res = await API.get("/users/profile");
 
             setUser(res.data);
+
+            setName(res.data.name);
+
+            setEmail(res.data.email);
 
         } catch (err) {
 
@@ -43,6 +59,65 @@ function Profile() {
         } catch (err) {
 
             console.log(err);
+
+        }
+
+    }
+
+    async function updateProfile() {
+
+        const toastId = toast.loading("Updating Profile...");
+
+        try {
+
+            const res = await API.put("/users/profile", {
+
+                name,
+
+                email
+
+            });
+
+            setUser(res.data.user);
+
+            updateUser(res.data.user);
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify(res.data.user)
+            );
+
+            toast.update(toastId, {
+
+                render: "Profile Updated Successfully",
+
+                type: "success",
+
+                isLoading: false,
+
+                autoClose: 2500
+
+            });
+
+            setEditing(false);
+
+        }
+
+        catch (err) {
+
+            console.log(err);
+
+            toast.update(toastId, {
+
+                render: "Unable to update profile",
+
+                type: "error",
+
+                isLoading: false,
+
+                autoClose: 2500
+
+            });
 
         }
 
@@ -104,11 +179,49 @@ function Profile() {
 
             </div>
 
-            <button className="primary-btn">
+            <button
+                className="primary-btn"
+                onClick={() => setEditing(!editing)}
+            >
 
-                Edit Profile
+                {editing ? "Cancel" : "Edit Profile"}
 
             </button>
+
+            {editing && (
+
+                <>
+
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) =>
+                            setName(e.target.value)
+                        }
+                        placeholder="Name"
+                    />
+
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) =>
+                            setEmail(e.target.value)
+                        }
+                        placeholder="Email"
+                    />
+
+                    <button
+                        className="primary-btn"
+                        onClick={updateProfile}
+                    >
+
+                        Save Changes
+
+                    </button>
+
+                </>
+
+            )}
 
         </div>
 

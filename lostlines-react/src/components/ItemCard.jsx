@@ -15,7 +15,8 @@ function ItemCard({
     item,
     onEditItem,
     onDeleteItem,
-    onViewItem
+    onViewItem,
+    onRecoverItem
 
 }){
 
@@ -56,21 +57,25 @@ function ItemCard({
                     }
                 >
 
-                    {item.status === "Lost" ? (
+                  {item.status === "Lost" && (
+    <>
+        <CircleAlert size={15}/>
+        Lost
+    </>
+)}
 
-                        <>
-                            <CircleAlert size={15} />
-                            Lost
-                        </>
+{item.status === "Found" && (
+    <>
+        <CircleCheck size={15}/>
+        Found
+    </>
+)}
 
-                    ) : (
-
-                        <>
-                            <CircleCheck size={15} />
-                            Found
-                        </>
-
-                    )}
+{item.status === "Recovered" && (
+    <>
+        Recovered
+    </>
+)}
 
                 </span>
 
@@ -104,20 +109,23 @@ function ItemCard({
 
             <div className="item-actions">
 
-                <button
-                    className="edit-btn"
-                    onClick={(e)=>{
-                     e.stopPropagation();
-                     onEditItem(item);
-                    }}
-                >
+                {item.status !== "Recovered" && (
+    <button
+        className="edit-btn"
+        onClick={() => onEditItem(item)}
+    >
+        Edit
+    </button>
+)}
+                {item.status !== "Recovered" && (
 
-                    <Pencil size={16} />
-
-                    Edit
-
-                </button>
-
+               <button
+               className="recover-btn"
+               onClick={() => onRecoverItem(item._id)}
+               >
+                Recover
+              </button>)}
+              
                 <button
                     className="delete-btn"
                     onClick={(e)=>{

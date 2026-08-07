@@ -119,6 +119,56 @@ app.put("/items/:id", authMiddleware, async (req,res)=>{
         });
     }
 });
+// =======================
+// RECOVER ITEM
+// =======================
+app.put("/items/recover/:id", authMiddleware, async (req, res) => {
+
+    try {
+
+        const item = await Item.findOne({
+
+            _id: req.params.id,
+
+            owner: req.user.id
+
+        });
+
+        if (!item) {
+
+            return res.status(404).json({
+
+                message: "Item Not Found"
+
+            });
+
+        }
+
+        item.status = "Recovered";
+
+        await item.save();
+
+        res.json({
+
+            message: "Item Recovered Successfully",
+
+            item
+
+        });
+
+    }
+
+    catch (err) {
+
+        res.status(500).json({
+
+            message: err.message
+
+        });
+
+    }
+
+});
 
 // =======================
 // DELETE ITEM

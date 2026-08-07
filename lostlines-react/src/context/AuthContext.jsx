@@ -39,6 +39,16 @@ function AuthProvider({ children }) {
         );
 
     }
+    function updateUser(userData) {
+
+    setUser(userData);
+
+    localStorage.setItem(
+        "user",
+        JSON.stringify(userData)
+    );
+
+}
 
     function logout() {
      setUser(null);
@@ -55,7 +65,8 @@ function AuthProvider({ children }) {
                 user,
                 token,
                 login,
-                logout
+                logout,
+                updateUser
             }}
         >
 

@@ -14,11 +14,11 @@ const itemSchema = new mongoose.Schema(
       trim: true,
     },
 
-    status: {
-      type: String,
-      enum: ["Lost", "Found"],
-      default: "Lost",
-    },
+   status: {
+    type: String,
+    enum: ["Lost", "Found", "Recovered"],
+    default: "Lost",
+},
 
     owner: {
       type: mongoose.Schema.Types.ObjectId,
