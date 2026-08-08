@@ -13,6 +13,8 @@ import ItemModal from "../components/ItemModal";
 import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 import SkeletonCard from "../components/SkeletonCard";
+import AnalyticsChart from "../components/AnalyticsChart";
+import RecentActivity from "../components/RecentActivity";
 
 import {
     Package,
@@ -70,6 +72,31 @@ function Dashboard() {
         }
 
     }
+    async function recoverItem(id) {
+
+    const confirmRecover = window.confirm(
+        "Mark this item as recovered?"
+    );
+
+    if (!confirmRecover) return;
+
+    try {
+
+        await API.put(`/items/recover/${id}`);
+
+        toast.success("Item Recovered Successfully");
+
+        fetchItems();
+
+    } catch (err) {
+
+        console.error(err);
+
+        toast.error("Failed to recover item");
+
+    }
+
+}
 
     async function saveItem(itemData) {
 
@@ -169,10 +196,16 @@ function Dashboard() {
         item => item.status === "Found"
     ).length;
 
+    const recoveredItems = items.filter(
+    item => item.status === "Recovered"
+    ).length;
+
     const successRate =
-        totalItems === 0
-            ? 0
-            : Math.round((foundItems / totalItems) * 100);
+    totalItems === 0
+        ? 0
+        : Math.round(
+            ((foundItems + recoveredItems) / totalItems) * 100
+        );
 
     // ==========================
     // Filter + Search + Sort
@@ -251,6 +284,19 @@ function Dashboard() {
                 />
 
             </div>
+            <div className="analytics-section">
+
+    <AnalyticsChart
+    lost={lostItems}
+    found={foundItems}
+    recovered={recoveredItems}
+    items={items}
+/>
+     <RecentActivity
+    items={items}
+/>
+
+</div>
 
             <hr />
 

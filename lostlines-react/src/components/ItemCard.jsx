@@ -7,7 +7,8 @@ import {
     Trash2,
     CircleAlert,
     CircleCheck,
-    Package
+    Package,
+    CheckCircle
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -117,14 +118,17 @@ function ItemCard({
         Edit
     </button>
 )}
-                {item.status !== "Recovered" && (
+               {item.status === "Lost" && (
 
-               <button
-               className="recover-btn"
-               onClick={() => onRecoverItem(item._id)}
-               >
-                Recover
-              </button>)}
+    <button
+        className="recover-btn"
+        onClick={() => onRecoverItem(item._id)}
+    >
+        <CheckCircle size={16} />
+        Recover
+    </button>
+
+)}
               
                 <button
                     className="delete-btn"
