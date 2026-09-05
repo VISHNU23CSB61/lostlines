@@ -1,103 +1,126 @@
-.modal-overlay{
+.modal-overlay {
 
-    position:fixed;
+    position: fixed;
 
-    inset:0;
+    inset: 0;
 
-    background:rgba(0,0,0,.55);
+    z-index: 2000;
 
-    display:flex;
+    display: flex;
 
-    justify-content:center;
+    align-items: center;
 
-    align-items:center;
+    justify-content: center;
 
-    z-index:999;
+    padding: 20px;
 
-}
+    background: rgba(0, 0, 0, 0.55);
 
-.item-modal{
-
-    width:420px;
-
-    background:var(--bg-card);
-
-    border-radius:20px;
-
-    padding:30px;
-
-    position:relative;
-
-    animation:popup .25s ease;
+    backdrop-filter: blur(5px);
 
 }
 
-.close-btn{
 
-    position:absolute;
+.modal-content {
 
-    top:15px;
+    position: relative;
 
-    right:15px;
+    width: min(420px, 100%);
 
-    border:none;
+    padding: 30px;
 
-    background:none;
+    border-radius: 22px;
 
-    cursor:pointer;
+    background: var(--bg-card);
 
-}
+    color: var(--text-primary);
 
-.item-modal h2{
-
-    display:flex;
-
-    gap:10px;
-
-    align-items:center;
-
-    margin-bottom:25px;
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.35);
 
 }
 
-.item-modal p{
 
-    display:flex;
+.modal-content h2 {
 
-    gap:10px;
+    display: flex;
 
-    align-items:center;
+    align-items: center;
 
-    margin-bottom:18px;
+    gap: 10px;
+
+    margin: 0 0 25px;
+
+    font-size: 1.5rem;
 
 }
 
-@keyframes popup{
 
-    from{
+.modal-content p {
 
-        opacity:0;
+    display: flex;
 
-        transform:scale(.8);
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 18px 0;
+
+    color: var(--text-secondary);
+
+}
+
+
+.close-btn {
+
+    position: absolute;
+
+    top: 15px;
+
+    right: 15px;
+
+    width: 38px;
+
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: var(--text-primary);
+
+    cursor: pointer;
+
+    transition: .2s;
+
+}
+
+
+.close-btn:hover {
+
+    background: var(--bg-secondary);
+
+    transform: rotate(90deg);
+
+}
+
+
+@media (max-width: 500px) {
+
+    .modal-content {
+
+        padding: 25px;
+
+        border-radius: 18px;
 
     }
-
-    to{
-
-        opacity:1;
-
-        transform:scale(1);
-
-    }
-
-}
-
-@media(max-width:600px){
-
-.item-modal{
-
-    width:90%;
-
-}
 
 }

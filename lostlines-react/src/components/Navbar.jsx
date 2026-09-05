@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
@@ -11,13 +11,10 @@ import {
 import "./Navbar.css";
 
 function Navbar() {
-    const navigate = useNavigate();
-
-
     const [theme, setTheme] = useState("dark");
     const [showMenu, setShowMenu] = useState(false);
     const [mobileMenu, setMobileMenu] = useState(false);
-    const { user } = useContext(AuthContext);
+    const { user, token, logout } = useContext(AuthContext);
     useEffect(() => {
         const savedTheme = localStorage.getItem("theme") || "dark";
 
@@ -34,15 +31,6 @@ function Navbar() {
         document.body.className = newTheme;
 
         localStorage.setItem("theme", newTheme);
-    }
-
-    const token = localStorage.getItem("token");
-
-    function handleLogout() {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-
-        navigate("/login");
     }
 
     return (
@@ -72,14 +60,14 @@ function Navbar() {
                 </Link>
 
                 {token && <Link
-                    to="/"
+                    to="/dashboard"
                     onClick={() => setMobileMenu(false)}
                 >
                 Dashboard
                 </Link>}
 
                 <Link
-                    to="/"
+                    to="/about"
                     onClick={() => setMobileMenu(false)}
                 >
                 About
@@ -114,23 +102,21 @@ function Navbar() {
             <div className="user-dropdown">
 
                 <Link
-                to="/profile"
-                onClick={()=>{
-                setShowMenu(false);
-                setMobileMenu(false);
-                }}
-
+                    to="/profile"
+                    onClick={() => {
+                        setShowMenu(false);
+                        setMobileMenu(false);
+                    }}
                     className="dropdown-item"
-                    onClick={() => setShowMenu(false)}
                 >
                     My Profile
                 </Link>
 
                 <button
                     className="dropdown-item logout-btn"
-                    onClick={()=>{
+                    onClick={() => {
                         setMobileMenu(false);
-                        handleLogout();
+                        logout();
                     }}
                 >
                     Logout

@@ -1,76 +1,168 @@
 import "./ItemModal.css";
-import { motion } from "framer-motion";
+
 import {
     X,
     MapPin,
     CalendarDays,
     Package,
     CircleAlert,
-    CircleCheck
+    CircleCheck,
+    CheckCircle
 } from "lucide-react";
 
-function ItemModal({ item, onClose }) {
-    if (!item) return null;
+import { motion, AnimatePresence } from "framer-motion";
+
+function ItemModal({
+    item,
+    onClose
+}) {
 
     return (
 
-    <div className="modal-overlay">
+        <AnimatePresence>
 
-        <motion.div
-            className="item-modal"
-            initial={{
-                opacity:0,
-                scale:0.8
-            }}
-            animate={{
-                opacity:1,
-                scale:1
-            }}
-            exit={{
-                opacity:0,
-                scale:0.8
-            }}
-            transition={{
-                duration:0.25
-            }}
-        >
+            {item && (
 
-            <button
-                className="close-btn"
-                onClick={onClose}
-            >
-                <X size={20}/>
-            </button>
+                <motion.div
+                    className="modal-overlay"
 
-            <h2>
-                <Package size={22}/>
-                {item.name}
-            </h2>
+                    initial={{
+                        opacity: 0
+                    }}
 
-            <p>
-                {item.status === "Lost"
-                    ? <CircleAlert color="red"/>
-                    : <CircleCheck color="green"/>
-                }
+                    animate={{
+                        opacity: 1
+                    }}
 
-                {item.status}
-            </p>
+                    exit={{
+                        opacity: 0
+                    }}
 
-            <p>
-                <MapPin size={18}/>
-                {item.location}
-            </p>
+                    onClick={onClose}
+                >
 
-            <p>
-                <CalendarDays size={18}/>
-                {new Date(item.createdAt).toLocaleDateString()}
-            </p>
+                    <motion.div
+                        className="modal-content"
 
-        </motion.div>
+                        initial={{
+                            opacity: 0,
+                            scale: 0.8,
+                            y: 20
+                        }}
 
-    </div>
+                        animate={{
+                            opacity: 1,
+                            scale: 1,
+                            y: 0
+                        }}
 
-);
+                        exit={{
+                            opacity: 0,
+                            scale: 0.8,
+                            y: 20
+                        }}
+
+                        transition={{
+                            duration: 0.25
+                        }}
+
+                        onClick={(e) =>
+                            e.stopPropagation()
+                        }
+                    >
+
+                        {/* Close */}
+
+                        <button
+                            className="close-btn"
+                            onClick={onClose}
+                        >
+
+                            <X size={20} />
+
+                        </button>
+
+
+                        {/* Title */}
+
+                        <h2>
+
+                            <Package
+                                size={22}
+                            />
+
+                            {item.name}
+
+                        </h2>
+
+
+                        {/* Status */}
+
+                        <p>
+
+                            {item.status === "Lost" && (
+                                <CircleAlert
+                                    size={20}
+                                    color="red"
+                                />
+                            )}
+
+                            {item.status === "Found" && (
+                                <CircleCheck
+                                    size={20}
+                                    color="green"
+                                />
+                            )}
+
+                            {item.status === "Recovered" && (
+                                <CheckCircle
+                                    size={20}
+                                    color="#10B981"
+                                />
+                            )}
+
+                            {item.status}
+
+                        </p>
+
+
+                        {/* Location */}
+
+                        <p>
+
+                            <MapPin
+                                size={18}
+                            />
+
+                            {item.location}
+
+                        </p>
+
+
+                        {/* Date */}
+
+                        <p>
+
+                            <CalendarDays
+                                size={18}
+                            />
+
+                            {new Date(
+                                item.createdAt
+                            ).toLocaleDateString()}
+
+                        </p>
+
+                    </motion.div>
+
+                </motion.div>
+
+            )}
+
+        </AnimatePresence>
+
+    );
+
 }
 
 export default ItemModal;

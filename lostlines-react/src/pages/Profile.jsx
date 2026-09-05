@@ -18,6 +18,7 @@ function Profile() {
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [saving, setSaving] = useState(false);
 
     const { updateUser } = useContext(AuthContext);
 
@@ -64,65 +65,51 @@ function Profile() {
 
     }
 
-    async function updateProfile() {
+   async function updateProfile() {
 
-        const toastId = toast.loading("Updating Profile...");
+    if (saving) return;
 
-        try {
+    setSaving(true);
 
-            const res = await API.put("/users/profile", {
+    const toastId = toast.loading("Updating Profile...");
 
-                name,
+    try {
 
-                email
+        const res = await API.put("/users/profile", {
+            name,
+            email
+        });
 
-            });
+        setUser(res.data.user);
 
-            setUser(res.data.user);
+        updateUser(res.data.user);
 
-            updateUser(res.data.user);
+        toast.update(toastId, {
+            render: "Profile Updated Successfully",
+            type: "success",
+            isLoading: false,
+            autoClose: 2500
+        });
 
-            localStorage.setItem(
-                "user",
-                JSON.stringify(res.data.user)
-            );
+        setEditing(false);
 
-            toast.update(toastId, {
+    } catch (err) {
 
-                render: "Profile Updated Successfully",
+        console.error(err);
 
-                type: "success",
+        toast.update(toastId, {
+            render: "Unable to update profile",
+            type: "error",
+            isLoading: false,
+            autoClose: 2500
+        });
 
-                isLoading: false,
+    } finally {
 
-                autoClose: 2500
-
-            });
-
-            setEditing(false);
-
-        }
-
-        catch (err) {
-
-            console.log(err);
-
-            toast.update(toastId, {
-
-                render: "Unable to update profile",
-
-                type: "error",
-
-                isLoading: false,
-
-                autoClose: 2500
-
-            });
-
-        }
+        setSaving(false);
 
     }
-
+}
     if (!user) {
 
         return <ProfileSkeleton />;
@@ -211,13 +198,12 @@ function Profile() {
                     />
 
                     <button
-                        className="primary-btn"
-                        onClick={updateProfile}
-                    >
-
-                        Save Changes
-
-                    </button>
+    className="primary-btn"
+    onClick={updateProfile}
+    disabled={saving}
+>
+    {saving ? "Saving..." : "Save Changes"}
+</button>
 
                 </>
 

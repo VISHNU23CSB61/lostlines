@@ -55,6 +55,8 @@ function SearchFilter({
 
                     <option value="Found">Found</option>
 
+                    <option value="Recovered">Recovered</option>
+
                 </select>
 
             </div>

@@ -10,6 +10,7 @@ import {
     Package,
     CheckCircle
 } from "lucide-react";
+
 import { motion } from "framer-motion";
 
 function ItemCard({
@@ -17,25 +18,63 @@ function ItemCard({
     onEditItem,
     onDeleteItem,
     onViewItem,
-    onRecoverItem
+    onRecoverItem,
+    deletingId
+}) {
 
-}){
+    function handleView() {
+        onViewItem(item);
+    }
+
+    function handleEdit(e) {
+
+        e.stopPropagation();
+
+        onEditItem(item);
+    }
+
+    function handleDelete(e) {
+
+        e.stopPropagation();
+
+        onDeleteItem(item._id);
+    }
+
+    function handleRecover(e) {
+
+        e.stopPropagation();
+
+        onRecoverItem(item._id);
+    }
 
     return (
 
         <motion.div
-        className="item-card"
-        initial={{ opacity: 0, y: 25 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        whileHover={{
-            y: -8,
-            scale: 1.02
-        }}
+            className="item-card"
 
-        onClick={() => onViewItem(item)}>
+            initial={{
+                opacity: 0,
+                y: 25
+            }}
 
-            {/* Header */}
+            animate={{
+                opacity: 1,
+                y: 0
+            }}
+
+            transition={{
+                duration: 0.4
+            }}
+
+            whileHover={{
+                y: -8,
+                scale: 1.02
+            }}
+
+            onClick={handleView}
+        >
+
+            {/* HEADER */}
 
             <div className="item-header">
 
@@ -46,111 +85,137 @@ function ItemCard({
                         className="item-icon"
                     />
 
-                    <h2>{item.name}</h2>
+                    <h2>
+                        {item.name}
+                    </h2>
 
                 </div>
+
+                {/* STATUS */}
 
                 <span
                     className={
                         item.status === "Lost"
                             ? "status lost"
-                            : "status found"
+                            : item.status === "Found"
+                                ? "status found"
+                                : "status recovered"
                     }
                 >
 
-                  {item.status === "Lost" && (
-    <>
-        <CircleAlert size={15}/>
-        Lost
-    </>
-)}
+                    {item.status === "Lost" && (
+                        <>
+                            <CircleAlert size={15} />
+                            Lost
+                        </>
+                    )}
 
-{item.status === "Found" && (
-    <>
-        <CircleCheck size={15}/>
-        Found
-    </>
-)}
+                    {item.status === "Found" && (
+                        <>
+                            <CircleCheck size={15} />
+                            Found
+                        </>
+                    )}
 
-{item.status === "Recovered" && (
-    <>
-        Recovered
-    </>
-)}
+                    {item.status === "Recovered" && (
+                        <>
+                            <CheckCircle size={15} />
+                            Recovered
+                        </>
+                    )}
 
                 </span>
 
             </div>
 
-            {/* Location */}
+            {/* LOCATION */}
 
             <p className="item-location">
 
                 <MapPin size={16} />
 
-                <span>{item.location}</span>
+                <span>
+                    {item.location}
+                </span>
 
             </p>
 
-            {/* Date */}
+            {/* DATE */}
 
             <p className="item-date">
 
                 <CalendarDays size={16} />
 
                 <span>
-
-                    {new Date(item.createdAt).toLocaleDateString()}
-
+                    {new Date(
+                        item.createdAt
+                    ).toLocaleDateString()}
                 </span>
 
             </p>
 
-            {/* Buttons */}
+            {/* ACTION BUTTONS */}
 
             <div className="item-actions">
 
+                {/* EDIT */}
+
                 {item.status !== "Recovered" && (
-    <button
-        className="edit-btn"
-        onClick={() => onEditItem(item)}
-    >
-        Edit
-    </button>
-)}
-               {item.status === "Lost" && (
 
-    <button
-        className="recover-btn"
-        onClick={() => onRecoverItem(item._id)}
-    >
-        <CheckCircle size={16} />
-        Recover
-    </button>
+                    <button
+                        type="button"
+                        className="edit-btn"
+                        onClick={handleEdit}
+                    >
 
-)}
-              
+                        <Pencil size={15} />
+
+                        Edit
+
+                    </button>
+
+                )}
+
+                {/* RECOVER */}
+
+                {item.status === "Lost" && (
+
+                    <button
+                        type="button"
+                        className="recover-btn"
+                        onClick={handleRecover}
+                    >
+
+                        <CheckCircle size={16} />
+
+                        Recover
+
+                    </button>
+
+                )}
+
+                {/* DELETE */}
+
                 <button
+                    type="button"
                     className="delete-btn"
-                    onClick={(e)=>{
+                    onClick={handleDelete}
+                    disabled={deletingId === item._id}
+                >
 
-                        e.stopPropagation();
-                        onDeleteItem(item._id);
+                    <Trash2 size={15} />
 
-                    }}>
-
-                    <Trash2 size={16} />
-
-                    Delete
+                    {deletingId === item._id
+                        ? "Deleting..."
+                        : "Delete"
+                    }
 
                 </button>
 
             </div>
 
-       </motion.div>
-
+        </motion.div>
     );
-
 }
 
 export default ItemCard;

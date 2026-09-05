@@ -8,10 +8,11 @@ import {
     CategoryScale,
     LinearScale,
     PointElement,
-    LineElement
+    LineElement,
+    Filler
 } from "chart.js";
 
-import { Doughnut, Line } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
 ChartJS.register(
     ArcElement,
@@ -20,7 +21,8 @@ ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
-    LineElement
+    LineElement,
+    Filler
 );
 
 function AnalyticsChart({
@@ -30,120 +32,50 @@ function AnalyticsChart({
     items
 }) {
 
-    // ==========================
-    // Doughnut Chart
-    // ==========================
+    const labels = [
+        "Lost",
+        "Found",
+        "Recovered"
+    ];
 
-    const doughnutData = {
-
-        labels: [
-            "Lost",
-            "Found",
-            "Recovered"
-        ],
+    const data = {
+        labels,
 
         datasets: [
             {
+                label: "Items",
+
                 data: [
                     lost,
                     found,
                     recovered
                 ],
 
-                backgroundColor: [
-                    "#EF4444",
-                    "#3B82F6",
-                    "#10B981"
-                ],
-
-                borderWidth: 0
-            }
-        ]
-    };
-
-
-    // ==========================
-    // Reports By Date
-    // ==========================
-
-    const dateCounts = {};
-
-    items.forEach(item => {
-
-        const date = new Date(
-            item.createdAt
-        ).toLocaleDateString();
-
-        dateCounts[date] =
-            (dateCounts[date] || 0) + 1;
-
-    });
-
-    const sortedDates =
-        Object.keys(dateCounts).sort(
-            (a, b) =>
-                new Date(a) - new Date(b)
-        );
-
-
-    const lineData = {
-
-        labels: sortedDates,
-
-        datasets: [
-            {
-                label: "Reports",
-
-                data: sortedDates.map(
-                    date => dateCounts[date]
-                ),
-
-                borderColor: "#3B82F6",
-
-                backgroundColor:
-                    "rgba(59,130,246,.15)",
+                borderWidth: 3,
 
                 tension: 0.4,
 
-                fill: true
+                fill: true,
+
+                pointRadius: 5,
+
+                pointHoverRadius: 7
             }
         ]
     };
 
-
-    const doughnutOptions = {
-
+    const options = {
         responsive: true,
 
         maintainAspectRatio: false,
 
         plugins: {
-
-            legend: {
-                position: "bottom"
-            }
-
-        }
-
-    };
-
-
-    const lineOptions = {
-
-        responsive: true,
-
-        maintainAspectRatio: false,
-
-        plugins: {
-
             legend: {
                 display: true
             }
-
         },
 
         scales: {
-
             y: {
                 beginAtZero: true,
 
@@ -151,55 +83,39 @@ function AnalyticsChart({
                     precision: 0
                 }
             }
-
         }
-
     };
 
-
     return (
+        <div className="analytics-chart">
 
-        <div className="analytics-grid">
+            <div className="analytics-header">
 
-            {/* Doughnut */}
+                <div>
+                    <h2>Analytics</h2>
 
-            <div className="analytics-card">
-
-                <h2>Item Analytics</h2>
-
-                <div className="chart-container">
-
-                    <Doughnut
-                        data={doughnutData}
-                        options={doughnutOptions}
-                    />
-
+                    <p>
+                        Overview of your reported items
+                    </p>
                 </div>
+
+                <span>
+                    {items.length} Total
+                </span>
 
             </div>
 
+            <div className="chart-container">
 
-            {/* Line Chart */}
-
-            <div className="analytics-card">
-
-                <h2>Reports Over Time</h2>
-
-                <div className="chart-container">
-
-                    <Line
-                        data={lineData}
-                        options={lineOptions}
-                    />
-
-                </div>
+                <Line
+                    data={data}
+                    options={options}
+                />
 
             </div>
 
         </div>
-
     );
-
 }
 
 export default AnalyticsChart;
