@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { PlusCircle, Package, MapPin, Save } from "lucide-react";
+import { toast } from "react-toastify";
 import "./AddItemForm.css";
 
 function AddItemForm({ onSaveItem, editingItem }) {
     const [itemName, setItemName] = useState("");
     const [location, setLocation] = useState("");
     const [status, setStatus] = useState("Lost");
+    const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
         if (editingItem) {
@@ -19,17 +21,19 @@ function AddItemForm({ onSaveItem, editingItem }) {
         }
     }, [editingItem]);
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
 
+        if (submitting) return;
+
         if (itemName.trim() === "" || location.trim() === "") {
-            alert("Please fill all fields");
+            toast.warning("Please fill in all required fields.");
             return;
         }
 
         const itemData = {
-            name: itemName,
-            location: location,
+            name: itemName.trim(),
+            location: location.trim(),
             status: status
         };
 
@@ -37,11 +41,17 @@ function AddItemForm({ onSaveItem, editingItem }) {
             itemData._id = editingItem._id;
         }
 
-        onSaveItem(itemData);
+        setSubmitting(true);
 
-        setItemName("");
-        setLocation("");
-        setStatus("Lost");
+        const saved = await onSaveItem(itemData);
+
+        if (saved) {
+            setItemName("");
+            setLocation("");
+            setStatus("Lost");
+        }
+
+        setSubmitting(false);
     }
 
     return (
@@ -93,16 +103,17 @@ function AddItemForm({ onSaveItem, editingItem }) {
                 <button
                     className="submit-btn"
                     type="submit"
+                    disabled={submitting}
                 >
                     {editingItem ? (
                         <>
                             <Save size={18} />
-                            Update Item
+                            {submitting ? "Updating..." : "Update Item"}
                         </>
                     ) : (
                         <>
                             <PlusCircle size={18} />
-                            Add Item
+                            {submitting ? "Adding..." : "Add Item"}
                         </>
                     )}
                 </button>

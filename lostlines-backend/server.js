@@ -14,7 +14,22 @@ const app = express();
 // ==============================
 // MIDDLEWARE
 // ==============================
-app.use(cors());
+
+// CORS: every origin is allowed during development so the Vite frontend
+// (http://localhost:5173) keeps working. In production, restrict origins by
+// setting CORS_ORIGINS in the environment (comma-separated list).
+const corsOrigins = (process.env.CORS_ORIGINS || "")
+    .split(",")
+    .map(origin => origin.trim())
+    .filter(Boolean);
+
+app.use(
+    cors(
+        corsOrigins.length
+            ? { origin: corsOrigins }
+            : {}
+    )
+);
 app.use(express.json());
 
 // ==============================
@@ -47,17 +62,24 @@ app.get("/items", authMiddleware, async (req, res) => {
 // ==============================
 app.post("/items", authMiddleware, async (req, res) => {
     try {
+        const name = (req.body.name || "").trim();
+        const location = (req.body.location || "").trim();
+
+        if (!name || !location) {
+            return res.status(400).json({ message: "Name and location are required" });
+        }
+
         const item = new Item({
-            name: req.body.name,
-            location: req.body.location,
-            status: req.body.status,
+            name,
+            location,
+            status: req.body.status || "Lost",
             owner: req.user.id
         });
 
         const savedItem = await item.save();
         res.status(201).json(savedItem);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ message: "Invalid item data" });
     }
 });
 
@@ -66,6 +88,10 @@ app.post("/items", authMiddleware, async (req, res) => {
 // ==============================
 app.put("/items/recover/:id", authMiddleware, async (req, res) => {
     try {
+        if (!isValidId(req.params.id)) {
+            return res.status(400).json({ message: "Invalid item ID" });
+        }
+
         const item = await Item.findOne({
             _id: req.params.id,
             owner: req.user.id
@@ -92,14 +118,25 @@ app.put("/items/recover/:id", authMiddleware, async (req, res) => {
 // ==============================
 app.put("/items/:id", authMiddleware, async (req, res) => {
     try {
+        if (!isValidId(req.params.id)) {
+            return res.status(400).json({ message: "Invalid item ID" });
+        }
+
+        const name = (req.body.name || "").trim();
+        const location = (req.body.location || "").trim();
+
+        if (!name || !location) {
+            return res.status(400).json({ message: "Name and location are required" });
+        }
+
         const updatedItem = await Item.findOneAndUpdate(
             {
                 _id: req.params.id,
                 owner: req.user.id
             },
             {
-                name: req.body.name,
-                location: req.body.location,
+                name,
+                location,
                 status: req.body.status
             },
             {
@@ -114,7 +151,7 @@ app.put("/items/:id", authMiddleware, async (req, res) => {
 
         res.status(200).json(updatedItem);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ message: "Invalid item data" });
     }
 });
 
@@ -123,6 +160,10 @@ app.put("/items/:id", authMiddleware, async (req, res) => {
 // ==============================
 app.delete("/items/:id", authMiddleware, async (req, res) => {
     try {
+        if (!isValidId(req.params.id)) {
+            return res.status(400).json({ message: "Invalid item ID" });
+        }
+
         const deletedItem = await Item.findOneAndDelete({
             _id: req.params.id,
             owner: req.user.id
@@ -139,6 +180,28 @@ app.delete("/items/:id", authMiddleware, async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Server error" });
     }
+});
+
+// ==============================
+// HELPER — validate Mongo ObjectId
+// ==============================
+function isValidId(id) {
+    return mongoose.isValidObjectId(id);
+}
+
+// ==============================
+// 404 — Unknown routes
+// ==============================
+app.use((req, res) => {
+    res.status(404).json({ message: "Route not found" });
+});
+
+// ==============================
+// Global error handler (no internal details leaked)
+// ==============================
+app.use((err, req, res, next) => {
+    console.error("Error:", err.message);
+    res.status(500).json({ message: "Server error" });
 });
 
 // ==============================

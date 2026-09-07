@@ -43,7 +43,11 @@ function Profile() {
 
         } catch (err) {
 
-            console.log(err);
+            if (err?.sessionExpired) return;
+
+            toast.error(
+                err?.userMessage || "Unable to load profile."
+            );
 
         }
 
@@ -59,7 +63,11 @@ function Profile() {
 
         } catch (err) {
 
-            console.log(err);
+            if (err?.sessionExpired) return;
+
+            toast.error(
+                err?.userMessage || "Unable to load your items."
+            );
 
         }
 
@@ -95,10 +103,8 @@ function Profile() {
 
     } catch (err) {
 
-        console.error(err);
-
         toast.update(toastId, {
-            render: "Unable to update profile",
+            render: err?.userMessage || "Unable to update profile",
             type: "error",
             isLoading: false,
             autoClose: 2500

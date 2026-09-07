@@ -64,18 +64,10 @@ function Dashboard() {
     // =========================
 
     function handleApiError(error, defaultMessage) {
-        const status = error.response?.status;
-        const serverMessage = error.response?.data?.message;
-
-        if (status === 401) {
-            toast.error("Session expired. Please log in again.");
-        } else if (status === 404) {
-            toast.error(serverMessage || "Item not found");
-        } else if (status === 500) {
-            toast.error("Server error. Please try again later.");
-        } else {
-            toast.error(serverMessage || defaultMessage);
-        }
+        // Session-expired 401 responses are already shown and redirected
+        // by the centralized API interceptor.
+        if (error?.sessionExpired) return;
+        toast.error(error?.userMessage || defaultMessage);
     }
 
 
@@ -114,8 +106,10 @@ function Dashboard() {
             }
             setEditingItem(null);
             await fetchItems();
+            return true;
         } catch (error) {
             handleApiError(error, "Failed to save item");
+            return false;
         }
     }
 
@@ -267,7 +261,14 @@ function Dashboard() {
                     <SkeletonCard />
                 </div>
             ) : filteredItems.length === 0 ? (
-                <EmptyState />
+                <EmptyState
+                    title={items.length === 0 ? "No Items Found" : "No Matching Items"}
+                    message={
+                        items.length === 0
+                            ? "Start by reporting your first lost or found item."
+                            : "Try a different search keyword or filter."
+                    }
+                />
             ) : (
                 <div className="items-grid">
                     {filteredItems.map(item => (

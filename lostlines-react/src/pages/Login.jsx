@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import API from "../api/api";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 function Login() {
 
@@ -33,17 +34,18 @@ function Login() {
                 res.data.token
             );
 
-            alert(res.data.message);
+            toast.success(res.data.message);
 
             navigate("/dashboard");
 
         }
 
-        catch(err){
+        catch (err) {
 
-            alert(
-                err.response?.data?.message ||
-                "Login Failed"
+            if (err?.sessionExpired) return;
+
+            toast.error(
+                err?.userMessage || "Login failed."
             );
 
         }

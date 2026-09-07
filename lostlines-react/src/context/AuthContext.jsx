@@ -16,7 +16,18 @@ function AuthProvider({ children }) {
 
         if (savedUser) {
 
-            setUser(JSON.parse(savedUser));
+            try {
+
+                setUser(JSON.parse(savedUser));
+
+            } catch {
+
+                // Corrupt saved user data — clear auth state safely
+                localStorage.removeItem("user");
+
+                localStorage.removeItem("token");
+
+            }
 
         }
 
