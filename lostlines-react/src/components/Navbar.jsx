@@ -31,6 +31,9 @@ function Navbar() {
         document.body.className = newTheme;
 
         localStorage.setItem("theme", newTheme);
+
+        // Notify themed components (e.g. charts) to repaint
+        window.dispatchEvent(new Event("themechange"));
     }
 
     return (

@@ -1,5 +1,6 @@
 /* ===========================
    Global App Styles
+   Theme colors come from styles/theme.css only.
 =========================== */
 
 * {
@@ -13,12 +14,6 @@ body,
     min-height: 100%;
     margin: 0;
     padding: 0;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f3f4f6;
-    color: #1f2937;
 }
 
 /* Prevent old global main width from restricting React pages */
@@ -44,15 +39,27 @@ form select {
     width: 100%;
     padding: 12px;
     font-size: 16px;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--border);
     border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+form input::placeholder {
+    color: var(--text-muted);
+}
+
+form input:focus,
+form select:focus {
+    border-color: var(--accent);
 }
 
 form button {
     width: 100%;
     padding: 12px;
-    background-color: #2563eb;
-    color: white;
+    background-color: var(--primary);
+    color: #fff;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -61,7 +68,7 @@ form button {
 }
 
 form button:hover {
-    background-color: #1d4ed8;
+    background-color: var(--primary-hover);
 }
 
 /* ===========================
@@ -80,8 +87,10 @@ form button:hover {
     width: 100%;
     padding: 12px;
     font-size: 16px;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--border);
     border-radius: 8px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
 }
 
 /* ===========================
@@ -95,8 +104,8 @@ form button:hover {
 }
 
 .edit-btn {
-    background: #f59e0b;
-    color: white;
+    background: var(--warning);
+    color: #fff;
     border: none;
     padding: 10px 18px;
     border-radius: 8px;
@@ -105,12 +114,12 @@ form button:hover {
 }
 
 .edit-btn:hover {
-    background: #d97706;
+    background: var(--warning-hover);
 }
 
 .delete-btn {
-    background: #ef4444;
-    color: white;
+    background: var(--danger);
+    color: #fff;
     border: none;
     padding: 10px 18px;
     border-radius: 8px;
@@ -119,7 +128,7 @@ form button:hover {
 }
 
 .delete-btn:hover {
-    background: #dc2626;
+    background: var(--danger-hover);
 }
 
 /* ===========================
@@ -139,7 +148,13 @@ form button:hover {
     border: 1px solid var(--border);
     border-radius: 18px;
     padding: 25px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-md);
+    color: var(--text-primary);
+}
+
+.dashboard-form h2,
+.dashboard-search h2 {
+    color: var(--text-primary);
 }
 
 /* ===========================

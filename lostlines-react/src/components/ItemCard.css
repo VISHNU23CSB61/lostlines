@@ -1,10 +1,10 @@
 .item-card{
 
-    background:rgba(30,41,59,.75);
+    background:var(--glass-bg);
 
     backdrop-filter:blur(18px);
 
-    border:1px solid rgba(255,255,255,.08);
+    border:1px solid var(--glass-border);
 
     border-radius:20px;
 
@@ -12,7 +12,7 @@
 
     transition:.3s;
 
-    box-shadow:0 12px 30px rgba(0,0,0,.15);
+    box-shadow:var(--shadow-md);
 
     display:flex;
 
@@ -26,7 +26,7 @@
 
     transform:translateY(-6px);
 
-    border-color:#3B82F6;
+    border-color:var(--accent);
 
 }
 
@@ -68,7 +68,7 @@
 
 .item-icon{
 
-    color:#3B82F6;
+    color:var(--accent);
 
 }
 
@@ -94,17 +94,17 @@
 
 .lost{
 
-    background:rgba(239,68,68,.15);
+    background:var(--danger-soft);
 
-    color:#EF4444;
+    color:var(--danger);
 
 }
 
 .found{
 
-    background:rgba(16,185,129,.15);
+    background:var(--success-soft);
 
-    color:#10B981;
+    color:var(--success);
 
 }
 
@@ -166,29 +166,29 @@
 
 .edit-btn{
 
-    background:#2563EB;
+    background:var(--primary);
 
-    color:white;
+    color:#fff;
 
 }
 
 .edit-btn:hover{
 
-    background:#1D4ED8;
+    background:var(--primary-hover);
 
 }
 
 .delete-btn{
 
-    background:#EF4444;
+    background:var(--danger);
 
-    color:white;
+    color:#fff;
 
 }
 
 .delete-btn:hover{
 
-    background:#DC2626;
+    background:var(--danger-hover);
 
 }
 
@@ -355,9 +355,9 @@ width:100%;
 
     border-radius: 12px;
 
-    background: #10B981;
+    background: var(--success);
 
-    color: white;
+    color: #fff;
 
     font-size: .92rem;
 
@@ -371,7 +371,7 @@ width:100%;
 
 .recover-btn:hover {
 
-    background: #059669;
+    background: var(--success-hover);
 
     transform: translateY(-2px);
 

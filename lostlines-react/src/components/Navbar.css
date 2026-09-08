@@ -1,15 +1,16 @@
-.navbar{
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 60px;
-    backdrop-filter: blur(20px);
-    background: var(--bg-secondary);
-    border-bottom: 1px solid var(--border);
-    transition: all .3s ease;
+﻿.navbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding:18px 60px;
+    backdrop-filter:blur(20px);
+    background:var(--bg-secondary);
+    border-bottom:1px solid var(--border);
+    transition:all .3s ease;
 }
 
 /* ---------- Logo ---------- */
@@ -23,14 +24,12 @@
     color:var(--text-primary);
     font-size:1.9rem;
     margin:0;
-
 }
 
 .logo span{
     color:var(--text-muted);
     font-size:.9rem;
     margin-top:5px;
-
 }
 
 /* ---------- Navigation ---------- */
@@ -38,7 +37,6 @@
 .nav-links{
     display:flex;
     gap:40px;
-
 }
 
 .nav-links a{
@@ -46,12 +44,10 @@
     text-decoration:none;
     font-weight:600;
     transition:.3s;
-
 }
 
 .nav-links a:hover{
     color:var(--accent);
-
 }
 
 /* ---------- Right Side ---------- */
@@ -60,7 +56,6 @@
     display:flex;
     align-items:center;
     gap:15px;
-
 }
 
 /* ---------- Theme Button ---------- */
@@ -75,398 +70,121 @@
     cursor:pointer;
     font-size:20px;
     transition:.3s;
-
 }
 
 .theme-btn:hover{
-
     transform:rotate(180deg);
-
     background:var(--accent);
-
-    color:white;
-
+    color:#fff;
 }
 
 /* ---------- Login / Logout ---------- */
 
 .primary-btn{
-
     background:var(--accent);
-
-    color:white;
-
+    color:#fff;
     border:none;
-
     padding:12px 24px;
-
     border-radius:12px;
-
     text-decoration:none;
-
     font-weight:600;
-
     cursor:pointer;
-
     transition:.3s;
-
 }
 
 .primary-btn:hover{
-
     transform:translateY(-2px);
-
     box-shadow:0 8px 25px rgba(59,130,246,.35);
-
 }
 
-/* ---------- Responsive ---------- */
+/* ---------- User Menu ---------- */
 
-.navbar{
-
-    position: sticky;
-
-    top: 0;
-
-    z-index: 1000;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 18px 60px;
-
-    backdrop-filter: blur(20px);
-
-    background: var(--bg-secondary);
-
-    border-bottom: 1px solid var(--border);
-
-    transition: all .3s ease;
-
+.user-menu{
+    position:relative;
 }
 
-/* ---------- Logo ---------- */
-
-.logo{
-
-    display:flex;
-
-    flex-direction:column;
-
-}
-
-.logo h2{
-
-    color:var(--text-primary);
-
-    font-size:1.9rem;
-
-    margin:0;
-
-}
-
-.logo span{
-
-    color:var(--text-muted);
-
-    font-size:.9rem;
-
-    margin-top:5px;
-
-}
-
-/* ---------- Navigation ---------- */
-
-.nav-links{
-
-    display:flex;
-
-    gap:40px;
-
-}
-
-.nav-links a{
-
-    color:var(--text-primary);
-
-    text-decoration:none;
-
-    font-weight:600;
-
-    transition:.3s;
-
-}
-
-.nav-links a:hover{
-
-    color:var(--accent);
-
-}
-
-/* ---------- Right Side ---------- */
-
-.nav-user{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:15px;
-
-}
-
-/* ---------- Theme Button ---------- */
-
-.theme-btn{
-
-    width:46px;
-
-    height:46px;
-
-    border:none;
-
-    border-radius:50%;
-
+.user-dropdown{
+    position:absolute;
+    top:50px;
+    right:0;
+    width:180px;
     background:var(--bg-card);
-
-    color:var(--text-primary);
-
-    cursor:pointer;
-
-    font-size:20px;
-
-    transition:.3s;
-
-}
-
-.theme-btn:hover{
-
-    transform:rotate(180deg);
-
-    background:var(--accent);
-
-    color:white;
-
-}
-
-/* ---------- Login / Logout ---------- */
-
-.primary-btn{
-
-    background:var(--accent);
-
-    color:white;
-
-    border:none;
-
-    padding:12px 24px;
-
+    border:1px solid var(--border);
     border-radius:12px;
-
-    text-decoration:none;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.3s;
-
+    overflow:hidden;
+    box-shadow:var(--shadow-lg);
+    z-index:1000;
 }
 
-.primary-btn:hover{
+.dropdown-item{
+    display:block;
+    width:100%;
+    padding:12px 18px;
+    color:var(--text-primary);
+    text-decoration:none;
+    background:none;
+    border:none;
+    text-align:left;
+    cursor:pointer;
+    font-size:15px;
+    transition:.2s;
+}
 
-    transform:translateY(-2px);
+.dropdown-item:hover{
+    background:var(--bg-hover);
+}
 
-    box-shadow:0 8px 25px rgba(59,130,246,.35);
+.logout-btn{
+    color:var(--danger);
+}
 
+/* ---------- Menu Toggle ---------- */
+
+.menu-toggle{
+    display:none;
+    background:none;
+    border:none;
+    color:var(--text-primary);
+    cursor:pointer;
+    padding:6px;
 }
 
 /* ---------- Responsive ---------- */
 
 @media(max-width:900px){
-
-.navbar{
-
-flex-direction:column;
-
-gap:20px;
-
-padding:20px;
-
-}
-
-.nav-links{
-
-gap:20px;
-
-}
-
-}
-.user-menu{
-    position:relative;
-}
-
-.user-dropdown{
-
-    position:absolute;
-
-    top:50px;
-
-    right:0;
-
-    width:180px;
-
-    background:#1E293B;
-
-    border-radius:12px;
-
-    overflow:hidden;
-
-    box-shadow:0 12px 30px rgba(0,0,0,.25);
-
-    z-index:1000;
-
-}
-
-.dropdown-item{
-
-    display:block;
-
-    width:100%;
-
-    padding:12px 18px;
-
-    color:white;
-
-    text-decoration:none;
-
-    background:none;
-
-    border:none;
-
-    text-align:left;
-
-    cursor:pointer;
-
-    font-size:15px;
-
-}
-
-.dropdown-item:hover{
-
-    background:#334155;
-
-}
-
-.logout-btn{
-
-    color:#EF4444;
-
-}
-.user-menu{
-    position:relative;
-}
-
-.user-dropdown{
-
-    position:absolute;
-
-    top:50px;
-
-    right:0;
-
-    width:180px;
-
-    background:#1E293B;
-
-    border-radius:12px;
-
-    overflow:hidden;
-
-    box-shadow:0 12px 30px rgba(0,0,0,.25);
-
-    z-index:1000;
-
-}
-
-.dropdown-item{
-
-    display:block;
-
-    width:100%;
-
-    padding:12px 18px;
-
-    color:white;
-
-    text-decoration:none;
-
-    background:none;
-
-    border:none;
-
-    text-align:left;
-
-    cursor:pointer;
-
-    font-size:15px;
-
-}
-
-.dropdown-item:hover{
-
-    background:#334155;
-
-}
-
-.logout-btn{
-
-    color:#EF4444;
-
-}
-
-
-/* ===========================
-   Mobile Responsive
-=========================== */
-
-@media (max-width:900px){
-.navbar{
-    padding:18px 20px;
-    flex-wrap:wrap;
-}
-
-.menu-toggle{
-    display:block;
-}
-
-.logo{
-    flex:1;
-}
-
-.nav-links{
-    display:none;
-    flex-direction:column;
-    width:100%;
-    margin-top:20px;
-    gap:18px;
-    background:var(--bg-secondary);
-    padding:20px;
-    border-radius:12px;
-}
-
-.nav-links.active{
-    display:flex;
-}
-
-.nav-user{
-    margin-left:auto;
-}
-
-.user-dropdown{
-    right:0;
-}
+    .navbar{
+        padding:18px 20px;
+        flex-wrap:wrap;
+    }
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .logo{
+        flex:1;
+    }
+
+    .nav-links{
+        display:none;
+        flex-direction:column;
+        width:100%;
+        margin-top:20px;
+        gap:18px;
+        background:var(--bg-secondary);
+        padding:20px;
+        border-radius:12px;
+    }
+
+    .nav-links.active{
+        display:flex;
+    }
+
+    .nav-user{
+        margin-left:auto;
+    }
+
+    .user-dropdown{
+        right:0;
+    }
 }

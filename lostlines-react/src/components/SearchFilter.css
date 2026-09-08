@@ -77,6 +77,14 @@
 
 }
 
+.select-box select option{
+
+    background:var(--bg-secondary);
+
+    color:var(--text-primary);
+
+}
+
 .search-box input::placeholder{
 
     color:var(--text-muted);

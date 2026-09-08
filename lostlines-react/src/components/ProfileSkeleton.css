@@ -12,9 +12,9 @@
 
     background:linear-gradient(
         90deg,
-        #2d3748 25%,
-        #3f4c63 50%,
-        #2d3748 75%
+        var(--skeleton-a) 25%,
+        var(--skeleton-b) 50%,
+        var(--skeleton-a) 75%
     );
 
     background-size:200% 100%;

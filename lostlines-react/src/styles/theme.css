@@ -1,53 +1,104 @@
-:root{
+/* ==================================================
+   LostLines Design Tokens — single source of truth.
+   Default = dark (matches the app's default theme);
+   body.light overrides for the light theme.
+================================================== */
 
+:root,
+body.dark{
+
+    /* Surfaces */
     --bg-primary:#0F172A;
     --bg-secondary:#1E293B;
     --bg-card:#334155;
 
+    /* Glass surfaces (cards that blur the background) */
+    --glass-bg:rgba(30,41,59,.72);
+    --glass-border:rgba(255,255,255,.08);
+    --bg-hover:#3B4C63;
+
+    /* Text */
     --text-primary:#F8FAFC;
     --text-secondary:#CBD5E1;
     --text-muted:#94A3B8;
 
-    --border:#475569;
+    /* Lines & tracks */
+    --border:#334155;
+    --track:rgba(255,255,255,.10);
 
+    /* Accent & actions */
     --accent:#3B82F6;
-
+    --accent-soft:rgba(59,130,246,.14);
+    --accent-border:rgba(59,130,246,.35);
     --primary:#3B82F6;
     --primary-hover:#2563EB;
 
-    --shadow-sm:0 2px 8px rgba(0,0,0,.20);
-    --shadow-md:0 10px 30px rgba(0,0,0,.25);
-    --shadow-lg:0 20px 50px rgba(0,0,0,.35);
+    /* Status colors */
+    --danger:#EF4444;
+    --danger-hover:#DC2626;
+    --success:#10B981;
+    --success-hover:#059669;
+    --warning:#F59E0B;
+    --warning-hover:#D97706;
 
-    --transition:.30s ease;
+    /* Ambient background */
+    --app-gradient:linear-gradient(-45deg,#0F172A,#172554,#0F766E,#1E293B);
 
-    --radius-sm:8px;
-    --radius-md:16px;
-    --radius-lg:24px;
+    /* Skeleton shimmer */
+    --skeleton-a:#26334B;
+    --skeleton-b:#334155;
 
+    /* Charts */
+    --chart-tick:#94A3B8;
+    --chart-grid:rgba(148,163,184,.14);
 }
+
 body.light{
 
+    /* Surfaces */
     --bg-primary:#F8FAFC;
     --bg-secondary:#FFFFFF;
     --bg-card:#FFFFFF;
-    --text-primary:#111827;
-    --text-secondary:#374151;
-    --text-muted:#6B7280;
-    --border:#E5E7EB;
+
+    /* Glass surfaces */
+    --glass-bg:rgba(255,255,255,.78);
+    --glass-border:rgba(15,23,42,.08);
+    --bg-hover:#F1F5F9;
+
+    /* Text */
+    --text-primary:#0F172A;
+    --text-secondary:#334155;
+    --text-muted:#64748B;
+
+    /* Lines & tracks */
+    --border:#E2E8F0;
+    --track:rgba(15,23,42,.08);
+
+    /* Accent & actions */
     --accent:#2563EB;
+    --accent-soft:rgba(37,99,235,.10);
+    --accent-border:rgba(37,99,235,.30);
+    --primary:#2563EB;
+    --primary-hover:#1D4ED8;
 
-    /* Shadows */
-    --shadow-sm:0 2px 8px rgba(0,0,0,.15);
-    --shadow-md:0 8px 24px rgba(0,0,0,.18);
-    --shadow-lg:0 20px 40px rgba(0,0,0,.30);
-    /* Radius */
-    --radius-sm:8px;
-    --radius-md:16px;
-    --radius-lg:24px;
-    /* Transition */
-    --transition:.30s ease;
+    /* Status colors */
+    --danger:#DC2626;
+    --danger-hover:#B91C1C;
+    --success:#059669;
+    --success-hover:#047857;
+    --warning:#D97706;
+    --warning-hover:#B45309;
 
+    /* Ambient background */
+    --app-gradient:linear-gradient(-45deg,#F8FAFC,#EFF6FF,#F0FDFA,#FDF4FF);
+
+    /* Skeleton shimmer */
+    --skeleton-a:#E2E8F0;
+    --skeleton-b:#F8FAFC;
+
+    /* Charts */
+    --chart-tick:#64748B;
+    --chart-grid:rgba(100,116,139,.16);
 }
 
 *{
@@ -58,14 +109,38 @@ body.light{
 
 body{
     font-family:Inter,sans-serif;
-    background:var(--bg-primary);
+    background:var(--app-gradient);
+    background-size:400% 400%;
+    animation:themeGradient 18s ease infinite;
     color:var(--text-primary);
     overflow-x:hidden;
+    transition:background .5s ease,color .3s ease;
 
+    /* Native controls (selects, scrollbars) follow the theme */
+    color-scheme:dark;
+}
+
+body.light{
+    color-scheme:light;
+}
+
+/* Shadows (theme-tuned) */
+:root{
+    --shadow-sm:0 2px 8px rgba(0,0,0,.20);
+    --shadow-md:0 10px 30px rgba(0,0,0,.25);
+    --shadow-lg:0 20px 50px rgba(0,0,0,.35);
+    --radius-sm:8px;
+    --radius-md:16px;
+    --radius-lg:24px;
+    --transition:.30s ease;
+}
+body.light{
+    --shadow-sm:0 2px 8px rgba(15,23,42,.08);
+    --shadow-md:0 10px 30px rgba(15,23,42,.10);
+    --shadow-lg:0 24px 50px rgba(15,23,42,.14);
 }
 
 /* Links */
-
 a{
     text-decoration:none;
     color:inherit;
@@ -76,12 +151,22 @@ button{
     transition:var(--transition);
     border:none;
     outline:none;
+    font-family:inherit;
 }
 
+/* Inputs — themed everywhere by default */
 input,
-select{
+select,
+textarea{
     outline:none;
     border:none;
+    background:var(--bg-secondary);
+    color:var(--text-primary);
+    font-family:inherit;
+}
+
+input::placeholder{
+    color:var(--text-muted);
 }
 
 .page-container{
@@ -91,9 +176,9 @@ select{
 }
 
 .glass-card{
-    background:rgba(30,41,59,.75);
+    background:var(--glass-bg);
     backdrop-filter:blur(18px);
-    border:1px solid rgba(255,255,255,.08);
+    border:1px solid var(--glass-border);
     border-radius:20px;
     box-shadow:var(--shadow-md);
     transition:var(--transition);
@@ -106,7 +191,7 @@ select{
 
 .primary-btn{
     background:var(--primary);
-    color:white;
+    color:#fff;
     padding:12px 24px;
     border-radius:12px;
     font-weight:600;
@@ -122,18 +207,17 @@ select{
     font-size:2rem;
     font-weight:700;
     margin-bottom:20px;
+    color:var(--text-primary);
 }
 
 .items-grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(330px,1fr));
-gap:25px;
-margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+    gap:25px;
+    margin-top:20px;
 }
 
 /* Loading Spinner */
-
 .loading-container{
     display:flex;
     flex-direction:column;
@@ -146,38 +230,28 @@ margin-top:20px;
 .loader{
     width:50px;
     height:50px;
-    border:5px solid rgba(255,255,255,.15);
-    border-top:5px solid #3b82f6;
+    border:5px solid var(--track);
+    border-top:5px solid var(--accent);
     border-radius:50%;
     animation:spin .8s linear infinite;
     margin-bottom:15px;
 }
 
 @keyframes spin{
-    from{
-        transform:rotate(0deg);
-    }
-    to{
-        transform:rotate(360deg);
-    }
-
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
 }
 
-body.dark{
+@keyframes themeGradient{
+    0%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+    100%{ background-position:0% 50%; }
+}
 
-    --bg-primary:#0F172A;
-    --bg-secondary:#1E293B;
-    --bg-card:#334155;
-
-    --text-primary:#F8FAFC;
-    --text-secondary:#CBD5E1;
-    --text-muted:#94A3B8;
-
-    --border:#475569;
-
-    --accent:#3B82F6;
-
-    --primary:#3B82F6;
-    --primary-hover:#2563EB;
-
+/* Toasts follow the app theme */
+.Toastify__toast{
+    font-family:Inter,sans-serif;
+    border-radius:14px;
+    --toastify-color-dark:var(--bg-card);
+    --toastify-text-color-dark:var(--text-primary);
 }
