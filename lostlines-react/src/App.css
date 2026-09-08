@@ -1,83 +1,42 @@
-body {
+/* ===========================
+   Global App Styles
+=========================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    width: 100%;
+    min-height: 100%;
     margin: 0;
+    padding: 0;
+}
+
+body {
     font-family: Arial, sans-serif;
     background-color: #f3f4f6;
     color: #1f2937;
 }
 
-header {
-    background-color: #1e3a8a;
-    color: white;
-    text-align: center;
-    padding: 40px 20px;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.5rem;
-}
-
-header p {
-    margin-top: 10px;
-    color: #bfdbfe;
-}
-
+/* Prevent old global main width from restricting React pages */
 main {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
 }
 
-section {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-
-.profile-card {
-    background: #eff6ff;
-    padding: 18px;
-    border-left: 5px solid #2563eb;
-    border-radius: 10px;
-    margin-bottom: 25px;
-}
-
-.profile-card h3 {
-    margin-top: 0;
-    color: #1e3a8a;
-}
-
-.stats {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 25px;
-}
-
-.card {
-    flex: 1;
-    background: #f9fafb;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-
-.card h3 {
-    color: #1e3a8a;
-    margin-bottom: 10px;
-}
-
-.card p {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
+/* ===========================
+   Forms
+=========================== */
 
 form {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin: 25px 0;
 }
 
 form input,
@@ -105,61 +64,10 @@ form button:hover {
     background-color: #1d4ed8;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-}
+/* ===========================
+   Controls
+=========================== */
 
-li {
-    background: #f9fafb;
-    padding: 18px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    border-left: 5px solid #2563eb;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-
-li strong {
-    font-size: 1.2rem;
-    color: #111827;
-}
-
-li p {
-    margin: 6px 0;
-}
-
-li button {
-    background-color: #ef4444;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-li button:hover {
-    background-color: #dc2626;
-}
-
-h2 {
-    color: #111827;
-    margin-top: 25px;
-}
-
-@media (max-width: 768px) {
-    main {
-        margin: 20px auto;
-        padding: 15px;
-    }
-
-    header h1 {
-        font-size: 2rem;
-    }
-
-    .stats {
-        flex-direction: column;
-    }
-}
 .controls {
     display: flex;
     flex-direction: column;
@@ -175,58 +83,88 @@ h2 {
     border: 1px solid #d1d5db;
     border-radius: 8px;
 }
-.button-group{
-    display:flex;
-    gap:10px;
-    margin-top:15px;
+
+/* ===========================
+   Buttons
+=========================== */
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
 }
 
-.edit-btn{
-    background:#f59e0b;
-    color:white;
-    border:none;
-    padding:10px 18px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
+.edit-btn {
+    background: #f59e0b;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-.edit-btn:hover{
-    background:#d97706;
+.edit-btn:hover {
+    background: #d97706;
 }
 
-.delete-btn{
-    background:#ef4444;
-    color:white;
-    border:none;
-    padding:10px 18px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
+.delete-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-.delete-btn:hover{
-    background:#dc2626;
+.delete-btn:hover {
+    background: #dc2626;
 }
 
-.dashboard-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:30px;
-    margin:35px 0;
+/* ===========================
+   Dashboard Actions
+=========================== */
+
+.dashboard-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin: 35px 0;
 }
 
 .dashboard-form,
-.dashboard-search{
-    background:var(--bg-card);
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:25px;
-    box-shadow:0 10px 25px rgba(0,0,0,.12);
+.dashboard-search {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
-@media(max-width:900px){
-.dashboard-actions{
-grid-template-columns:1fr;
+/* ===========================
+   Responsive
+=========================== */
+
+@media (max-width: 900px) {
+    .dashboard-actions {
+        grid-template-columns: 1fr;
+    }
 }
+
+@media (max-width: 768px) {
+    form {
+        width: 100%;
+    }
+
+    .button-group {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-form,
+    .dashboard-search {
+        padding: 18px;
+    }
 }
