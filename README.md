@@ -1,104 +1,405 @@
-# LostLines — Campus Lost & Found Management System
+# 🔎 LostLines — Campus Lost & Found Management System
 
-LostLines is a full-stack campus lost & found management system. Users register with an
-email + password, then create, search, filter, sort, update, recover and delete lost/found
-item records. The dashboard includes statistics, recent activity and CSV export.
+> A full-stack MERN application designed to help students report, search, manage, and recover lost and found items within a campus.
+
+[![React](https://img.shields.io/badge/Frontend-React-61DAFB?logo=react\&logoColor=black)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js-339933?logo=node.js\&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/API-Express.js-000000?logo=express\&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?logo=mongodb\&logoColor=white)](https://www.mongodb.com/)
+[![JWT](https://img.shields.io/badge/Auth-JWT-000000?logo=jsonwebtokens\&logoColor=white)](https://jwt.io/)
+[![Vite](https://img.shields.io/badge/Build-Vite-646CFF?logo=vite\&logoColor=white)](https://vite.dev/)
 
 ---
 
-## Architecture
+## 📌 Overview
+
+**LostLines** is a campus-focused Lost & Found Management System.
+
+Students can report lost or found items, view their submitted reports, search and filter items, edit or delete their reports, and mark lost items as recovered.
+
+The application uses a **MERN stack architecture** with JWT-based authentication and MongoDB for persistent data storage.
+
+---
+
+## ✨ Features
+
+### 🔐 Authentication
+
+* User registration
+* User login
+* JWT-based authentication
+* Protected routes
+* Automatic handling of expired/invalid sessions
+* Secure logout
+* Password hashing
+* Authentication error handling
+
+### 📦 Item Management
+
+Authenticated users can:
+
+* Add lost items
+* Add found items
+* View item details
+* Edit their own items
+* Delete their own items
+* Mark lost items as recovered
+* View only their authorized item records
+
+### 🔎 Search, Filter & Sort
+
+* Search items by name
+* Search by location
+* Filter by status
+* Sort item records
+* Handle empty search results
+
+### 📊 Dashboard Analytics
+
+The dashboard provides:
+
+* Total items
+* Lost items
+* Found items
+* Recovered items
+* Recovery statistics
+* Visual analytics using Chart.js
+* Recent activity
+
+### 👤 User Profile
+
+* View profile information
+* Edit profile details
+* Update name
+* Update email
+* Persistent profile data
+
+### 🎨 User Experience
+
+* Responsive interface
+* Loading states
+* Skeleton loaders
+* Empty states
+* Error states
+* Toast notifications
+* Confirmation dialogs
+* Smooth animations
+* Dark mode support
+
+---
+
+# 🏗️ Tech Stack
+
+## Frontend
+
+* React
+* Vite
+* React Router
+* Axios
+* React Toastify
+* Framer Motion
+* Chart.js
+* react-chartjs-2
+* Lucide React
+
+## Backend
+
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* JSON Web Token (JWT)
+* bcrypt
+
+## Development Tools
+
+* Git
+* GitHub
+* VS Code
+* MongoDB Atlas
+* npm
+
+---
+
+# 🏛️ System Architecture
 
 ```text
-React 19              →  lostlines-react/   (frontend — production app)
-   ↓
-Vite 8                  (build tool / dev server)
-   ↓
-Axios                   (HTTP client)
-   ↓
-Express 5             →  lostlines-backend/ (backend API)
-   ↓
-JWT                     (authentication)
-   ↓
-Mongoose 9              (ODM)
-   ↓
-MongoDB Atlas           (database)
+                    ┌──────────────────────┐
+                    │       User           │
+                    │   Web Browser        │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │   React + Vite       │
+                    │     Frontend         │
+                    └──────────┬───────────┘
+                               │
+                         Axios / REST API
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │   Node.js + Express  │
+                    │      Backend         │
+                    └──────────┬───────────┘
+                               │
+                     JWT Authentication
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │      Mongoose        │
+                    │    Data Modeling     │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │    MongoDB Atlas     │
+                    │       Database       │
+                    └──────────────────────┘
 ```
-
-> ⚠️ **Legacy v1 static site.** The repository root (`index.html`, `home.html`,
-> `script.js`, `style.css`) contains the original HTML/CSS/JS version of LostLines.
-> It is **not** the production application and must **not** be deployed as the
-> frontend. The production frontend lives in **`lostlines-react/`**.
 
 ---
 
-## Project Structure (monorepo)
+# 📂 Project Structure
 
 ```text
 lostlines/
-├── lostlines-react/     ← React + Vite frontend (PRODUCTION FRONTEND)
-├── lostlines-backend/   ← Express + Mongoose backend
-├── index.html           ← LEGACY v1 static site (not used)
-├── home.html            ← LEGACY v1 static site (not used)
-├── script.js            ← LEGACY v1 static site (not used)
-├── style.css            ← LEGACY v1 static site (not used)
-├── package.json         ← root monorepo marker (both apps manage their own deps)
-└── README.md
+│
+├── lostlines-backend/
+│   ├── middleware/
+│   │   └── authMiddleware.js
+│   │
+│   ├── models/
+│   │   ├── User.js
+│   │   └── Item.js
+│   │
+│   ├── routes/
+│   │   ├── auth.js
+│   │   └── user.js
+│   │
+│   ├── .env
+│   ├── server.js
+│   ├── package.json
+│   └── package-lock.json
+│
+├── lostlines-react/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── context/
+│   │   ├── services/
+│   │   └── ...
+│   │
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.js
+│
+├── .gitignore
+├── README.md
+└── package.json
+```
+
+> The repository may also contain legacy static LostLines files from the earlier HTML/CSS/JavaScript implementation.
+
+---
+
+# 🔄 Application Flow
+
+## Registration
+
+```text
+User
+ ↓
+Registration Form
+ ↓
+Express API
+ ↓
+Validate User
+ ↓
+Hash Password
+ ↓
+MongoDB
+ ↓
+Account Created
+```
+
+## Login
+
+```text
+User
+ ↓
+Login
+ ↓
+Express API
+ ↓
+Validate Credentials
+ ↓
+Generate JWT
+ ↓
+Frontend stores authentication state
+ ↓
+Protected Dashboard
+```
+
+## Add Item
+
+```text
+User
+ ↓
+Add Item Form
+ ↓
+Axios
+ ↓
+POST /items
+ ↓
+JWT Middleware
+ ↓
+Validate Request
+ ↓
+MongoDB
+ ↓
+Dashboard Updated
+```
+
+## Delete Item
+
+```text
+User
+ ↓
+Delete
+ ↓
+Confirmation
+ ↓
+DELETE /items/:id
+ ↓
+JWT Authentication
+ ↓
+Ownership Verification
+ ↓
+MongoDB
+ ↓
+Item Deleted
+ ↓
+Dashboard Updated
 ```
 
 ---
 
-## Technology Stack
+# 🔐 Security
 
-| Layer      | Technology                    |
-|------------|-------------------------------|
-| Frontend   | React 19, Vite 8, Axios, Chart.js, React Router (BrowserRouter) |
-| Backend    | Express 5, JWT, bcryptjs, CORS |
-| Data layer | Mongoose 9 (ODM)               |
-| Database   | MongoDB Atlas                  |
+LostLines uses several security practices:
+
+### JWT Authentication
+
+Protected API endpoints require a valid JWT.
+
+```text
+Authorization: Bearer <JWT>
+```
+
+### Ownership Protection
+
+Users can manage only their own item records.
+
+```text
+User A
+  ↓
+Own Item → Allowed
+
+User A
+  ↓
+User B's Item → Denied
+```
+
+### Password Security
+
+Passwords are hashed before being stored.
+
+Plain-text passwords are not stored in the database.
+
+### Environment Variables
+
+Sensitive configuration is stored using environment variables.
+
+Example:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5000
+```
+
+Never commit real secrets to GitHub.
 
 ---
 
-## Local Development
+# 🌐 API Endpoints
 
-### Prerequisites
+## Authentication
 
-- Node.js 20.19+ / 22.x (LTS recommended)
-- MongoDB Atlas cluster (free tier is fine)
+| Method | Endpoint         | Description     |
+| ------ | ---------------- | --------------- |
+| POST   | `/auth/register` | Register a user |
+| POST   | `/auth/login`    | Login a user    |
 
-### 1. Backend
+## User
 
-```bash
-cd lostlines-backend
-npm install
-cp .env.example .env      # then fill in your values
-npm start                 # → http://localhost:5000
-```
+| Method | Endpoint         | Description                      |
+| ------ | ---------------- | -------------------------------- |
+| GET    | `/users/profile` | Get authenticated user's profile |
 
-### 2. Frontend
+## Items
 
-```bash
-cd lostlines-react
-npm install
-cp .env.example .env.local
-npm run dev               # → http://localhost:5173
-```
+| Method | Endpoint     | Description                    |
+| ------ | ------------ | ------------------------------ |
+| GET    | `/items`     | Get authenticated user's items |
+| POST   | `/items`     | Create an item                 |
+| PUT    | `/items/:id` | Update owned item              |
+| DELETE | `/items/:id` | Delete owned item              |
 
-Open `http://localhost:5173` and log in / register.
-
-### 3. Production build (frontend)
-
-```bash
-cd lostlines-react
-npm run build             # outputs to dist/
-npm run preview           # serve the production build locally
-```
+> Authentication is required for protected endpoints.
 
 ---
+
+# 🗄️ Database
+
+LostLines uses **MongoDB Atlas** for persistent storage.
+
+### Main Collections
+
+```text
+Users
+Items
+```
+
+### Item Example
+
+```json
+{
+  "name": "Black Wallet",
+  "location": "Library",
+  "status": "Lost",
+  "owner": "USER_ID"
+}
+```
+
+The `owner` field connects an item to the authenticated user.
+
+---
+
+# 🌍 Production Deployment
+
+LostLines is deployed as three parts:
+
+```text
+Frontend   React + Vite   →  Vercel (or similar static host)
+Backend    Node + Express →  Render (or similar Node host)
+Database   MongoDB        →  MongoDB Atlas
+```
 
 ## Environment Variables
 
-Secrets exist only in the hosting environment / local `.env` files. **Never commit
-real values.**
+Secrets exist only in the hosting environment / local `.env` files — never in Git.
 
 ### Frontend (`lostlines-react/.env.example`)
 
@@ -110,7 +411,7 @@ VITE_API_URL=http://localhost:5000
 > browser. **Never** put `JWT_SECRET`, `MONGO_URI`, database passwords or private
 > API keys in frontend environment variables.
 
-Production example (set in the hosting dashboard, e.g. Vercel):
+Production example (set in the frontend host, e.g. Vercel):
 
 ```env
 VITE_API_URL=https://lostlines-api.onrender.com
@@ -125,7 +426,6 @@ JWT_SECRET=your_jwt_secret
 
 # Optional: comma-separated list of allowed frontend origins.
 # Leave empty during development to allow all origins.
-# Example: http://localhost:5173,https://yourdomain.com
 CORS_ORIGINS=
 ```
 
@@ -136,25 +436,18 @@ CORS_ORIGINS=
 | `PORT`         | ✅        | Port the Express server listens on (hosts set this) |
 | `CORS_ORIGINS` | optional | Comma-separated allowlist of frontend origins       |
 
----
-
-## Production Deployment
-
-Preferred setup — **Vercel** (frontend) + **Render** (backend) + **MongoDB Atlas**
-(database).
-
-### 1. Database — MongoDB Atlas
+## Database — MongoDB Atlas
 
 1. Create/use a cluster in [MongoDB Atlas](https://www.mongodb.com/atlas).
 2. **Network Access** must allow the deployed backend to connect:
    - Add the hosting provider's outbound IP, **or**
    - Use `0.0.0.0/0` (allow all) only if you accept the risk and the cluster uses a
      strong database password.
-3. Copy the connection string (e.g.
-   `mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/lostlines?retryWrites=true&w=majority`)
-   — never commit it.
+3. Copy the connection string
+   (`mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/lostlines?retryWrites=true&w=majority`)
+   and set it as `MONGO_URI` in the backend host — never commit it.
 
-### 2. Backend — Render (or similar Node host)
+## Backend Deployment — Render
 
 1. Push this repository to GitHub.
 2. On Render: **New → Web Service** → connect the GitHub repo.
@@ -176,19 +469,16 @@ Preferred setup — **Vercel** (frontend) + **Render** (backend) + **MongoDB Atl
    CORS_ORIGINS=https://<your-vercel-frontend-url>
    ```
 
-   > Render provides the `PORT` that your app should bind; the backend already
-   > reads `process.env.PORT`.
+5. The backend fails-fast at startup if MongoDB is unreachable — it never serves
+   a "healthy but broken" API.
 
-5. The backend fails-fast at startup if MongoDB is unreachable (no silent
-   "healthy but broken" server).
-
-### 3. Frontend — Vercel
+## Frontend Deployment — Vercel
 
 1. On Vercel: **Add New → Project** → import the GitHub repo.
 2. **Root Directory**: `lostlines-react`
-3. Framework preset: Vite (auto-detected). `vercel.json` in `lostlines-react/`
-   already sets the build command, output directory (`dist`) and an SPA rewrite
-   so routes like `/dashboard` and `/profile` work after a browser refresh.
+3. Framework preset: Vite (auto-detected). The `vercel.json` inside
+   `lostlines-react/` sets the build command, output directory (`dist`) and an SPA
+   rewrite so routes like `/dashboard` and `/profile` work after a browser refresh.
 4. Add the frontend environment variable:
 
    ```env
@@ -197,35 +487,14 @@ Preferred setup — **Vercel** (frontend) + **Render** (backend) + **MongoDB Atl
 
 5. Deploy.
 
-### SPA routing (why `/dashboard` won't 404)
+## SPA Routing (why `/dashboard` won't 404 after refresh)
 
 The app uses React Router's `BrowserRouter` (client-side routing). When the browser
 refreshes `/dashboard`, the static host receives a `GET /dashboard` request. The
 `vercel.json` rewrite sends every path to `/index.html`, letting React Router re-render
 the right page — no 404.
 
----
-
-## API Overview
-
-| Method | Endpoint             | Auth | Description           |
-|--------|----------------------|------|-----------------------|
-| POST   | `/auth/register`     | No   | Register a user       |
-| POST   | `/auth/login`        | No   | Login, returns JWT    |
-| GET    | `/users/profile`     | Yes  | Get own profile       |
-| PUT    | `/users/profile`     | Yes  | Update name/email     |
-| GET    | `/items`             | Yes  | List own items        |
-| POST   | `/items`             | Yes  | Create item           |
-| PUT    | `/items/:id`         | Yes  | Update item           |
-| PUT    | `/items/recover/:id` | Yes  | Mark item recovered   |
-| DELETE | `/items/:id`         | Yes  | Delete item           |
-| GET    | `/`                  | No   | Health check          |
-
-All protected endpoints expect `Authorization: Bearer <token>`.
-
----
-
-## Security Notes
+## Deployment Security Notes
 
 - `MONGO_URI` and `JWT_SECRET` exist **only** in the backend hosting environment.
 - Frontend env vars contain only the public API URL (`VITE_API_URL`).
@@ -233,11 +502,257 @@ All protected endpoints expect `Authorization: Bearer <token>`.
 - `CORS_ORIGINS` defaults to allow-all only in local development; set the allowlist
   in production.
 
-## Features
+---
+# ⚙️ Local Setup
 
-- Register / Login / Logout with JWT
-- Add lost/found items with category, priority and status
-- Edit, recover and delete item records
-- Search by name/location, filter by status, sort by newest/oldest
-- Statistics dashboard, recent activity, CSV export, dark mode
-- Profile management (name, email)
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/VISHNU23CSB61/lostlines.git
+cd lostlines
+```
+
+## 2. Backend Setup
+
+```bash
+cd lostlines-backend
+npm install
+```
+
+Create `.env`:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5000
+```
+
+Start the backend:
+
+```bash
+node server.js
+```
+
+Backend runs on:
+
+```text
+http://localhost:5000
+```
+
+---
+
+## 3. Frontend Setup
+
+Open another terminal:
+
+```bash
+cd lostlines-react
+npm install
+npm run dev
+```
+
+Vite will provide the local frontend URL.
+
+---
+
+# 🧪 Testing
+
+The application has been tested across the major user flows.
+
+```text
+Authentication       ✅
+Registration         ✅
+Login                ✅
+Logout               ✅
+JWT Handling         ✅
+Protected Routes     ✅
+Profile              ✅
+Add Item             ✅
+View Item            ✅
+Edit Item             ✅
+Delete Item          ✅
+Recover Item         ✅
+Search               ✅
+Filter               ✅
+Sort                 ✅
+Statistics           ✅
+Analytics            ✅
+Loading States       ✅
+Error States         ✅
+Empty States         ✅
+Responsive UI        ✅
+```
+
+Testing should be repeated after production deployment.
+
+---
+
+# 🛡️ Error Handling
+
+The application handles common API failures such as:
+
+```text
+400 → Bad Request
+401 → Unauthorized
+403 → Forbidden
+404 → Not Found
+500 → Server Error
+```
+
+Frontend handling includes:
+
+* API error messages
+* Authentication expiration handling
+* Network error handling
+* Loading states
+* Toast notifications
+* Empty states
+
+---
+
+# 📈 Development Progress
+
+LostLines was developed incrementally.
+
+```text
+Phase 1
+HTML / CSS / JavaScript
+        ↓
+Phase 2
+React Migration
+        ↓
+Phase 3
+Node.js + Express
+        ↓
+Phase 4
+MongoDB + Mongoose
+        ↓
+Phase 5
+JWT Authentication
+        ↓
+Phase 6
+CRUD Operations
+        ↓
+Phase 7
+Dashboard + Analytics
+        ↓
+Phase 8
+Security + Validation
+        ↓
+Phase 9
+Testing + UI Polish
+        ↓
+Phase 10
+Production Deployment
+```
+
+---
+
+# 🚀 Current Status
+
+### Development
+
+**Core MERN application:** ✅ Completed
+
+**Authentication:** ✅ Completed
+
+**CRUD:** ✅ Completed
+
+**Security & Validation:** ✅ Completed
+
+**Testing & UI Polish:** ✅ Completed
+
+**Production Deployment:** 🟡 Configured — final manual hosting step required
+
+**Portfolio/Documentation:** 🔄 Final stage
+
+---
+
+# 🔮 Future Improvements
+
+Potential future improvements include:
+
+* Campus-wide public item discovery
+* Image upload for items
+* Email notifications
+* Item matching/recommendation system
+* Admin dashboard
+* Claim verification
+* Real-time notifications
+* Advanced search
+* Cloud image storage
+* Mobile application
+
+These features are outside the current core implementation.
+
+---
+
+# 💡 Why MongoDB?
+
+MongoDB fits LostLines because item records naturally work as documents.
+
+For example:
+
+```text
+Lost Item
+├── name
+├── location
+├── status
+└── owner
+```
+
+MongoDB also integrates naturally with Node.js through Mongoose and supports cloud hosting through MongoDB Atlas.
+
+---
+
+# 🎯 Learning Outcomes
+
+This project provided practical experience with:
+
+* Full-stack web development
+* React component architecture
+* REST APIs
+* Express.js
+* MongoDB
+* Mongoose
+* JWT authentication
+* Authorization
+* CRUD operations
+* Axios
+* API error handling
+* Frontend routing
+* State management
+* Form validation
+* Git & GitHub
+* Responsive UI
+* Debugging
+* Deployment preparation
+
+---
+
+# 👨‍💻 Author
+
+**Vishnu S**
+
+Computer Science Engineering Student
+
+### Interests
+
+* Cloud Computing
+* DevOps
+* Full-Stack Development
+* Software Engineering
+
+---
+
+# 📜 License
+
+This project is developed as an academic/personal portfolio project.
+
+---
+
+## ⭐ Support
+
+If this project is useful or interesting, consider giving the repository a ⭐ on GitHub.
+
+**LostLines — Turning lost items into found stories. 🔎**
