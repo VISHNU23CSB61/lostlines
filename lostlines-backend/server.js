@@ -140,7 +140,7 @@ app.put("/items/:id", authMiddleware, async (req, res) => {
                 status: req.body.status
             },
             {
-                new: true,
+                returnDocument: "after",
                 runValidators: true
             }
         );
@@ -205,22 +205,23 @@ app.use((err, req, res, next) => {
 });
 
 // ==============================
-// MONGODB CONNECTION
+// MONGODB CONNECTION + SERVER
 // ==============================
+// Fail fast: only start accepting requests after MongoDB connects.
+// If the database cannot be reached, log the reason and exit with a
+// non-zero code so the production host never serves a "healthy" but
+// broken API.
+const PORT = process.env.PORT || 5000;
+
 mongoose
     .connect(process.env.MONGO_URI)
     .then(() => {
         console.log("MongoDB Connected");
+        app.listen(PORT, () => {
+            console.log(`Server Running on Port ${PORT}`);
+        });
     })
     .catch(error => {
         console.error("MongoDB Connection Failed:", error.message);
+        process.exit(1);
     });
-
-// ==============================
-// SERVER
-// ==============================
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-    console.log(`Server Running on Port ${PORT}`);
-});

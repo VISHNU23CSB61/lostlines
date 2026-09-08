@@ -1,8 +1,12 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+// Vite exposes VITE_* environment variables to the browser at build time.
+// Development:  VITE_API_URL=http://localhost:5000 (fallback below)
+// Production:   VITE_API_URL=https://<deployed-backend-url> set on the host.
+// Never store secrets here — VITE_* values are public.
 const API = axios.create({
-    baseURL: "http://localhost:5000",
+    baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000",
 });
 
 API.interceptors.request.use(
